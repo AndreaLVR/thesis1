@@ -1583,13 +1583,30 @@ This kind of attack where the replay messages are sent to all the network device
 
 \item[$\bullet$] \emph{Trap networks}: since a ZigBee device connects directly to the first available network (or probably the one ) without asking anything to the user, then an attacker could create a fake network which would work as a kind of trap for the device.
 
-\item[$\bullet$] \emph{Statistical attacks}: 
-
-
-
+\item[$\bullet$] \emph{Statistical attacks}: an attacker can obtain several information about the functioning of a ZigBee network if it analyzes its traffic properly using statistical algorithms.\\ 
 \end{itemize}
 
+\clearpage
+\section{Conclusion}
+\bigskip
+We conclude this second and last part about ZigBee listing some useful considerations:
 
+\begin{itemize}
+\setlength{\itemindent}{+4mm}
+\item[$\bullet$] the protocol itself is not much secure, regardless of its implementation
+\item[$\bullet$] the protocol works well if all the devices within the considered network are able to protect themselves from keys theft
+\item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee the integrity of the frames
+\item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
+\item[$\bullet$] prefer unique keys rather than global ones every time you can
+\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before using it (especially in productive scenarios)
+\item[$\bullet$] it is fundamental to properly specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
+\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
+\item[$\bullet$] it is not recommended to use ZigBee in a place full of wireless networks because interferences are difficult to remove and communication's quality will be poor\\
+\end{itemize}
+
+The considerations above should help you to understand how to build an almost secure and reliable ZigBee network, but I would like to clarify a last thing, which is probably even more important than the previous ones.\\
+ZigBee was born almost fifteen years ago when devices had much less computational power than today and they needed a very light-weight and low power-consumption protocol to be able to communicate with each other. Nowadays, technological progress is surprisingly fast, and even very small devices often have enough computational power and battery-life to support \emph{Wi-Fi} protocol, which is more secure, reliable, extensible, easier to configure and continuously improved.\\
+I conclude this section, saying that, in my opinion, ZigBee is a not-so-well thought protocol with many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice.\\
 
 
 
