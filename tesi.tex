@@ -112,19 +112,30 @@ This little overview should help us to understand how difficult could be to desi
 \bigskip
 \section{Requirements of an IoT system}
 \bigskip
-In IoT systems it is common to deal with a lot of high data rate communication involving constrained devices, having limited (sometimes extremely limited) power.\\
+In IoT systems it is common to deal with a lot of high data rate communication involving constrained devices, probably powered with batteries, having limited (sometimes extremely limited) computational power, bandwidth and RAM.\\
 For this reason, we need some standard providing low-latency with low-energy consumption even at lower bandwidths.\\
 
-More in details, these are the requirements for a network composed by a relevant number of constrained devices:
+More in details, these are the main requirements for an application network composed by a relevant number of constrained devices:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] be able to scale to larger sizes and operate for a long time (years, in some scenarios) without manual intervention
 \item[$\bullet$] long battery life for devices
-\item[$\bullet$] granting a good quality of reliable services
+\item[$\bullet$] granting good quality services
 \item[$\bullet$] low complexity and low cost communication
 \end{itemize}
 
+\section{Argument of the thesis}
+\bigskip
+In this thesis I am going to analyze and discuss two of the most important and widespread IoT protocols: \emph{MQTT} and \emph{ZigBee}.\\
+More in details, we will start looking at their architecture and basic concepts, then we will discuss their security features, weaknesses and possible fixings, finally we will list the best practices to follow in order to build a a safe communication environment based on them.\\
+
+With regard to the MQTT protocol, I will also talk about two interesting real use cases on which I had the opportunity to work during my internship, in order to see how much theory is respected in practice and how a real-world productive system should be designed.\\
+
+Unfortunately, I had not the opportunity to work on productive ZigBee projects, during my internship since, as we will see, it is a protocol mainly aimed to home applications rather than industrial ones.\\\newline
+
+
+In the next chapter, let's start to discuss them starting from the first one, MQTT.
 
 \part{MQTT}
 
@@ -1656,15 +1667,15 @@ We conclude this second and last part about ZigBee listing some useful considera
 \item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee the integrity of the frames
 \item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
 \item[$\bullet$] prefer unique keys rather than global ones every time you can
-\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before using it (especially in productive scenarios)
+\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before deploying it (especially in productive scenarios)
 \item[$\bullet$] it is fundamental to properly specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
 \item[$\bullet$] consider the addition of spoofing detection techniques, if possible
-\item[$\bullet$] it is not recommended to use ZigBee in a place full of wireless networks because interferences are difficult to remove and communication's quality will be poor\\
+\item[$\bullet$] it is not recommended to use ZigBee in a place covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor\\
 \end{itemize}
 
 The considerations above should help you to understand how to build an almost secure and reliable ZigBee network, but I would like to clarify a last thing, which is probably even more important than the previous ones.\\
 ZigBee was born almost fifteen years ago when devices had much less computational power than today and they needed a very light-weight and low power-consumption protocol to be able to communicate with each other. Nowadays, technological progress is surprisingly fast, and even very small devices often have enough computational power and battery-life to support \emph{Wi-Fi} protocol, which is more secure, reliable, extensible, easier to configure and continuously improved.\\
-I conclude this section, saying that, in my opinion, ZigBee is a not-so-well thought protocol with many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice.\\
+I conclude this section, saying that, in my opinion, ZigBee is a not-so-well thought protocol having many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice with no doubt.\\
 
 
 
@@ -1674,10 +1685,8 @@ I conclude this section, saying that, in my opinion, ZigBee is a not-so-well tho
 
 
 
-
-
-
-
+%\bibliographystyle{unsrt}
+%\bibliography{tesiref}
 
 
 \end{document}
