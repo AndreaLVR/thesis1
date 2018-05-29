@@ -343,8 +343,25 @@ As already seen previously, the client can specify the LWT message as part of th
 Let's clarify that saying "ungracefully disconnected" means that a network failure happens, or the client fails to communicate within the keep-alive time, or the client closes the connection without sending a \texttt{DISCONNECT} message or the server faced a protocol error.\\\\
 In the real world LWT is often used in combination with retained messages to keep updated the state of a client on a specific topic.\\
 For instance, when a client has connected to a broker, it will send a retained message to a topic, named something similar to \emph{"clientname/status"}, with the payload \emph{"online"}.
-After that, the client sets the LWT message on the same topic to \emph{"offline"} and, clearly, mark it as retained.
+After that, the client sets the LWT message on the same topic to \emph{"offline"} and, clearly, mark it as retained.\\
 
+\subsection{Wildcards}
+\bigskip
+A wildcard is simply a shortcut to allow a user to subscribe to multiple topics without having to specify each of them individually.\\
+
+Just to make an example: if the user wants to check the humidity of all his house's rooms, he could simply subscribe to:
+
+$$'sensors/home/+/temperature'$$
+
+to automatically subscribe to topics like the following ones:
+
+$$'sensors/home/livingroom/temperature'$$
+$$'sensors/home/kitchen/temperature'$$
+$$'sensors/home/bathroom/temperature'$$\\
+This first kind of wildcard is called \emph{"single-level"} since it allows the user to avoid to specify one single path level. \\
+
+There is another type of wildcard, called \emph{"multi-level"}, which allows the user to avoid to specify multiple path levels.\\
+For instance, both the topics \emph{'sensors/home/livingroom/temperature'} and \emph{'sensors/garage/temperature'} can be subscribed simply subscribing to \emph{'sensors/\#/temperature'}.\\
 
 
 \chapter{Security Overview}
@@ -757,8 +774,10 @@ An AP has the following simplified structure:
 \end{itemize}
 
 Then, what is actually sent to the server is a resulting MD5 hash calculated in this way:
+\small
 $$ \texttt{MD5(\$timestamp:\$client IP:\$password) = 35b45e73c99905b675ffb05b78714eb9} $$
 
+\normalsize
 Once the server received the packet, a SPA daemon will recalculate the hash starting from the password, which must be known from both the client and server, the IP address of the client and the current timestamp.\\
 If the resulting hash matches the received one, then the firewall allows that specific client IP to connect to the desired port, otherwise no action is performed.\\
 So, we have some advantages using SPA:
@@ -812,7 +831,7 @@ Combining all the things we have discussed so far, we can try to list some best 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] hiding devices and limiting access to resources/services using SPA with a secure enough password (in this case, secure enough means not vulnerable to brute force and dictionary attacks: attackers must not be able to get accepted from the server trying a huge number of passwords generated or taken by a list)
-\item[$\bullet$] efine properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP (as already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent); the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
+\item[$\bullet$] define properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP (as already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent); the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
 \item[$\bullet$] define an authentication password to specify within the APs, and how to share it with registered clients at the beginning
 \item[$\bullet$] define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
 \item[$\bullet$] force the client to a further authentication mechanism, that is using credentials to login to a broker. This step is optional, since the client has already authenticated on the server sending the AP, and it seems to be a bit redundant but it might be an additional option.
@@ -1670,7 +1689,7 @@ We conclude this second and last part about ZigBee listing some useful considera
 \item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before deploying it (especially in productive scenarios)
 \item[$\bullet$] it is fundamental to properly specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
 \item[$\bullet$] consider the addition of spoofing detection techniques, if possible
-\item[$\bullet$] it is not recommended to use ZigBee in a place covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor\\
+\item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor\\
 \end{itemize}
 
 The considerations above should help you to understand how to build an almost secure and reliable ZigBee network, but I would like to clarify a last thing, which is probably even more important than the previous ones.\\
