@@ -55,7 +55,7 @@
 
 \chapter{Introduction to IoT}
 \bigskip
-Internet of Things (IoT) is a neologism, introduced by Kevin Ashton in 1999, which has become popular in recent years due to
+Internet of Things (IoT) is a neologism, introduced by Kevin Ashton~\cite{kevinashton} in 1999, which has become popular in recent years due to
 growing interest from companies and because nowadays it is possible to produce small devices with a reasonable computational power;
 these small devices are embedded into bigger objects in order to improve them by making them, in some way, smart.\\
 
@@ -102,10 +102,11 @@ that will elaborate this data or forward it to the cloud in order to elaborate t
 Talking about software, instead, we can work with a variety of programming languages: from a low level \emph{Assembly} to high level languages like \emph{C\#} or \emph{JavaScript}.\\
 
 The development of an IoT system firstly requires a deep knowledge of the different parts of an application, hence the developement team should be formed by experts with different skills and specializations.\newline
-This little overview should help us to understand how difficult could be to design and develop an IoT application; the figure below illustrates the schema of a possible architecture of an IoT application.\\
+This little overview should help us to understand how difficult could be to design and develop an IoT application; figure \ref{fig:iotstructure} illustrates the schema of a possible architecture of an IoT application.\\
 
 \begin{figure}[H]
 \includegraphics[width=13cm,height=12cm,keepaspectratio]{iotapp_architecture}
+\label{fig:iotstructure}
 \caption{Possible structure of an IoT application}
 \end{figure}
 
@@ -134,8 +135,8 @@ With regard to the MQTT protocol, I will also talk about two interesting real us
 
 Unfortunately, I had not the opportunity to work on productive ZigBee projects, during my internship since, as we will see, it is a protocol mainly aimed to home applications rather than industrial ones.\\\newline
 
-
-In the next chapter, let's start to discuss them starting from the first one, MQTT.
+{\setlength{\parindent}{0cm}
+Let's start to discuss them starting from the first one, MQTT.
 
 \part{MQTT}
 
