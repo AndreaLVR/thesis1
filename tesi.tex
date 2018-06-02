@@ -9,7 +9,7 @@
 \definecolor{lightgray}{rgb}{.9,.9,.9}
 \definecolor{darkgray}{rgb}{.4,.4,.4}
 \definecolor{purple}{rgb}{0.65, 0.12, 0.82}
-%\graphicspath{ {/Users/andreaolivari/Dropbox/tesi/latex/img/} }
+\graphicspath{ {/Users/andreaolivari/Dropbox/tesi/latex/img/} }
 
 \lstdefinelanguage{javascript}{
   keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
@@ -79,11 +79,11 @@ surely comfortable, you can configure the electronic key as you want in few seco
 of an electronic key, while it is a bit more difficult to craft the copy of a physical key (if you are not a professional burglar), because you first need to steal it and duplicate it.\\
 Another interesting and funny case of insecure devices is provided by CloudPets\cite{toys} a company that produces toys, and in particular: Internet-connected fluffy animals toys,
 these toys were able to connect via Bluetooth to a smartphone's app in order to download and upload audio messages; it is possible to access the voice recordings without any authentication if you known the exact URL at which they were stored.\\
-The Guardian states that "The personal information of more than half a million people who bought Internet-connected fluffy animals has been compromised", it does not sounds like a good advertisement
+The Guardian states that ``The personal information of more than half a million people who bought Internet-connected fluffy animals has been compromised", it does not sounds like a good advertisement
 when the personal informations are: username, password, profile pictures and voice recordings.\\
-\textbf{Note:} the passwords were cracked easily because they were extremely easy to guess ("password", "123456", "qwerty", "qwerty123456" and so on).\\
+\textbf{Note:} the passwords were cracked easily because they were extremely easy to guess (``password", ``123456", ``qwerty", ``qwerty123456" and so on).\\
 
-Another interesting thing to highlight is that "The personal information was contained in a database connected directly to the Internet, with no usernames or passwords preventing any visitor from accessing all the data", this could means that the entire application was developed without any security requirements or security knowledge.\\
+Another interesting thing to highlight is that ``The personal information was contained in a database connected directly to the Internet, with no usernames or passwords preventing any visitor from accessing all the data", this could means that the entire application was developed without any security requirements or security knowledge.\\
  
 The security aspect of an IoT application is not related only to external attack by criminals but it also extend to reliability; think about a power plant monitored by
 an IoT system, if it is not well designed and for some reason it does not take the proper counter measures to an overload, a blackout can occur and the consequences are bad, mostly on the financial point of view.\\
@@ -143,7 +143,7 @@ In the next chapter, let's start to discuss them starting from the first one, MQ
 
 \section{Introduction}
 \bigskip
-\textsc{MQTT} is a simple, open and light-weight standarized messaging transport protocol, based on top of TCP/IP, invented in 1999 with the following goals:
+\textsc{MQTT} \emph{(Message Queue Telemetry Transport)} is a simple, open and light-weight standarized messaging transport protocol, based on top of TCP/IP, invented by \emph{Andy Standord-Clark} of \emph{IBM} and \emph{Arlen Nipper} of \emph{Cirrus Link Solutions} in 1999, with the following goals:
 
 %{\addtolength{\leftskip}{5mm}
 %indent
@@ -177,44 +177,48 @@ Nowadays MQTT is used in many different fields of applications:
 \begin{figure}[H]
 \includegraphics{mqtt_architecture}
 \caption{MQTT Architecture}
+\label{fig:mqttArchitecture}
 \end{figure}
 
 \bigskip
 \subsection{Publish/Subscribe pattern}
+\label{ssec:pubsubpattern}
 \bigskip
 MQTT protocol exploits the modern publish/subscribe pattern, sometimes called pub-sub, which is a valid alternative to the traditional client-server model, in which a client communicates directly with an endpoint.
-This design pattern provides asynchronous communication between clients.
-As you can see in the above schema, nodes are arranged around a component, usually called \emph{broker} or \emph{dispatcher}, in a star topology and talk to each other through it.\\
-The sender of a message is called \textbf{publisher}, while who is going to receive it is called \emph{subscriber}.\\
+This design pattern provides asynchronous communication between clients.\\
+Nodes are arranged around a component, usually called \emph{broker} or \emph{dispatcher}, in a star topology and, as we can see in the figure ~\ref{fig:mqttArchitecture}, they talk to each publishing or subscribing to topics; we are going to discuss them in the section \ref{ssec:topicsandsub}.
+The sender of a message is called \emph{publisher}, while who is going to receive is called \emph{subscriber}.\\
 So, a broker is nothing but a kind of message container, known by both the publisher and subscriber, able to filter all incoming messages and distribute them accordingly.\\
 
 \subsection{Topics and subscription}
+\label{ssec:topicsandsub}
 \bigskip
-Clients publish or subscribe to particular topics, which are simply message subjects having a syntax similar to URLs. For instance, assuming we want two topics related to sensors placed in our kitchen and bedroom, we may opt for the following names: $$'sensors/home/lights/kitchen'$$ $$'sensors/home/lights/bedroom'$$\\
-MQTT brokers exploit these topics to decide who will receive messages, in fact if a publisher \texttt{P} publishes a message on the first topic, and a subscriber \texttt{S} subscribes to the second, this last one will not receive anything because it is not subscribed, and consequently not interested, in messages regarding the light's sensors placed in the kitchen.\\\\ 
+Clients publish or subscribe to particular topics, which are simply message subjects having a syntax similar to file pathnames. For instance, assuming we want two topics related to sensors placed in our kitchen and bedroom, we may opt for the following names: $$'sensors/home/lights/kitchen'$$ $$'sensors/home/lights/bedroom'$$\\
+MQTT brokers use these topics to decide who will receive messages, in fact if a publisher \texttt{P} publishes a message on the first topic, and a subscriber \texttt{S} subscribes to the second, this last one will not receive anything because it is not subscribed, and consequently not interested, in messages regarding the light sensors placed in the kitchen.\\\\ 
 It is important to notice that publishers and subscribers do not know about the existence of one another, but they can talk anyway.
-This behaviour is part of a process called \emph{decoupling of publisher and receiver}, which can be split in 3 dimensions:
+This behaviour is part of a process called \emph{decoupling of publisher and receiver}, which can be split in three dimensions:
 
 \begin{itemize}
   \setlength{\itemindent}{+4mm}
   \item[$\bullet$] \emph{space decoupling}: publisher and subscriber do not know each other; to be more clear, they do not know the IP address and port used by the other one
   \item[$\bullet$] \emph{time decoupling}: publisher and subscriber do not have to be synchronized and may run at different times
-  \item[$\bullet$] \emph{synchronization decoupling}: operations on both components are not halted while publishing or receiving messages; they are independent
+  \item[$\bullet$] \emph{synchronization decoupling}: operations on both components are not suspended while publishing or receiving messages; they are independent
 \end{itemize}\
-In the next page, we are going to take a look at a schematic  example of the publish/subscribe pattern combined with topics subscription, but, in order to better understand it, let's keep a reference list of the existent MQTT messages we are going to deal with.
+In the next page, we are going to take a look at a schematic  example of the publish/subscribe pattern combined with topics subscription, but, in order to better understand it, let's keep a reference list of the existent MQTT messages we are going to deal with. Figure~\ref{fig:mqttmsgs} list all of them.
 
 
 \begin{figure}[H]
-\includegraphics[width=12cm,height=13cm,keepaspectratio]{mqtt_messages}
+\includegraphics[width=14cm,height=14cm,keepaspectratio]{mqtt_messages}
 \centering
 \caption{MQTT messages}
+\label{fig:mqttmsgs}
 \end{figure}
 
 Message types' names are self-explanatory, anyway we will describe some of them more in details along the way.\\\\
 Now, let's analyze the example we were talking about.
 
 \begin{figure}[H]
-\includegraphics[width=11cm,height=10cm,keepaspectratio]{pubsub_schema}
+\includegraphics[width=12cm,height=11cm,keepaspectratio]{pubsub_schema}
 \centering
 \caption{Publish/Subscribe combined with Topics}
 \end{figure}
@@ -227,20 +231,21 @@ Now, let's analyze the example we were talking about.
 \includegraphics[width=6.6cm,height=6.6cm,keepaspectratio]{connect_message}
 \centering
 \caption{CONNECT packet}
-\end{figure}\
+\end{figure}
 
 where:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-  \item[$\bullet$] \emph{clientId} is a identifier, unique per broker, each client must have.\\
+\item[$\bullet$] \emph{clientId} is a identifier, unique per broker, each client must have.\\
   \emph{If you do not need a state to be hold by the broker, in MQTT 3.1.1 it is possible to send an empty value.}
   \item[$\bullet$] \emph{clean session} is used to establish persistent connections
-  \item[$\bullet$] \emph{username} and \emph{password} are used to authenticate the user in a password-protected broker. These credentials are sent in plain-text, therefore we will see later how to face this not neglibible problem.
+  \item[$\bullet$] \emph{username} and \emph{password} are used to authenticate the user in a password-protected broker. These credentials are sent in plain-text, we will see later how to face this issue.
   \item[$\bullet$] \emph{keep alive} is nothing but a time interval used by the client to commit regular \texttt{PING Request} messages to the broker (this last one will reply with a \texttt{PING Response} message)
 \end{itemize}
 
-\item Once the broker has received a connection request, it replies with a \texttt{CONNACK} packet, within which there is a field called \emph{return code}, which can assume six different values, where the first one (Connection accepted) indicates the connectin has been accepted, while the remaining ones indicate that connection has been refused for some reason (Unacceptable protocol version, Invalid identifier, Server unavailable, Not Authorized, Bad username and password)
+\item Once the broker has received a connection request, it replies with a \texttt{CONNACK} packet, containing a field called \emph{return code}. 
+This field can assume six different values, where the first one (Connection accepted) indicates the connectin has been accepted, while the others indicate that connection has been refused for some reason (Unacceptable protocol version, Invalid identifier, Server unavailable, Not Authorized, Bad username and password).
 
 \item Assuming that the connection has been accepted by the broker, then the client can choose to publish a message or subscribe to a topic.\\\\
 In the first case it will send a \texttt{PUBLISH} packet
@@ -255,14 +260,14 @@ where:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item \emph{packetId} is a reference id to the current packet
+\item \emph{packetId} is a reference identifier to the current packet
 \item \emph{topicName} is the topic we want to publish on
-\item \emph{qos} and \emph{retainFlag} will be explained in details in a few pages
-\item \emph{payload} simply represents the content of the message
-\item \emph{dupFlag} is a flag used to warn who receives the message that this message might have been already received
+\item \emph{qos} and \emph{retainFlag} will be explained in details later
+\item \emph{payload} is the actual content of the message
+\item \emph{dupFlag} is a flag used to warn receivers that this message might have been already received
 \end{itemize}
 
-The broker will reply sending a \texttt{PUBREC} packet, used to let the client know that its message has been received correctly.
+The broker will reply sending a \texttt{PUBREC} packet, used to let the client know that its message has been correctly received.
 \bigskip \\
 In the second case it will send a \texttt{SUBSCRIBE} packet, which contains multiple pairs \emph{(topic,qos)}, since a single packet can be used to subscribe to multiple topics.\\
 Clearly, the broker will reply with a \texttt{SUBACK} packet, containing the return code for each topic the client is interested to.
@@ -275,22 +280,23 @@ Clearly, the broker will reply with a \texttt{SUBACK} packet, containing the ret
 \bigskip
 
 {\setlength{\parindent}{0cm}
-Now that we have an idea of how MQTT communications work, in the next page we are going to see quickly some protocol's aspects regarding the quality of the service.
+Now that we have an idea of how MQTT communications work, in the section~\ref{ssec:qos} we discuss aspects regarding the quality of the service.
 }
 
 \clearpage
 
 \subsection{Quality of Service Levels (QoS)}
+\label{ssec:qos}
 
 \bigskip
-Previously, we have briefly introduced the structure of the \texttt{PUBLISH} and \texttt{SUBSCRIBE} packets; both of them contain a field called \emph{QoS}, acronym of \emph{Quality of Service}.\\
+We have briefly introduced the structure of the \texttt{PUBLISH} and \texttt{SUBSCRIBE} packets in section~\ref{ssec:pubsubpattern}; both of them contain a field called \emph{QoS}, acronym of \emph{Quality of Service}.\\
 This field allows clients to set the desired QoS level, according to how much reliability they expect from message delivering.
 Clearly, being QoS level an agreement between the client and the broker, this last one has to honor the contract.
 There exist three different QoS levels:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item \emph{QoS0 (at most once delivery)}: messages are sent at most once, besides their delivery is not guaranteed
+\item \emph{QoS0 (at most once delivery)}: messages are sent at most once, so their delivery is not guaranteed
 \item \emph{QoS1 (at least once delivery)} messages are certainly delivered to the client at least once, but they might be also delivered more times.
 \item \emph{QoS2 (exactly once delivery)} messages are sent exactly once by using the following 4-way handshake mechanism.
 
@@ -308,16 +314,16 @@ Of course, the exchange of 4 packets increases the overhead and afflicts perform
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item \emph{if we have a series of solar panels that publish every second some measures on a specific topic, we can accept with no worries that some messages are not delivered correctly, so we may think to use QoS0.}
-\item \emph{if we have an alarm sensor which publishes an alert message on a topic only if something bad happened in our house, then we want to be sure that such message will be correctly delivered, even more than once, so we may opt for QoS1.}
-\item \emph{in this last scenario, we assume that for some reason there is a diabetic person having an auto-injecting insuline device applied to his body, which expects to receive an MQTT message when an extra injection is needed.\\Obviously, in this case it is necessary to receive one and only one message, so we must choose QoS2.}
+\item if we have a series of solar panels that publish every second some measures on a specific topic, we can accept with no worries that some messages are not delivered correctly, so we may think to use QoS0.
+\item if we have an alarm sensor which publishes an alert message on a topic only if something bad happened in our house, then we want to be sure that such message will be correctly delivered, even more than once, so we may opt for QoS1.
+\item in this last scenario, we assume that for some reason there is a diabetic person having an auto-injecting insuline device applied to his body, which expects to receive an MQTT message when an extra injection is needed.\\Obviously, in this case it is necessary to receive one and only one message, so we must choose QoS2.
 \end{itemize}
 
 \bigskip
 \subsection{Retained messages}
 \bigskip
 In MQTT, a retained message is a normal message having the retained flag set to true.
-MQTT brokers always store the last retained message received, in order to send it to new subscribers, immediately after subscribing to the related topic.\\\\
+MQTT brokers always store the last retained message received, in order to send it to new subscribers, immediately after subscribing to the corresponding topic.\\\\
 What are retained messages useful for?\\
 
 We must remember that MQTT clients are autonomous, therefore they do not know the presence of each other; this means that when a subscriber subscribes to a topic, it has no way of discovering how much time it will take before receiving a message.\\
@@ -328,22 +334,24 @@ Example scenario: \\
 \emph{if we have a certain device which updates his online status (true/false) on the topic '/devices/devicename/status' only when it changes, and a new subscriber arrives, then he would probably want to be notified immediately about the status of the device.}
 
 \subsection{Persistence}
+\label{ssec:mqttpersistence}
 \bigskip
 MQTT also supports persistence of messages.\\
 This feature is very useful because each time a client connects to the broker, a new session for subscribing or publishing to topics is started; if, for any reason, the connection is lost, the process starts all over again with the client establishing a new session.\\
 Clearly, this behaviour afflictis the performances of the system, especially when clients have low power and poor connectivity (for instance, intermittent connectivity).\\
-Let's notice an important aspect of this feature that we are going to discuss later: to resume a session, the broker has to recognize the user to be the same as before, and it is able to do that by using its unique identifier; once the broker found the match between the clientId and an available persistent session, that session is immediately reassigned to the client.\\
+A client can request a persistent session setting the \emph{cleanSession} flag within the \texttt{CONNECT} packet to false.\\
+Let's notice an important aspect of this feature that we are going to discuss later: to resume a session, the broker has to recognize whether the user is the same as before, and it can do that by using their unique identifier; once the broker finds the match between the clientId and an available persistent session, that session is immediately reassigned to the client.\\
 
 \subsection{Last Will and Testament (LWT)}
 \bigskip
 It is not uncommon for clients to get disconnected ungracefully from the broker.\\
-There exist scenarios in which it may be helpful to notify other clients that a specific client has been suddenly disconnected.\\
+Therefore, there exist scenarios in which it may be helpful to notify other clients that a specific client has been suddenly disconnected.\\
 Thanks to the LWT feature provided by MQTT brokers, clients can choose a message that will be published to previously chosen topics when they get disconnected.\\
-As already seen previously, the client can specify the LWT message as part of the \texttt{CONNECT} packet, then the broker will store the message till it detects that the client has been disconnected badly, finally topic's subscribed clients will be notified.\\
-Let's clarify that saying "ungracefully disconnected" means that a network failure happens, or the client fails to communicate within the keep-alive time, or the client closes the connection without sending a \texttt{DISCONNECT} message or the server faced a protocol error.\\\\
-In the real world LWT is often used in combination with retained messages to keep updated the state of a client on a specific topic.\\
-For instance, when a client has connected to a broker, it will send a retained message to a topic, named something similar to \emph{"clientname/status"}, with the payload \emph{"online"}.
-After that, the client sets the LWT message on the same topic to \emph{"offline"} and, clearly, mark it as retained.\\
+As already seen, a client can specify the LWT message as part of the \texttt{CONNECT} packet, then the broker will store the message till it detects that the client has been abruptly disconnected badly, finally topic's subscribed clients will be notified.\\
+Let's clarify that ``ungracefully disconnected" means that a network failure happens, or the client fails to communicate within the keep-alive time, or the client closes the connection without sending a \texttt{DISCONNECT} message or the server faced a protocol error.\\\\
+In the real world LWT is often used in combination with retained messages to keep the state of a client updated on a specific topic.\\
+For instance, when a client has connected to a broker, it will send a retained message to a topic, named something similar to \emph{``clientname/status"}, with the payload \emph{``online"}.
+After that, the client sets the LWT message on the same topic to \emph{``offline"} and, clearly, mark it as retained.\\
 
 \subsection{Wildcards}
 \bigskip
@@ -358,39 +366,38 @@ to automatically subscribe to topics like the following ones:
 $$'sensors/home/livingroom/temperature'$$
 $$'sensors/home/kitchen/temperature'$$
 $$'sensors/home/bathroom/temperature'$$\\
-This first kind of wildcard is called \emph{"single-level"} since it allows the user to avoid to specify one single path level. \\
+This first kind of wildcard is called \emph{``single-level"} since it allows the user to avoid to specify one single path level. \\
 
-There is another type of wildcard, called \emph{"multi-level"}, which allows the user to avoid to specify multiple path levels.\\
+There is another type of wildcard, called \emph{``multi-level"}, which allows the user to avoid to specify multiple path levels.\\
 For instance, both the topics \emph{'sensors/home/livingroom/temperature'} and \emph{'sensors/garage/temperature'} can be subscribed simply subscribing to \emph{'sensors/\#/temperature'}.\\
 
 
 \chapter{Security Overview}
-
-\section{Introduction}
 \bigskip
-MQTT is probably the most used IoT protocol, and experts think it will play an important role in the coming years, therefore it is necessary to take about its security aspects.\\
-Just to begin, we can take a look at this real-world example in order to understand how much used this protocol is, but how many times its security is completely ignored.\\\\
-In this example we are going to use a search engine, called \emph{Shodan}.\\
-Shodan, developed in 2009, lets the user find specific IoT "things"(webcams, routers, servers, sensors, printers, traffic lights, etc)  connected to the Internet, providing a huge variety of filters.\\
+MQTT is probably the most used IoT protocol, and experts think it will play an important role in the coming years, therefore it is necessary to talk about its security aspects.\\
+Just to begin, we can take a look at this real-world example in order to understand how much this protocol is used, and how many times its security is completely ignored.\\\\
+In this example we are going to use a search engine, called \emph{Shodan}~\cite{shodan}.\\
+Shodan, developed in 2009, lets the user find specific IoT ``things"(webcams, routers, servers, sensors, printers, traffic lights, etc)  connected to the Internet, providing a huge variety of filters.\\
 
-Thanks to its dangerousness and power, many people call it \emph{"the hackers' search engine"}.\\
+Thanks to its dangerousness and power, many people call it \emph{``the hackers' search engine"}.\\
 Its searching mechanism is based on the so-called \emph{service banners}, which are nothing but metadata sent back to clients by servers: service banners contain a lot of information describing the kind of server/device you are talking to.\\
 
-By default, MQTT brokers listen on port 1883; said that, we can simply find the current visible servers listening on that port by using Shodan and its filters, searching for \emph{"port:1883"}.\\\\
-This is what we obtain:\\
+By default, MQTT brokers listen on port 1883; we can simply find the current visible servers listening on that port by using Shodan and its filters, searching for \emph{``port:1883"}.\\\\
+On 10 May 2018 this search produced 52344 results, as shown in figure~\ref{fig:shodanres}:\\
 
 \begin{figure}[H]
 \includegraphics[width=9cm,height=9cm,keepaspectratio]{shodan_numdevices}
+\label{fig:shodanres}
 \centering
 \caption{MQTT brokers found using Shodan}
 \end{figure}\
 
 We found, all over the world, more than 50 thousand devices listening on port 1883, many of them owned by important organizations like Amazon, Microsoft and Alibaba.
-This is just a big number, but the more interesting thing is that this number is growing up very quickly: just to realize, two weeks ago the same research gave me 46 almost thousand devices.\\\\
-The port 8883 is standardized for a secured MQTT connection, whose name is "secure-mqtt", and this port is exclusively reserved for MQTT over TLS.
-The first proof that lead us to think that security is neglected is that, if we search again on Shodan, this time filtering on port 8883, we get only 56 servers, so stastically only one broker in a thousand opt for the secure version of the protocol.
+While this is already a big number, the more interesting thing is that such a number is growing up very quickly: just to realize, two weeks before the same research gave me about 46 almost thousand devices.\\\\
+The port 8883 is standardized for a secured MQTT connection, whose name is ``secure-mqtt", and this port is exclusively reserved for MQTT over TLS.
+The first clue led us to think that security is neglected is that, if we search again on Shodan, this time filtering on port 8883, we get only 56 servers, so statistically only one broker in a thousand opt for the secure version of the protocol.
 
-Besides, I found a very interesting article on a reliable blog I have been visiting for several years, whose content is strongly related to cyber security.\\
+Besides, I found a very interesting article on a reliable blog I have been visiting for several years, whose content is strongly related to cyber security\footnote{https://morphuslabs.com/}.\\
 An easy-to-implement Python scanner script, exploiting a paid Shodan API key, has been implemented to search for servers listening on port 1883 and then try to connect to them sending a \texttt{CONNECT} message with no authentication.
 The strategy of this attack is pretty simple: the broker we are trying to connect to will reply, as we have already seen, with a \texttt{CONNACK} packet containing the return code; if the return code is equal to 0 it means that the connection has been accepted, therefore the broker leaves the door open to anyone.\\
 An analysis conducted on 800 found servers, has led to the following results.
@@ -411,45 +418,44 @@ Now that we have realized how much MQTT security is neglected in real-world appl
 Before starting to talk about the authentication methods used by MQTT, we must always remember that MQTT relies on TCP as transport protocol, which means that by default the protocol itself has no built-in encryption.\\
 This choice was made purposely by developers to keep it simple, fast and lightweight; therefore, everything is sent in plain text.\\\\
 We know that TLS uses an handshake mechanism to negotiate various parameters necessary to establish an encrypted and safe communication which cannot be read or altered by third parties.\\
-Usually what happens is that servers provide their \emph{X.509 certificates}, signed by a trusted authority, to clients to prove their identity.\\
-The negotiation of the parameters brings to a communication overhead afflicting performances.\\
-This overhead brings devices' CPU to do more work than before and this may turn out to be a problem for very constrained devices.\\
-Let's suppose to have a constrained device which establish a new connection every time it has to communicate with the broker; this will bring a huge overhead because the handshaking messages are quite heavy and will be the most significant portion of content to send in each communication (considering that usually mqtt devices send simple text messages of few bytes, and the handhsake ones a few KB).\\
-Therefore it is recommended for constrained devices to use long-living MQTT connections rather than short-living ones in order to drastically improve the TLS performances; based on this idea there exists a technique, called \emph{Session resumption}.
+Usually servers provide their \emph{X.509 certificates}, signed by a trusted authority, to clients to prove their identity.\\
+The negotiation of the parameters brings to a communication overhead afflicting performances, requiring more work for the CPUs. This may turn out to be a problem for very constrained devices.\\
+Let's suppose to have a constrained device which establishes a new connection every time it has to communicate with the broker; this will bring a huge overhead because the handshaking messages will be the most significant portion of content to send in each communication (considering that usually MQTT devices send simple text messages of few bytes, and the handhsake ones are a few KB).\\
+Therefore, it is recommended for constrained devices to use long-living MQTT connections rather than short-living ones in order to drastically improve the TLS performances. This idea is implemented in a technique, called \emph{Session resumption}.
 
 \subsection{Session resumption}
 \bigskip
-The idea is pretty simple: TLS session resumption techniques allow to reuse an already negotiated TLS session after reconnecting to the server; doing this way the client does not have to perform the entire TLS handshake again.\\
-Unfortunately, some TLS libraries do not implement session resumption techniques, but most of them do it.\\\\\\
-There exist two session resumption techniques:
+TLS session resumption techniques allow to reuse an already negotiated TLS session after reconnecting to the server; doing this the client does not have to perform the entire TLS handshake again.\\
+Unfortunately, some TLS libraries do not implement session resumption, although most of them do.\\\\
+There are two session resumption techniques:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
   \item[$\bullet$] \texttt{Session Ids}: the server simply stores the secret Session Id associated to a client, so that when this last one reconnects, it provides the Session Id and the session is resumed.
-  \item[$\bullet$] \texttt{Session tickets}: the servers send to the client a secret ticket encrypted with a secret key known only by the server.\\
-  When the client reconnects, it sends its state to the server and if this last one is able to decrypt it, the session is resumed with the state contained in the secret ticket.
+  \item[$\bullet$] \texttt{Session tickets}: the servers send to clients a secret ticket encrypted with a secret key known only by the server.\\
+When a client reconnects, it sends its state to the server and if this last one is able to decrypt it, the session is resumed with the state contained in the secret ticket.
 \end{itemize}\
 Despite everything, very constrained devices do not have enough computational power to support TLS anyway. 
-In this case, clients might think to use TLS-PSK cipher suites (not supported by all TLS libraries), since they avoid CPU intensive operations, or totally avoid TLS and use other strategies we are going to discuss later.\\\\
+In this case, clients might think to use TLS-PSK cipher suites (not supported by all TLS libraries), since they avoid CPU intensive operations, or totally avoid TLS and use other strategies discussed later.\\\\
 
 To conclude this TLS section, we can list some best practices:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
   \item[$\bullet$] Clients should always use TLS or, more generically, encrypted communication channels, if they can afford it
-  \item[$\bullet$] Use the newest version of TLS, because older ones might have known, and now fixed, bugs
-  \item[$\bullet$] Do not use SSLv3 or any prior versions, they are broken. There are many dangerous vulnerabilities came out in the last years, and a simple example is Heartbleed
+  \item[$\bullet$] Use the newest version of TLS, since older ones might have known, and now fixed, bugs~\cite{sslvulns}
   \item[$\bullet$] Always use certificates from trusted Certification Authorities. Using self-signed certificates or allow-all approach is not recommended
   \item[$\bullet$] Including additional security mechanisms, like payload encryption and authorization mechanisms, in addition to TLS is a good choice.
 
 \end{itemize}\
 
-In the next section we will talk about client authentication techniques supported by MQTT.
+In section~\ref{sec:mqttclientauth} we will talk about client authentication techniques supported by MQTT.
 
-
+\clearpage
 \section{Client Authentication}
+\label{sec:mqttclientauth}
 \bigskip
 
-There are 3 ways used by MQTT brokers to verify the identity of a client:
+There are three ways used by MQTT brokers to verify the identity of a client:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
@@ -466,20 +472,25 @@ Let's analyze each of them in details.\\
 We have already seen that clients must include within the \texttt{CONNECT} message a field called \emph{clientId} to identify themselves.\\
 This procedure can be, in some way, already considered as a form of authentication since each client must have a unique identifier.\\
 It is common practice to use 36-character long identifiers, or some unique information available to the client like his MAC address, or the serial number of the device.
-Clearly, this is not safe because someone can easily pretend to be you, just by connecting to the broker specifying your clientId.\\
+Clearly, this is not secure because someone can easily pretend to be you, just by connecting to the broker specifying your clientId.\\
 Depending on the broker's configuration, if the real client has already connected to the broker, the attacker's connection request would be discarded or the real client would be disconnected, but if not, the connection would be certainly accepted.\\
 
 How can the attacker obtain this information? He can easily sniff that, since communication is not encrypted.\\
 
-Moral of the story: \emph{never rely on clientId to secure our system}.\\
+We have discussed in section~\ref{ssec:mqttpersistence} MQTT persistent sessions, saying that the broker restores the persistent session of a client after he proves its identity specifying its Client Id during connection.\\
+This mechanism is not secure by default, in fact an attacker, who have sniffed the unique identifier of the client, can use it to pretend to be him, reads the new messages from his subscribed topics and those sent while it was offline, publishes messages, or simply disable persistence making the real client loosing possible important information.\\
+Another vulnerability is that broker stores as much information as possible for clients who have requested persistence, so it stores all the messages from their subscribed topics until it finish its available memory.\\
+This behaviour gives an attacker the possibility to connect the broker, requiring a persistence connection, subscribe to as many topics as possible, then disconnect; doing this, the broker will store a huge number of messages to be sent to the client when it reconnects.\\
+
+Moral of the story: \emph{never rely on clientId to secure your system}.\\
 
 \subsection{Username and Password}
 \bigskip
 There are two main problems related to this authentication method:
 
-\begin{itemize}
+\begin{enumerate}
 \setlength{\itemindent}{+4mm}
-  \item[$\bullet$] Since, by default, no encryption system is used, using credentials is totally pointless, in fact even a trivial MITM attack would be enough to sniff them without effort, as we can see in the image below.
+  \item Since, by default, no encryption system is used, sending credentials is totally pointless, in fact even a trivial \emph{Man In The Middle} attack~\cite{mitmwiki} would be enough to sniff them without effort, as we can see in the image below.
 
 \begin{figure}[H]
 \includegraphics[width=11cm,height=11cm,keepaspectratio]{wireshark_credentials}
@@ -487,18 +498,18 @@ There are two main problems related to this authentication method:
 \caption{MQTT credentials sent in plain text}
 \end{figure}
 
-\item[$\bullet$] Authentication is optional, so a huge number of topics are easily accessible from the whole world.\\
+\item Authentication is optional, so a huge number of topics are easily accessible from the whole world.\\
 
-The only way to use credentials safely is to combine them with an encrytped communication (better if TLS).
+The only way to use credentials safely is to combine them with an encrytped communication tunnel (better if TLS).
 
-\end{itemize}
+\end{enumerate}
 
 \subsection{X.509 Client certificates}
 \bigskip
 
 Another possible way to identify clients is using their X.509 certificates, which will be sent during the TLS handshake.\\
 We are used to servers providing their X.509 certificates to clients to prove their identity, and clients authenticating in the application layer.\\
-In this case, instead, we talk about mutual authentication, since client and server authenticate each other at the same time using X.509 certificates.\\
+In this case, however, we perform \emph{mutual authentication}, since client and server authenticate each other at the same time using X.509 certificates.\\
 This authentication method is very secure but rarely used because it requires the provisioning and managing of the certificates to the clients, besides this double negotiation afflicts even more the performances.\\
 
 Now, let's take a look at pros and cons of using client certificates.
@@ -507,21 +518,22 @@ Now, let's take a look at pros and cons of using client certificates.
 \item[$\bullet$] Pros:
 \begin{itemize}
 \item only valid clients are allowed to establish a secure connection
-\item authentication of clients at transport level, so invalid clients are discarded before \texttt{CONNECT} messages are sent.\\ this is very useful to save resources on broker's side, because authentication mechanism can be expensive (a common case is that credentials are stored in a database which must be interrogated every time someone wants to connect) and using client certificates makes them useless and, therefore, avoidable since authentication is done before a connection is established.
+\item authentication of clients at transport level, so invalid clients are discarded before \texttt{CONNECT} messages are sent.\\ 
+This is very useful to save resources on broker's side, because authentication mechanism can be expensive (a common case is that credentials are stored in a database, which must be interrogated every time someone wants to connect) and using client certificates makes them useless.
 \end{itemize}
 
 \item[$\bullet$] Cons:
 \begin{itemize}
-\item Managing a huge number of client certificates may be a serious problem, therefore it is important to have a solid certificate provisioning process: in other words, clients' certificates must be kept updated, and owners should have a way to manage their lifecycle: if they are able to control all their MQTT clients, making possible to update their certificate periodically, it is suggested to use certificates, but if the clients are not under their strict control, then it is not recommended to use them.
-\item It could happen that a client's certificate get leaked and, consequently, cannot be trusted anymore since some attacker uses it, so it it necessary to have a way to revoke invalid certificates.\\
+\item Managing a huge number of client certificates may be a serious burden, therefore it is important to have a solid certificate provisioning process. In other words, clients' certificates must be kept updated, and owners should have a way to manage their lifecycle: if they can control all their MQTT clients, making possible to update their certificate periodically. It is suggested to use certificates, only when clients are under their strict control.
+\item It could happen that a client's certificate get leaked and, consequently, cannot be trusted anymore since some attacker may use it, so it it necessary to have a way to revoke invalid certificates.\\
 There are two ways to obtain that:
 
 \begin{enumerate}
 \item \emph{Publish Certificate Revocation Lists (CRLs)}: they are simple lists of invalid certificates.
-Servers are able to recognize invalid client certificates consulting their list; clearly, servers has to exchange their lists in order to stay up to date. This is not a very convenient procedure.
+Servers can recognize invalid client certificates consulting their list; clearly, servers have to exchange their lists in order to stay up to date. This is not a very convenient procedure.
 \item \emph{Online Certificate Status Protocol (OCSP)}:  it is a protocol used for asking information about specific client certificates, more in details to know if they are still trustable.\\
 In order to use OCSP there must be a so-called \emph{OCSP Responder}, which is an HTTP server waiting for revocation-check requests, provided by the certification authority.
-This is a better and faster solution since you do not have to communicate with other srvers to stay up to date; you simply ask your certification authority, which is going to do the boring job for you.\\
+This is a better and faster solution since you do not have to communicate with other servers to stay up to date; you simply ask your certification authority, which is going to do the boring job for you.\\
 Let's see a simple example of how it works:
 
 \begin{itemize}
@@ -530,7 +542,7 @@ Let's see a simple example of how it works:
 \item Bob, who suspects that Alice's private key might have been compromised, sends an \emph{OCSP request}, containing Alice's certificate serial number, to Carol
 \item Carol's OCSP responder search in its database the certificate's serial number received from Bob
 \item At this point, Carol's OCSP responder returns a signed successful \emph{OCSP response} to Bob if the certificate is still valid, otherwise will reply telling Bob that the certificate is not valid anymore
-\item Depending on the response received by Carol, Bob will carry on, or not, the communication with Alice.\\
+\item Depending on the response received by Carol, Bob will decide whether carry on, or not, the communication with Alice.\\
 \end{itemize}
 
 
@@ -539,12 +551,13 @@ Let's see a simple example of how it works:
 \end{itemize}
 
 
-Conclusion: This kind of authentication is safe but expensive, therefore only suited to a small number of clients which needs an high security. \\
+To sum up, this kind of authentication is secure but expensive, therefore only suited to a small number of clients which need high security. \\
 
-In the next section we will discuss about authorization, another important concept related to security which is, even if does not seem to, different from authentication.\\
+In section~\ref{sec:mqttauth} we will discuss authorization, another important concept related to security.\\
 
 
 \section{Authorization}
+\label{sec:mqttauth}
 \bigskip
 Authorization and authentication go hand in hand, but they are very different security concepts.\\
 While authentication is used to recognize the identity of a client, authorization allow us to create policies in order to restrict access to certain resources (\emph{in this scenario resource means topic}).\\
@@ -557,7 +570,7 @@ Then, the authorization process is different for the two users, in fact the stan
 Coming back to MQTT, let's try to understand which constraints can be applied to clients.\\
 A client, once connected to a broker, can publish messages and subscribe to topics, nothing more.\\
 We may notice that without authorization every authenticated client could do whatever he wants, so publish or subscribe to any existent topic.\\
-More in details, the resources to protect are the common actions: publishing, subscribing, setting a LWT message, requires a persistent session.\\\\
+More in details, the resources to protect are the common actions: publishing, subscribing, setting a LWT message, requiring a persistent session.\\\\
 How can the broker restrict permissions on topics?\\
 
 Brokers can limit clients permissions implementing some authorization policies called \emph{topic permissions}, having, at least, the following information:
@@ -571,22 +584,24 @@ Brokers can limit clients permissions implementing some authorization policies c
 
 What does it happens when a client tries to access a restricted resource without having enough permissions?\\
 
-If the client tries to publish, the broker can disconnect it or simply reply to it normally, but not sending the message to subscribers; instead, if the client tries to subscribe, the broker will reply with a standard \texttt{SUBACK} message containing a proper return code which tells the client that its subscription was denied, nothing more.\\
+If the client tries to publish, the broker can disconnect it or simply reply to it normally, but without relaying the message to subscribers; instead, if the client tries to subscribe, the broker will reply with a standard \texttt{SUBACK} message containing a proper return code which tells the client that its subscription was denied, nothing more.\\
 
-In the next section we are going to discuss about another form of authentication/authorization mechanism usually implemented in other protocols, like HTTP, and we will see wether and how it is possible to combine it with MQTT. 
+In section \ref{sec:mqttauth2} we discuss another form of authentication/authorization mechanism usually implemented in other protocols, like HTTP, and we will see wether and how it is possible to combine it with MQTT. 
 
 \section{MQTT combined with OAuth 2.0}
+\label{sec:mqttauth2}
 \bigskip
-OAuth is a standard for access delegation, used to allows a third party to access a resource owned by a resource owner without giving unencrypted credentials to the third party.
+OAuth~\cite{oauthwiki} is a standard for access delegation, used to allows a third party to access a resource owned by a resource owner without giving unencrypted credentials to the third party.
 
 \begin{figure}[H]
-\includegraphics[width=11cm,height=10cm,keepaspectratio]{oauth_scheme}
+\includegraphics[width=12.5cm,height=12.5cm,keepaspectratio]{oauth_scheme}
 \centering
+\label{fig:oauthscheme}
 \caption{OAuth working scheme}
 \end{figure}
 
-To make it clear, we may think to Spotify which allows its users to login with their Facebook account, then once they have authenticated, it gets their information (resources), like name, surname and maybe something else, from Facebook resources server.\\
-More in details, referring to the above schema, we have that Spotify is the client, Authorization server is the Facebook Authorization server, in charge to control the access to all the resources, and the Resource server is the Facebook Resource server where there are contained the information Spotify is going to take.\\
+To make it clear, we may think to Spotify which allows its users to login with their Facebook account, then once they have authenticated, it gets their information (resources), like name, surname and maybe something else, from Facebook resource servers.\\
+More in details, referring to Figure \ref{fig:oauthscheme}, we have that Spotify is the client, Authorization server is the Facebook Authorization server, in charge to control the access to all the resources, and the Resource server is the Facebook Resource server where there are contained the information Spotify is going to take.\\
 The resource owner (the user) will login on Facebook communicating directly with its Authorization Server, without giving any credential to the client. Once Facebook authenticated the resource owner, it sends the access token to the client.
 
 So, the idea is pretty simple: we do not want to save our credentials within the client and use them every time to authenticate us because it could be dangerous, therefore the solution is using access tokens.\\
@@ -594,46 +609,49 @@ Clearly, if we do not use encrypted communications everything is pointless becau
 
 What is the token's structure?\\
 
-Usually, OAuth uses \emph{JSON Web Tokens (JWT)}, JSON Objects with base64 encoding. They contain header, payload and signature, where:
+Usually, OAuth uses \emph{JSON Web Tokens (JWT)}, JSON Objects with base64 encoding. They contain an header, a payload and a signature, where:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
   \item[$\bullet$] The header contains information about the algorithms used to encrypt and sign
   \item[$\bullet$] The payload contains information about the token, like expiration date, scope, issuer, issue date, etc.
-  \item[$\bullet$] The signature is used to certify that the token has been signed by the trusted authorization server
+  \item[$\bullet$] The signature is used to certify that the token has been generated by the trusted authorization server
   \end{itemize}
 
 How can we exploit this standard in MQTT?\\
 
 First of all, we have to clarify that OAuth is mainly designed for usages with HTTP, so over any other protocol is out of scope, but we can analyze the possible MQTT workarounds.\\
-We notice that in the previous example, the login to the authorization server expects a human action, but IoT are often standalone, therefore no human can help them in this OAuth authentication process; they have to be both the client and the resource owner, but this is against the OAuth principles since it was born to avoid clients to hold their credentials locally.\\\\
-Anyway, since IoT devices are standalone, this is the only way to use OAuth: storing the credentials within the devices, use them to get a valid access token from an Authorization Server, finally use it to communicate with the broker.\\Obviously, the access token must have a not too small expiration time, because if so the client should ask for the token every time it wants to communicate with the broker, but this would be equivalent to send once the username and password to the broker at the beginning of the communication.\\
+In the previous example the login to the authorization server expects a human action, but IoT devices are often standalone. Therefore, no human can help them in this OAuth authentication process; they have to be both the client and the resource owner, but this is against the OAuth principles since it was born to avoid clients to hold their credentials locally.\\\\
+Anyway, since IoT devices are standalone, this is the only way to use OAuth: storing the credentials within the devices, use them to get a valid access token from an Authorization Server, and finally use it to communicate with the broker.\\Obviously, the expiration time of the access token must not be too small, otherwise the client should ask for the token every time it wants to communicate with the broker, and this would be equivalent to sending the username and password to the broker at the beginning of each communication.\\
 
-Probably, the real pros of using tokens in MQTT is that they can be used to get client's authorizations quickly, saving search time to the server: if no token is used, the broker will have to look up for users' authorizations in a database (after its authentication); a faster and more convenient way is to specify the permissions granted to the client within the token (for instance, in the payload). \\
-This way is safe, because, as already said, the broker is able to verify the authenticity of the token thanks to its signature.
+Probably, the real pros of using tokens in MQTT is that they can be used to get client's authorizations quickly, saving search time to the server: if no token is used, the broker will have to look up for users' authorizations in a database (after their authentication); a faster and more convenient way is to specify the permissions granted to the client within the token (for instance, in the payload). \\
+This way is secure, because, as already said, the broker ican verify the authenticity of the token by checking its signature.
 
-The access token will be used in \texttt{CONNECT} packets, and optionally in \texttt{PUBLISH} and \texttt{SUBSCRIBE} ones. Before making this last decision, since there are tons of pub/sub messages, it is important to consider how much token validation afflicts performances, and, if necessary, think to some caching method.\\\\
+The access token will be used in \texttt{CONNECT} packets, and optionally in \texttt{PUBLISH} and \texttt{SUBSCRIBE} ones. Before making this last decision, since there are tons of pub/sub messages, it is important to consider how much token validation afflicts performances, and, if necessary, think to some caching method.\\
 
-Conclusion: OAuth is a valid authentication mechanism, but it is difficult to combine with MQTT; besides, before deciding wether to use it or not, it is fundamental to evaluate if the few advantages obtained are worth the effort of implementation.
+Conclusion: OAuth is a valid authentication mechanism, but it is difficult to combine with MQTT; besides, before deciding whether to use it or not, it is fundamental to evaluate if the few obtained advantages are worth the effort of implementation.
 
 
 \section{Simple Data Encryption}
 \bigskip
-We have already said that some devices have too low power to use TLS.
-In this section we are going to discuss how constraint devices may think to encrypt only specific data, like the payload in the \texttt{PUBLISH} message, or credentials within the \texttt{CONNECT} packet, and pros and cons of doing that.\\
-Using this strategy we will have sensitive data, let's assume the payload in our examples, will be encrypted, but other metadata remains untouched.\\
-Let's notice that the broker has no key to decrypt the encrypted data, so it will send the message to subscribers as is, without knowing its real content.\\
-Clearly, this mechanism expects subscribers to have the proper key to decrypt the encrypted message received by the broker.\\
-The following schema explains this scenario, called \emph{End-to-End}, perfectly.
+Since, as we have already said, some devices have too low power to use TLS.
+In this section we discuss how those constraint devices may encrypt only specific data, like the payload in the \texttt{PUBLISH} message, or credentials within the \texttt{CONNECT} packet.\\
+
+Using this strategy sensitive data, let's assume the payload in our examples, will be encrypted, but other metadata remains unencrypted.\\
+Notice that the broker has no decryption key, so it will relay the messages to subscribers as is, without knowing their real content.\\
+Clearly, this mechanism expects subscribers to have the proper key to decrypt the received payload.\\
+
+Figure \ref{fig:endtoend} explains this scenario, called \emph{End-to-End}, perfectly.
 
 \begin{figure}[H]
-\includegraphics[width=12cm,height=12cm,keepaspectratio]{end_to_end}
+\includegraphics[width=12.5cm,height=12cm,keepaspectratio]{end_to_end}
 \centering
+\label{fig:endtoend}
 \caption{MQTT communication using End-to-End encryption}
 \end{figure}
 
-Now, a question arises: if we are going to encrypt other data, like client's credentials in the \texttt{CONNECT} packet, how can the broker decrypt and validate them?
-This is a very uncommon and boring practice, because it is necessary to write an additional plugin for the broker we are going to use in order to make it able to decrypt our data. 
+Now, a question arises: if we encrypted meta data, like client's credentials in the \texttt{CONNECT} packet, how could the broker decrypt and validate them?
+This is a very uncommon practice, because it requires to write an additional plugin for the broker in order to make it able to decrypt our data. 
 This second scenario is called \emph{Client-to-Broker}.\\
 In this case, the broker will send the decrypted message to subscribers, which will not have to know any key.
 
@@ -643,70 +661,70 @@ In this case, the broker will send the decrypted message to subscribers, which w
 \caption{MQTT communication using End-to-End encryption}
 \end{figure}
 
-As we know, there exist asymmetric and symmetric encryptions. Which one should we opt for encrypting payload in a \texttt{PUBLISH} message?
+Should we use an asymmetric or symmetric encryption scheme to encrypt the payload in a \texttt{PUBLISH} message? We should
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-  \item[$\bullet$] we should prefer asymmetric one if we have many publishers and a few trusted subscribers, because these last ones know the private key, so they can read all the messages in the subscribed topic
-  \item[$\bullet$] we should use symmetric one if we have a trusted environment, in fact we must remember that in this case there is only one key to encrypt and decrypt, so we cannot share it with everyone.
+\item[$\bullet$] prefer asymmetric cryptography when we have many, possibly untrusted, publishers and few trusted subscribers, because these last ones know the private key which is used to read the messages in the subscribed topics.
+In this way, only trusted clients can decrypt the topic's messages.
+\item[$\bullet$] use symmetric cryptography when we have a trusted environment, in fact we must remember that in this case there is only one key to encrypt and decrypt, so we cannot share it with everyone.
 \end{itemize}
 \bigskip
-Certainly, using symmetric key is simpler to implement, but it is more limited talking about usability.
+Certainly, using a single symmetric key is simpler to implement, but less flexible.\\
 
 We conclude this section wrapping up the pros and cons of data encryption:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item encrypting specific data adds a security layer to communication and can be an option for constrained devices which cannot rely on TLS
-\item[$\bullet$] even if TLS is heavier, encrypting and decrypting every message can be intensive for constrained devices, in fact it is fundamental to choose a fast encryption algorithm
-\item[$\bullet$] we must remember that encrypting only specific data prevents attackers to sniff our sensitive information, but man in the middle attacks, as well as replay attacks, are still possible.\\ 
+\item encrypting specific data only is a method to add a security layer to communication, and can be an option for constrained devices which cannot rely on TLS.
+\item[$\bullet$] even if TLS is heavier, encrypting and decrypting every message can be too intensive for constrained devices, in fact it is fundamental to choose a fast encryption algorithm
+\item[$\bullet$] we must remember that encrypting only specific data prevents attackers to steal our sensitive information by sniffing, but man in the middle attacks, as well as replay attacks, are still possible.\\ 
 Just to make an example: an attacker could intercept a valid message and modify some parts of it, like the topic
-\item[$\bullet$] It may be difficult to work properly with keys, for instance it is important to establish a secure provisioning of them.
+\item[$\bullet$] keys management adds a layer of complexity, for instance it is important to establish a secure provisioning of them.
 \end{itemize}
 \bigskip
-In the next section we are going to see another fundamental security aspect different from secrecy, which is data integrity.\\
+In section \ref{sec:dataintegrity} we will see another fundamental security aspect: data integrity.\\
 
+\clearpage
 \section{Data Integrity}
+\label{sec:dataintegrity}
 \bigskip
 
-Previously we talked about tokens and how their signatures are used to make sure they have been generated by a trusted source, like the Authorization server; now, let's see, in general, how brokers can validate received messages.\\
-Data integrity checks is fundamental because it is the only way to assert that the content of a message is authentic and has not been altered by third parties.\\
-There are 3 different approaches for message integrity checks:
+We previously described tokens and how their signatures are used to make sure they have been generated by a trusted source, like the Authorization server; now, we see, in general, how brokers can validate received messages.\\
+Data integrity is fundamental because it is the only way to assert that the content of a message is authentic and has not been altered by third parties.\\
+There are three different approaches for message integrity checks:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Checksum}: a value calculated, with a series of calculations that converts the message payload into a string of digits, which is usually called \emph{hash}.\\
-This hash is simply attached at the beginning of the payload, so the receiveing application has just to recalculate the checksum to verify the integrity of the message.\\
-This approach guarantees that data was not modified, but it is not able to assure that it comes from a trusted sender, since there is not key involved.
+\item[$\bullet$] \emph{Checksum/Hash}: a value calculated, with a series of calculations that converts the message payload into a string of digits.\\
+This value is sent with the payload, so the receiveing application has just to recalculate the checksum to verify the integrity of the message.\\
+This approach guarantees that data was not modified by a transmission error, but it cannot assure that it comes from a trusted sender.
 
-\item[$\bullet$] \emph{Message Authentication Code (MAC)}: this authentication code needs a MAC algorithm able to generate a MAC starting from a secret key and the message payload.\\
-Then, the client sends the message including the generated MAC.
-Clearly, the receiving application must know the same secret key that was used to generate the MAC, in order to validate it.\\
-This approach guarantees that data was not modified and also that it comes from a trusted sender.\\
-We notice that the secret key is the same for all the clients, so using MACs we are not able to guarantee non-repudiation.
+\item[$\bullet$] \emph{Message Authentication Code (MAC)}: this authentication code (usually \emph{HMAC}) is calculated using a cryptographic Hash function combined with a cryptographic key. Since only trusted clients know the secret key, we can discover if a message came from a trusted client or not.\\
+HMAC is very fast compared to digital signatures, but the con is that all the clients, both publishers and subscribers, share the same key and, besides, there must be a way to send it to them.
 
 \item[$\bullet$] \emph{Digital signature}: it is a code generated by a public key encryption algorithm. More in details, the client signs the message with its private key and the broker validates the signature using the public key of the client.\\
-The public key can be included in the MQTT message sent by the client.\\
-This approach is the most secure because is the only way to sign a message properly is knowing the private key, which is known only by the real client, but at the same time the broker has not to know it too.\\
+This approach is the most secure because the only way to sign a message properly is knowing the private key, which is known by the real client only, but at the same time the broker has not to know it too.\\
 So, this approach guarantees the same things of the previous one plus the certainity that a sepcific user sent the message.\\
-The difference between the previous approach is that the secret key was shared to all clients, while in this case each client has its own private key, but the broker is still able to decrypt their messages using the public key it received.\\
+The difference with respect to the previous approach is that the secret key was shared to all clients, while in this case each client has its own private key, but the broker is still able to decrypt their messages using the public key it received.\\
 \end{itemize}
 
 Integrity checks is always a good choice: secrecy combined with integrity gives the system a robust security: secrecy prevents attackers to see our things, and integrity prevents attackers to alter them without being discovered.\\\\
-In the next section, we are going to see how to make a MQTT system even more secure by using a not very common, as well as powerful, security architecture, called \emph{Software Defined Perimeter}, or simply \emph{SDP}.\\
+In section \ref{sec:mqttsdp}, we see how to make a MQTT system even more secure by using a not very common, but very powerful, security architecture called \emph{Software Defined Perimeter}, or simply \emph{SDP}.\\
 
 
 \section{MQTT combined with an SDP}
+\label{sec:mqttsdp}
 \bigskip
-In this section we will see a sophisticated solution to implement a very secure MQTT system; since this architecture's implementation seems to be a bit difficult, it should be taken into consideration only if your system needs to be extremely protected.\\
+In this section we describe a sophisticated solution to implement a very secure MQTT system; since this architecture's implementation seems to be a bit difficult, it should be taken into consideration only if your system needs to be extremely protected.\\
 
 \subsection{What is an SDP?}
 \bigskip
 An \emph{SDP (Software Defined Perimeter)}, also known as \emph{Black Cloud}, is an emerging security architecture, a bit difficult to implement and manage, that restricts accesses and connections among allowed devices.\\
 Once, companies used to define a local physical network perimeter in order to protect their applications from external threats.\\
-Nowadays, digital progress has significantly broadened these boundaries, and IoT is the biggest proof of that, in fact having sensors scattered in different places of the world makes impossible to define a local physical network as it used to be.\\
+Nowadays, digital progress has significantly broadened these boundaries, and IoT is the biggest proof of that, in fact having sensors scattered in different places of the world make it impossible to define a local physical network as it used to be.\\
 
-SDP relies on a strategy based on \emph{"hidden-resources"}, or \emph{"non-visibility"}, to provide secure access to devices and applications.\\
+SDP relies on a strategy based on \emph{``hidden-resources"}, or \emph{``non-visibility"}, to provide secure access to devices and applications.\\
 A traditional internal network separated by the external world has a well-defined perimeter and makes use of some firewall functions denying the access to external users, but allowing internal ones to communicate with the external world.\\
 Instead, an SDP is a scalable solution able to provide a secure and authorized access to resources in a perimeter in continuous evolution.\\
 
@@ -716,17 +734,18 @@ It is important to say that SDPs are not strictly connected to IoT technologies,
 \subsection{How does an SDP work?}
 \bigskip
 
-What happens pratically is that devices trying to access are first identified, then, once they have been accepted within the protected network, they are subjected to a further verification process, an authentication with credentials, and finally are assigned permissions based on their authorizations.\\
+Devices trying to access are first identified, then, once they have been accepted within the protected network, they are subjected to a further verification process, an authentication with credentials, and finally are assigned permissions based on their authorizations.\\
 Let's see more in details how it works.\\
 
-First of all, an SDP expects a secure connection, therefore encrypted, based on a \emph{"need-to-know"} logic, that allows only identified, authenticated and authorized clients to access network resources.\\
-There exist many different SDP structures, as we will see in minutes, but they all refer to the idea of \emph{"hide to protect"}.\\
+First of all, an SDP expects a secure connection, therefore encrypted, based on a \emph{``need-to-know"} logic, that allows only identified, authenticated and authorized clients to access network resources.\\
+There exist many different SDP structures, as we will detail in the following, but they all refer to the idea of \emph{``hide to protect"}.\\\\
 
-The following is an example of a possible SDP structure:
+Figure \ref{fig:sdpstructure} shows an example of a possible SDP structure.
 
 \begin{figure}[H]
 \includegraphics[width=10cm,height=10cm,keepaspectratio]{sdp_structure}
 \centering
+\label{fig:sdpstructure}
 \caption{Example of  SDP structure}
 \end{figure}
 
@@ -744,7 +763,7 @@ Since we said that communication is encrypted, policies containing infomation ab
 
 \subsection{How can this architecture be combined with MQTT?}
 \bigskip
-Before describing how we can make SDP working with MQTT, let's clarify that the SDPs we are going to see are not exactly like the above one: they are similar, since they follow the idea of "hide to protect", but simpler.\\
+Before describing how we can make SDP working with MQTT, let's clarify that the SDPs we are going to see are not exactly like the above one: they are similar, since they follow the idea of ``hide to protect", but simpler.\\
 
 We have seen that MQTT allows clients to specify username and password while connecting to a broker.\\By using an SDP, the pair username/password can be replaced with a so-called \emph{Single Packet Authorization (SPA)}.\\
 
@@ -762,7 +781,7 @@ This old system is basically flawed and vulnerable to replay attacks, as we can 
 \caption{Port Knocking Replay attack}
 \end{figure}
 
-SPA and Port Knocking have the same goal but quite different delivery mechanisms: in this newer system, as the name suggests, all of the necessary information, the so-called "knock", is encoded in a single \emph{Authorization Packet}.\\
+SPA and Port Knocking have the same goal but quite different delivery mechanisms: in this newer system, as the name suggests, all of the necessary information, the so-called ``knock", is encoded in a single \emph{Authorization Packet}.\\
 This AP can be sent using TCP, UDP or ICMP, but usually these last ones are preferred.\\
 An AP has the following simplified structure:
 
@@ -809,7 +828,7 @@ Let's analyze some possible alternative solutions to TLS to face this problem, b
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] since authorized users already know the secret password, using it as cipher key and encrypt communication seems to be an almost good idea. We said "almost" for a reason: using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
+\item[$\bullet$] since authorized users already know the secret password, using it as cipher key and encrypt communication seems to be an almost good idea. We said ``almost" for a reason: using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
 Of course, if we assume that the server rejects invalid IP addresses, the attacker will have also to properly spoof its IP.\\
 Cracking the password of some intercepted messages is not easy at all, but it is better to be as safe as possible.
 \item[$\bullet$] an alternative way might be sending a cipher key to the user once he has successfully authenticated to the server, encrypting the message using the password as a key. In order to guarantee more security, it would be better to generate a different cipher key for each client ip instead of a shared one. Why?
@@ -889,7 +908,7 @@ Assuming our tiny system is composed by the following actors:
 \item[$\bullet$] Client 1 (\emph{192.168.1.6})\\
 \end{itemize}
 
-Let's start creating a simple text file containing the list of registered client IPs; let's call it \texttt{"trusted\_client\_ips.txt"}.\\
+Let's start creating a simple text file containing the list of registered client IPs; let's call it \texttt{``trusted\_client\_ips.txt"}.\\
 Then, we move on blocking all the incoming and outgoing connections, except for the ones from/to the registered client IPs on the SPA dedicated port.\\\\
 To do that, we simply wrote two bash scripts to properly configure the server and clients' firewall using nothing more than iptables.
 
@@ -918,7 +937,7 @@ iptables -nL
 \end{lstlisting}
 \end{center}
 
-The above code shows the bash script used to configure the server's firewall; the client's script is almost identical, but \emph{OUTPUT} becomes \emph{INPUT} and viceversa, finally the filename changes to \emph{"trusted\_servers.lst"}.\\
+The above code shows the bash script used to configure the server's firewall; the client's script is almost identical, but \emph{OUTPUT} becomes \emph{INPUT} and viceversa, finally the filename changes to \emph{``trusted\_servers.lst"}.\\
 
 
 The dedicated port is the only open port on the server, running the Python daemon responsible to accept only registered IPs messages and verify if they are valid APs.\\
@@ -942,7 +961,7 @@ secure_sock = ssl.wrap_socket(client, server_side=True,ca_certs="client.pem",
 \end{python}
 
 \bigskip
-Clearly, in order to use these certificates, we first have to create them: it is possible to create self-signed X.509 certificates using the Linux command \emph{"openssl"}.\\\\
+Clearly, in order to use these certificates, we first have to create them: it is possible to create self-signed X.509 certificates using the Linux command \emph{``openssl"}.\\\\
 Once the daemon receives an AP (let's notice that messages can come only from clients allowed by IPtables), simply use the pre-established password, the IP address of the sender and the current timestamp to generate the expected MD5, then it compares it with the received one, and if they are equal the received AP is to be considered valid.\\
 All of this stuff can be done is few lines of code:\\
 
@@ -978,10 +997,10 @@ def checkAP(received_md5,client_ip):
 \bigskip
 
 The idea is pretty simple: if the daemon receives a valid AP, it adds an Iptables rule to allow the client to access the service port, otherwise it does nothing.\\
-\underline{Note}: since we want the access to the service to be limited in time, we run the command \emph{"at"} which gives us the opportunity to run a command after a certain period of time (in the example it is 2 minutes, but in a real scenario it should be larger). Another thing we should notice is that we log only the negative cases, and we do this because there is another script which make us of this log file to detect and block bruteforce/dictionary attacks in real-time.\\
+\underline{Note}: since we want the access to the service to be limited in time, we run the command \emph{``at"} which gives us the opportunity to run a command after a certain period of time (in the example it is 2 minutes, but in a real scenario it should be larger). Another thing we should notice is that we log only the negative cases, and we do this because there is another script which make us of this log file to detect and block bruteforce/dictionary attacks in real-time.\\
 
 This detector implements a very simple but effective detection strategy: when it reads a new line of the daemon's log file, it takes the client IP address and checks if the number of invalid APs received by him in the last \textsc{time\_range} minutes is larger than \textsc{max\_requests}; if so, that client IP is locked out for \textsc{ban\_time} hours, and to do that we simply add an iptables rule again.\\
-This last rule will expire automatically using once again the command "at" to delete it from Iptables.\\
+This last rule will expire automatically using once again the command ``at" to delete it from Iptables.\\
 Of course, it is important to define properly these constants: let's say, for instance, that we may accept at most 5 invalid APs for IP in the last 30 minutes and ban the user for 6 hours.\\
 
 We skip the analysis of the SPA client because it is nothing but a Python script which send requests to the server's daemon using sockets and ssl.\\
@@ -1046,8 +1065,7 @@ publishMsg(client,topic_pub,"online",1,True)
 \end{python}
 
 
-\chapter{Internship experience}
-\section{Introduction}
+\chapter{Real-world examples}
 \bigskip
 I did my internship working for 4 months with a company called ABO DATA, which deals with IoT technologies.\\
 The company enables customers to customize and manage IoT business applications: most of times we talk about customers' devices/sensors which send their measurements to a cloud or a centralized system, then these measures are computed and exploited to do something else related to customers' business.\\
@@ -1416,7 +1434,7 @@ We can instruct the TC to require to every new device to use its own install cod
 Clearly, we need an algorithm to obtain it: it is possible to simply make the TC generating it randomly or derive it from the pre-configured unique link-key using the  the Matyas-Meyer-Oseas hash function.\\ 
 Without entering in too many details about this hash function, we should say that it takes two 128-bit keys as input and return one 128-bit key as output; the second input key of the function is known only by the TC.\\
 Of course, this generated key must be sent to the interested node, and to do that the TC exploits once again the network key or, much better, the pre-configured unique link key, if existent.\\
-A reasonable question is \emph{"why should we generate a TCLK if we already have a pre-configured link key?"}; I did not find a specific answer to this question, but I guess that the reason is that, being the pre-configured link key rarely updated, changing the link key we use to communicate and avoiding to use our pre-configured link key helps us to simply protect it and give less chance to an attacker to be able to stole it.
+A reasonable question is \emph{``why should we generate a TCLK if we already have a pre-configured link key?"}; I did not find a specific answer to this question, but I guess that the reason is that, being the pre-configured link key rarely updated, changing the link key we use to communicate and avoiding to use our pre-configured link key helps us to simply protect it and give less chance to an attacker to be able to stole it.
 \item \emph{Application Link Key}: similar to the previous one, but used by a pair of nodes.\\
 The generation and provisioning of the key is quite intuitive: one of the two devices requests the key to the TC, which is responsible to generate and send it to both of them using their respective pre-configured unique link key or, if not existent, the network key.
 \end{itemize}
@@ -1524,7 +1542,7 @@ The Data Payload field can have three different configurations, depending on the
 \subsubsection{Access Control List (ACL)}
 \bigskip
 
-Each 802.15.4 device must have an \emph{Access Control List (ACL)}, which is a liste containing the so-called \emph{"trusted-brothers"} and their respective security policies.\\
+Each 802.15.4 device must have an \emph{Access Control List (ACL)}, which is a liste containing the so-called \emph{``trusted-brothers"} and their respective security policies.\\
 More in details, for every trusted brother we store the following information:
 
 \begin{itemize}
@@ -1557,7 +1575,7 @@ Clearly, the receiver uses AES-CCM* to decrypt the encrypted data and generate i
 \caption{Frame Encryption}
 \end{figure}
 
-The parameter \emph{"nonce"} is a 13-octet string which both the transmitter and the receiver can obtain starting from these three fields of auxiliary header: \emph{security control}, \emph{frame counter} and \emph{source address}.\\
+The parameter \emph{``nonce"} is a 13-octet string which both the transmitter and the receiver can obtain starting from these three fields of auxiliary header: \emph{security control}, \emph{frame counter} and \emph{source address}.\\
 The \emph{MIC} block is nothing but the generated MAC, which can be even called \emph{Message Integrity Code}.
 
 \subsubsection{Replay Attacks Protection}
@@ -1669,13 +1687,13 @@ This kind of attack where the replay messages are sent to all the network device
 
 \item[$\bullet$] \emph{No key re-using control}: a device is allowed to join the network using the same link key several times (even forever if no explicit constraint is specified), but this is a poor choice because if an attacker is good enough to steal the link key of the device, then it will be able to spoof the authentic device credentials and join the network pretending to be it.
 
-\item[$\bullet$] \emph{Trap networks}: since a ZigBee device connects directly to the first available network (or probably the one ) without asking anything to the user, then an attacker could create a fake network which would work as a kind of trap for the device.
+\item[$\bullet$] \emph{Trap networks}: since a ZigBee device connects directly to the first available network (or probably the one with the strongest signal) without asking anything to the user, then an attacker could create a fake network which would work as a kind of trap for the device.
 
 \item[$\bullet$] \emph{Statistical attacks}: an attacker can obtain several information about the functioning of a ZigBee network if it analyzes its traffic properly using statistical algorithms.\\ 
 \end{itemize}
 
 \clearpage
-\section{Conclusion}
+\section{Best practices}
 \bigskip
 We conclude this second and last part about ZigBee listing some useful considerations:
 
@@ -1702,10 +1720,9 @@ I conclude this section, saying that, in my opinion, ZigBee is a not-so-well tho
 
 
 
+%\bibliography{tesiref} 
+%\bibliographystyle{ieeetr}
 
-
-%\bibliographystyle{unsrt}
-%\bibliography{tesiref}
 
 
 \end{document}
