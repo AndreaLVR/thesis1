@@ -1244,22 +1244,24 @@ Currently, this is the most common ZigBee application.\\
 
 \end{itemize}
 
-In the next section let's start to analyze the architecture and the basic concepts of this protocol.\\
+In section \ref{sec:zigbeearch} let's start to analyze the architecture and the basic concepts of this protocol.\\
 
 \section{Architecture and basic concepts}
+\label{sec:zigbeearch}
 \bigskip
 
 \begin{figure}[H]
 \includegraphics[width=12cm,height=12cm,keepaspectratio]{zigbee_architecture}
 \centering
 \caption{ZigBee Architecture}
+\label{fig:zigbeearch}
 \end{figure}
 
 \bigskip
 \subsection{ZigBee components}
 \bigskip
 
-As we can see in the above picture, the ZigBee system consists of three types of devices:
+As we can see in figure \ref{fig:zigbeearch}, the ZigBee system consists of three types of devices:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
@@ -1297,19 +1299,19 @@ This time we have even routers, which can have either the coordinator or another
 This solution is not so better than the previous one because we still have a single point of failure, given by the coordinator, besides children nodes become unreachable if their parent node breaks down.
 
 \item[$\bullet$] \emph{Mesh}: this topology has, as usual, a single coordinator, several routers to extend the network and, of course, end devices.\\
-Once again, the coordinator establish the network and is responsible to choose key network parameters.\\
-As before, there is no more a single point of failure, besides in this case we have multiple paths to reach a node, therefore a more robust protection from link failure.\\
+Once again, the coordinator establish the network and is responsible to choose network parameters.\\
+There is no more a single point of failure because in this case we have multiple paths to reach a node, therefore a more robust protection from link failure.\\
 The only drawback of this topology is that is complex and more difficult to setup than the previous ones.\\
 \end{itemize}
 
-Mesh topologies are more robust than cluster the other two, therefore they are the most used.\\
+Mesh topologies are more robust than the others, therefore they are the most used.\\
 
 \clearpage
 \subsection{Protocol Stack}
 \bigskip
 
-The protocol is based on the IEEE 802.15.4 standard, which provides the physical and MAC layers, while the above layers we are going to see are given by ZigBee.
-As usual, each layer provides a set of services exposed to the upper layer.\\
+The protocol is based on the IEEE 802.15.4 standard, which provides the physical and MAC layers, while the above layers are given by ZigBee.\\
+Each layer provides a set of services exposed to the upper layer.\\
 
 \begin{figure}[H]
 \includegraphics[width=8cm,height=10cm,keepaspectratio]{zigbee_protocol_stack}
@@ -1317,15 +1319,14 @@ As usual, each layer provides a set of services exposed to the upper layer.\\
 \caption{ZigBee Protocol Stack}
 \end{figure}
 
-More in details, let's briefly see them: 
+Let's briefly see them~\cite{digi}: 
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Physical Layer}: this layer, as the next one, is provided by \emph{IEEE 802.15.4} standard, and defines the physical features and operations of ZigBee devices, such as power, channels, modulation, demodulation, transmission rate, etc.
-\item[$\bullet$] \emph{Medium Access Control layer (MAC)}: it manages data transmissions among devices. For instance, it provides services like transmission retry and acknowledgment management.
-\item[$\bullet$] \emph{Network Layer}: it is responsible for securely transmit frames through the network. 
-About frames, it is important to say that ZigBee exploits a frame counter in order to ignore duplicate messages and stop possible replay attacks.\\Besides, transmitted frames are protected using cryptographic algorithms, such as AES for secrecy, ensuring its integrity using a \emph{Message Authentication Code (MAC)}.
-
+\item[$\bullet$] \emph{Medium Access Control layer (MAC)}: it manages data transmissions between neighboring devices (point to point). 
+It includes services like transmission retry and acknowledgment management.
+\item[$\bullet$] \emph{Network Layer}: it adds routing capabilities that allows data packets to traverse multiple devices (multiple hops) to route data from source to destination.
 \item[$\bullet$] \emph{Application Layer}: it consists of ZigBee device objects (ZDOs), Application support sub-layer (APS) and the Application Framework, where: 
 
 \begin{itemize}
@@ -1344,10 +1345,9 @@ ZigBee employs two communication ways:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Beacon} mode: the coordinator sends a beacon message periodically to the devices and these last ones wait for it before sending messages addressed to the coordinator.\\
-When the transmission is completed, the coordinator set a schedule for the next beacon so that the device goes to sleep till that moment.\\
-In some cases, even the coordinator can go to sleep mode.\\
+When the transmission is completed, the coordinator set a schedule for the next beacon so that the device can go to sleep till that moment.\\
 Beacon intervals can be from 15 ms up to 252 seconds.\\
-So, in this mode, all the devices know when to communicate with each other.\\
+So, in this mode, all the devices know when to communicate with the coordinator.\\
 Beacon mode is mainly used when the coordinator runs on batteries, hence it needs to save as much power as possible.
 
 \begin{figure}[H]
@@ -1367,10 +1367,11 @@ Clearly, it might happen that an end device finds the channel busy and in that c
 \end{figure}
 
 \end{itemize}
-
-In the next chapter, we are going to discuss the security aspects of this protocol.\\
+\bigskip
+In chapter \ref{chap:zigbeesecchap} we start to discuss the security aspects of this protocol.\\
 
 \chapter{Security Overview}
+\label{chap:zigbeesecchap}
 
 \section{Introduction}
 \bigskip
@@ -1380,88 +1381,112 @@ Just think to a smart home based on ZigBee: a lot of user sensitive information 
 Data theft is not the only problem, in fact an attacker would cause a lot of problems to the user if he could control his household appliances.\\
 Just think about a thief, good enough to find and exploit a ZigBee vulnerability and turn off the surveillance devices.\\\\
 
-In the next chapters, we are going to discuss the security measures offered and adopted by the ZigBee standard; more in details, we will analyze its security models, keys (types, generation and management), authentication mechanisms and protection from some famous attacks.\\
+In the next sections, we are going to discuss the security measures offered and adopted by the ZigBee standard; more in details, we will analyze its security models, keys (types, generation and management), authentication mechanisms and protection from some famous attacks.\\
+
+Let's start discussing some useful security assumptions in section \ref{sec:zigbeesecassumptions}.
 
 
 \clearpage
 \section{Security assumptions}
+\label{sec:zigbeesecassumptions}
 \bigskip
-Being ZigBee a simple as well as low-cost communication protocol, it relies on a symmetric-key cryptography to protect network messages and devices, precisely AES 128 bits, avoiding heavier encryption system, like the asymmetric one; therefore, both originator and recipient of a protected transaction need to share the same key.\\
-All the ZigBee security features we are going to discuss are strictly related to the cryptographic (symmetric) keys used by the protocol; in order to talk about them, we must first take a look at the following list of assumptions on which they are based:
+Being ZigBee a simple as well as low-cost communication protocol, it relies on a symmetric-key cryptography to protect network messages and devices, precisely AES 128 bits, avoiding heavier encryption system, like the asymmetric one; therefore, both the sender and recipient of a protected transaction need to share the same key.\\
+
+All the ZigBee security features we are going to discuss are strictly related to the cryptographic (symmetric) keys used by the protocol; in order to talk about them, we must first take a look at the following list of assumptions~\cite{secanalysisofzigbee} on which they are based:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{ZigBee employes an open-trust model}, which means that the stack layers trust each other, therefore the layer that originates a frame must secure it
-\item[$\bullet$] \emph{communication between different stack layers on the same devices is not encrypted}
-\item[$\bullet$] \emph{cryptographic keys are securely stored in quite-resistant hardware devices}
-\item[$\bullet$] \emph{keys are always transmitted encrypted}, so never revealed
-\item[$\bullet$] \emph{cryptographic mechanism and security policies are properly implemented}
-\item[$\bullet$] \emph{Availability of almost perfect random number generators}\\
+%\item[$\bullet$] \emph{ZigBee employes an open-trust model}, which means that the stack layers trust each other, therefore the layer that originates a frame must secure it
+\item[$\bullet$] communication between different stack layers on the same device is not encrypted
+\item[$\bullet$] cryptographic keys are securely stored in quite-resistant hardware devices
+\item[$\bullet$] keys are always transmitted encrypted, so never revealed
+\item[$\bullet$] cryptographic mechanism and security policies are properly implemented
+\item[$\bullet$] Availability of almost perfect random number generators\\
 \end{itemize}
 
 \clearpage
 \section{Security models}
 \bigskip
 
-ZigBee provides two network security architectures, or models: \emph{distributed} and \emph{centralized}.\\
+ZigBee provides two network security architectures, or models, visible in figure \ref{fig:zigbeemodels}: \emph{distributed} and \emph{centralized}.\\
 
 \begin{figure}[H]
 \includegraphics[width=10cm,height=10cm,keepaspectratio]{security_models}
 \centering
 \caption{ZigBee Security Models}
+\label{fig:zigbeemodels}
 \end{figure}
 
 The difference between them concerns only the way they accept new joining devices into the network and how messages are protected.\\
 
+We will talk better about this in section \ref{sec:zigbeeseckeys}, but just to understand what we are going to say we should know that each network has a key used to encrypt broadcast messages, called \emph{network key}, and a key shared by two devices to communicate, as well as to encrypt and provide the network key, called \emph{link key}.\\
+
 The idea of the \emph{distributed security model} is pretty simple: there is no coordinator, but only routers and end devices.\\
 In this model, we totally rely on routers to accept new routers and end devices within the network as well as to generate and distribute network keys.\\
-We will talk better about this in the next chapter, but just to understand what we are going to say we should know that each network has a key used to encrypt broadcast messages, called \emph{network key}, and a key shared by two devices to communicate, as well as to encrypt and provide the network key, called \emph{link key}.\\
-This security model expects all the devices to share the same network key and to be pre-configured with the same link key.\\
+
+This security model expects all the devices to share the same network key and to be pre-configured with the same link key that will be used to send the encrypted message containing the network key.\\
+All the devices will talk to each other encrypting messages with the same network key, therefore everyone accepted within the network can read everyone else's data.\\
 
 The \emph{centralized security model} is a bit more complex, but even more secure.\\
 In this case we have routers, end devices and the coordinator, that from now on we will call \emph{Trust Center (TC)}.\\
 This time the responsible for the management and acceptance of routers and end devices joining the network as well as the creation and sharing of the keys is the TC.\\
-Besides, it will also create and provide a new network key periodically, in order to protect the network from possible attackers, who can try to stole it.\\
+Besides, devices have not to be all pre-configured with the same link key and they have not to communicate with each other using necessarily the network key to encrypt messages.\\
+The TC will also create and provide a new network key periodically, in order to protect the network from possible attackers, who can try to stole it.\\
 
-So, The first model is certainly simpler but even less secure, and almost not used, so we will focus more on the second one}.\\
+So, The first model is certainly simpler but even less secure, and almost not used, so we will focus on this second one}.\\
 
 \section{Security keys types and management}
+\label{sec:zigbeeseckeys}
 \bigskip
-We have already mentioned that a ZigBee network exploits two main types of keys to communicate safely: \emph{network keys} and \emph{link keys}. Actually, there is also a third key, called master key.\\
+We have already mentioned that a ZigBee network exploits two main types of keys to communicate securely: \emph{network keys} and \emph{link keys}.\\
+Actually, there is also a third key, called \emph{master key}.\\
 Let's see them in details:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] the \emph{network key} is a 128-bit key generated and distributed by the Trust Center to all the network devices in order to allow them to communicate in broadcast securely.\\
-It is clear that the TC cannot send the network key in plain-text, otherwise an attacker could sniff that, making it useless.\\
-There are two types of network keys, \emph{standard} and \emph{high security}, which differ from each other in the way they are distributed to joining devices. More specifically, a high-security network key is sent encrypted, the other one in plain-text.\\
+It is clear that the TC cannot send the network key in plain-text, otherwise an attacker could sniff that, making it useless. Sending a key without encrypting the message is against one of the assumptions we have seen in section \ref{sec:zigbeesecassumptions}, but unfortunately there is one exceptional case in which this happens.\\
+
+There are two types of network keys, \emph{standard} and \emph{high security}, which differ from each other in the way they are distributed to joining devices. \\
+Simply, a high-security network key is sent encrypted, the other one in plain-text.\\
+More specifically, the standard network key is sent in plain-text in those cases where the end device that wants to join the network has no pre-configured link key. Some TCs decide to deny the access to such devices, while others are more permissive and allow them to join the network, risking to compromise the security of the whole network.\\
+
 It is important to notice that joining devices can be also pre-configured with a network key, but this is a uncommon practice, since, as already said,  in a centralized model the network key is updated periodically by the TC.
 \item[$\bullet$] the \emph{link key} is a 128-bit key shared by two devices, so between the TC and another node, or between two nodes.\\
-More in details, we have four different types of link key:
+More in details, we have three different types of link key~\cite{secanalysisofzigbee}:
 
 \begin{itemize}
-\item \emph{Pre-configured Global Link key}: it exists only for one reason, that is encrypting the network key in order to transfer it safely from the TC to the devices.\\
-As the words \emph{global} and \emph{pre-configured} suggest, this key is the same for all the network nodes and usually pre-installed in the devices that want to join the network.
+\item \emph{Pre-configured Global Link key}: it exists only for one reason, that is encrypting the network key in order to transfer it securely from the TC to the end devices.\\
+As the words \emph{global} and \emph{pre-configured} suggest, this key is the same for all the network nodes and pre-installed in the devices that want to join the network.\\
+The global key can be defined by the manufacturer, or, even much simpler, by ZigBee.
 \item \emph{Pre-configured Unique Link key}: same use of the previous one, but different for every node.
-Let's clarify that pre-configured keys are usually defined by the manufacturer of the device, or simply by ZigBee.
-\item \emph{Install Code}: it is nothing but another pre-configured link key based on the assumption that every ZigBee device can have a unique 128-bit install code.\\
-We can instruct the TC to require to every new device to use its own install code to join the network; clearly, we have to previously store the code within the Trust Center in order to check if it matches the one provided by the device.
+%\item \emph{Install Code}: it is nothing but another pre-configured link key based on the assumption that every ZigBee device can have a unique 128-bit install code.\\
+%We can instruct the TC to require to every new device to use its own install code to join the network; clearly, we have to previously store the code within the Trust Center in order to check if it matches the one provided by the device.
 \item \emph{Trust Center Link Key (TCLK)}: like the last one, this key is used to allow the TC and another node to communicate securely, but the difference is that this time it is not pre-configured.\\
-Clearly, we need an algorithm to obtain it: it is possible to simply make the TC generating it randomly or derive it from the pre-configured unique link-key using the  the Matyas-Meyer-Oseas hash function.\\ 
-Without entering in too many details about this hash function, we should say that it takes two 128-bit keys as input and return one 128-bit key as output; the second input key of the function is known only by the TC.\\
-Of course, this generated key must be sent to the interested node, and to do that the TC exploits once again the network key or, much better, the pre-configured unique link key, if existent.\\
-A reasonable question is \emph{``why should we generate a TCLK if we already have a pre-configured link key?"}; I did not find a specific answer to this question, but I guess that the reason is that, being the pre-configured link key rarely updated, changing the link key we use to communicate and avoiding to use our pre-configured link key helps us to simply protect it and give less chance to an attacker to be able to stole it.
-\item \emph{Application Link Key}: similar to the previous one, but used by a pair of nodes.\\
+The TC generates it randomly or derive it from the network key (or from the pre-configured unique link key, if existent) using the \emph{Matyas-Meyer-Oseas} hash function~\cite{onewaycompressionfunc}.\\ 
+Without entering in too many details about this hash function, we just say that it takes two 128-bit keys as input and return one 128-bit key as output; the second input key of the function is known only by the TC.\\
+Of course, this generated key must be sent to the interested node, and to do that the TC uses once again the network key or, much better, the pre-configured unique link key, if existent.\\
+
+A reasonable question is \emph{``why should we generate a TCLK if we already have a pre-configured link key?"}; I did not find a specific answer to this question, but I guess that the reason is that, being the pre-configured link key rarely updated, changing the link key we use to communicate and avoiding to use our pre-configured link key helps us to protect it and give less chance to an attacker to steal it.
+\item \emph{Application Link Key}: similar to the previous one, but used by pairs of nodes.\\
 The generation and provisioning of the key is quite intuitive: one of the two devices requests the key to the TC, which is responsible to generate and send it to both of them using their respective pre-configured unique link key or, if not existent, the network key.
 \end{itemize}
 
-\item[$\bullet$] the \emph{master key}: is a key from which link keys can be established by two devices, without having to communicate with each other. Clearly, both the devices must have the master key.
+\item[$\bullet$] the \emph{master key}:  This is a shared key used, during the execution of a symmetric-key key establishment protocol (\emph{SKKE}), to generate link keys~\cite{zigbeespec}.\\
+Without going into too much detail, if a initiator device and a responder device share the master key, they can use it to establish a link key following these three basic steps:
+
+\begin{enumerate}
+\item the exchange of ephemeral data
+\item the use of this ephemeral data to derive the link key
+\item the confirmation that this link key was correctly computed
+\end{enumerate}
+This key provisioning way is almost never used, so we will focus only on the two previous ones.
 
 \end{itemize}
 
-Now that we have analyzed the ZigBee security keys and their provisioning ways, I would like to report, just for completeness, that there exists an extension of the traditional key-transport, which involves certificates.\\
-Security keys can be distributed using the \emph{Certificate-Based Key Establishment protocol (CBKE)}, which implements a mechanism to allow devices to negotiate symmetric unique keys with the TC, starting from a certificate, signed by a Certification Authority, that both devices must have. So, every device in the network is expected to store a certificate signed by a trusted certification authority.\\
-The CBKE mechanism allows the device to start communicating, but even the Trust Center to safely identify it and prevent unauthorized devices to join the network.\\
+Now that we have analyzed the ZigBee security keys and their provisioning ways, I would like to report, just for completeness, that there exists a (rarely used) extension of the traditional key-transport, which involves certificates.\\
+Security keys can be distributed using the \emph{Certificate-Based Key Establishment protocol (CBKE)}~\cite{zigbeesecbasics2}, which implements a mechanism to allow devices to negotiate symmetric unique keys with the TC, starting from a certificate, signed by a Certification Authority, that both devices must have.\\
+The CBKE mechanism allows the device to start communicating, but even the Trust Center to securely identify it.\\
 The key establishment procedure involves the following four steps:
 
 \begin{enumerate}
@@ -1472,29 +1497,29 @@ The key establishment procedure involves the following four steps:
 \item Confirm the key using the MAC
  \end{enumerate}
 
-Just for completeness, we have to say that the key generation and the MAC derivation exploit two mathematical functions which are, respectively, the Elliptic Curve MQV and a Key derivation function, but we will not delve into them as they go beyond the context.\\
+The key generation and the MAC derivation exploit two mathematical functions which are, respectively, the \emph{Elliptic Curve MQV}\footnote{https://www.ecmqv.com/} and a Key derivation function, but we will not delve into them as they go beyond the context.\\
 At the end of this process, both the Trust Center and the device \emph{i} share a new Link Key LK\textsubscript{i}, which is used to encrypt the TCLK they are going to use to communicate.\\
 Now, if two devices \emph{i} and \emph{j} have obtained their TC Link Key, and want to communicate with each other, they can obtain their Application Link key by asking it to the Trust Center, as usual, which will generate a random Application Link Key LK\textsubscript{ij} and send it to both the devices using their respective Trust Center Link Key.\\
 
 \subsection{Over-The-Air Updates}
 \bigskip
-We have already mentioned that in a centralized architecture the TC periodically updates and distributes the network key in order to not give attackers much time to try to acquire it.\\
-Clearly, the updates of the network key are sent over-the-air, so they must be encrypted with some keys, which usually are either the current network key or the Trust Center Link key (unique or global, depending on the individual node).\\
-Obviously, the second one is a better and safer choice, because if an attacker has already stolen the current network key, and the Trust Center uses such key to encrypt the new one, then the attacker will always be able to get the updated network key.\\
-Let's clarify that each node is able to store several network keys, but also to identify the current one with a unique key sequence number assigned by the Trust Center.\\
+We have already mentioned that in a centralized architecture the TC periodically updates and distributes the network key in order to not give attackers time to try to steal it.\\
+Clearly, the updates of the network key are sent over-the-air, so they must be encrypted with some keys, which usually are either the current network key or the Trust Center Link key (unique or global, depending on the scenario).\\
+Obviously, the second one is a better and more secure choice, because if an attacker has already stolen the current network key, and the Trust Center uses such key to encrypt the new one, then the attacker will always be able to get the updated network key.\\
+%Let's clarify that each node is able to store several network keys, but also to identify the current one with a unique key sequence number assigned by the Trust Center.\\
 
 Keys are not the only things we may think to update over the air, in fact ZigBee gives the user the chance to update a device, adding new features as well as applying security patches, if necessary.\\
 Clearly, if this kind of communication is not protected enough, it might happen that devices accept some critical fake updates from untrusted sources.\\
-Assuming, for instance, we want to send an updated code image to a device to apply a security patch, we firstly sign the image with a private key k\textsubscript{1}, then we send the image over the network using a second cipher key k\textsubscript{2}; doing this way only the end device will be able to decrypt it and verify the validity of the image thanks to its signature (it is clear that the end device must know the two keys used to encrypt and sign).\\
+Assuming, for instance, we want to send an updated code image to a device to apply a security patch, we firstly sign the image with a private key k\textsubscript{1}, then we send the image over the network using a second cipher key k\textsubscript{2}; doing this only the end device will be able to decrypt it and verify the validity of the image thanks to its signature (it is clear that the end device must know the two keys used to encrypt and sign).\\
 Once the device received the message, it decrypts and validates it, then updates itself.\\
 
 \clearpage
 \section{Protocol Stack Security}
 \bigskip
-In this section we are going to discuss the security measures adopted by the ZigBee protocol stack, which involves the MAC, Network and APS layers.\\
+In this section we discuss the security measures adopted by the ZigBee protocol stack, which involves the MAC, Network and APS layers.\\
 
 The IEEE MAC Layer implements security services which are used by the ZigBee protocol in the network and application layers.\\ 
-IEEE 802.15.4 establishes the encryption algorithm to use when the data has to be transmitted, which is AES with a 128-bit key, but the standard does not specify how the keys have to be managed or the authentication policies to be applied.\\
+IEEE 802.15.4 establishes the encryption algorithm to use (AES) when the data has to be transmitted, but the standard does not specify the keys or security levels to use.
 This is a task concerning the upper layers, hence ZigBee is responsible for that.
 
 \subsection{802.15.4 Security}
@@ -1502,36 +1527,37 @@ This is a task concerning the upper layers, hence ZigBee is responsible for that
 
 \subsubsection{Security Control Header}
 \bigskip
-Let's start taking a look at the structure of a MAC frame before going on.\\
+Let's start taking a look at figure \ref{fig:zigbeemacframestruc}, representing the structure of a MAC frame~\cite{security802154}.\\
 
 \begin{figure}[H]
 \includegraphics[width=13cm,height=13cm,keepaspectratio]{mac_frame}
 \centering
 \caption{ZigBee MAC Frame's Structure}
+\label{fig:zigbeemacframestruc}
 \end{figure}
 
-As we can see in the image above, IEEE 802.15.4 MAC frames contain a specific header dedicated to security, called \emph{Auxiliary Security Header}.\\
-Thie header is enabled only if the \emph{Security Enabled} bit, contained in the \emph{Frame Control} field, is set to 1.\\
+As we can see in figure \ref{fig:zigbeemacframestruc}, IEEE 802.15.4 MAC frames contain a specific header dedicated to security, called \emph{Auxiliary Security Header}.\\
+This header is enabled only if the \emph{Security Enabled} bit, contained in the \emph{Frame Control} field, is set to 1.\\
 There are three subfields inside the Auxiliary Security Header:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Security Control}: it is used to specify the type of protection provided by the network.\\
-The most important subfield of the Security Control field is \emph{Security Level}, which can assume eight different values, each of them providing a different degree of encryption and integrity checks, and is the place where out global security policy is set.
+The most important subfield of the Security Control field is \emph{Security Level}, which can assume eight different values, each of them providing a different degree of encryption and integrity checks, and is the place where our global security policy is set.
 
 \begin{center}
 \small
-   \begin{tabular}{ | p{3cm} | l | l | p{3.5cm} |}
+   \begin{tabular}{ | c | c | c | c |}
     \hline
-    Security Level Identifier & Security Attributes & Data Encryption & Data Authenticity Checks \\ \hline
+    Security Level & Security Attributes & Data Encryption & Integrity Check \\ \hline
     0x00 & None & N & N \\ \hline
     0x01 & AES-CBC-MAC-32 & N & Y\\ \hline
     0x02 & AES-CBC-MAC-64 & N & Y \\ \hline
     0x03 & AES-CBC-MAC-128 & N & Y\\ \hline
     0x04 & AES-CTR & Y & N\\ \hline
-    0x05 & AES-CCM-32 & Y & N\\ \hline
-    0x06 & AES-CCM-64 & Y & N\\ \hline
-    0x07 & AES-CCM-128 & Y &N\\ \hline
+    0x05 & AES-CCM-32 & Y & Y\\ \hline
+    0x06 & AES-CCM-64 & Y & Y\\ \hline
+    0x07 & AES-CCM-128 & Y &Y\\ \hline
     \end{tabular}
 \end{center}
 \bigskip
@@ -1545,9 +1571,12 @@ The Data Payload field can have three different configurations, depending on the
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item \emph{AES-CTR}: we encrypt data using the AES algorithm combined with a 128-bit key.
-\item \emph{AES-CBC-MAC}: payload data is not encrypted, but a Message Authentication Code (MAC) is computed and attached to the end of the data payload.
-\item \emph{AES-CCM}: it is a mixture of the two previous ones. 
+\item \emph{AES-CTR}: data payload is encrypted using AES 128-bit counter mode.
+\item \emph{AES-CBC-MAC}: data payload is not encrypted, but a Message Authentication Code (MAC) is computed and attached to the end of the   data payload.\\
+The MAC is created encrypting information from the 802.15.4 header and the data payload.
+Its length can be 32 bits, 64 bits, or 128 bits, depending on the specified security level, but in any case it is calculated using a 128 bit key.
+\item \emph{AES-CCM}: it is the combination of the two previous ones.\\
+More details about this algorithm will be discussed in section \ref{ssec:zigbeesecfeatures}.
 \end{itemize}
 
 \item[$\bullet$] \emph{Frame Counter}: it is a simple counter given by the source of the current frame in order to protect the message from replay attacks. 
@@ -1558,47 +1587,45 @@ The Data Payload field can have three different configurations, depending on the
 \subsubsection{Access Control List (ACL)}
 \bigskip
 
-Each 802.15.4 device must have an \emph{Access Control List (ACL)}, which is a liste containing the so-called \emph{``trusted-brothers"} and their respective security policies.\\
-More in details, for every trusted brother we store the following information:
+Each 802.15.4 device can have an \emph{Access Control List (ACL)}, which is a list containing the so-called \emph{``trusted-brothers"} and their respective security policies.\\
+More in details, for each trusted brother we store the following information:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Address }: the address of the node we want to communicate with
-\item[$\bullet$] \emph{Security suite}: this field specify the encryption algorithm to use (\emph{AES-CTR}, \emph{AES-CCM-32}, etc)
-\item[$\bullet$] \emph{Key}: the key used in the AES algorithm
+\item[$\bullet$] \emph{Address}: the physical address of the node we want to communicate with
+\item[$\bullet$] \emph{Security suite}: the encryption algorithm to use (\emph{AES-CTR}, \emph{AES-CCM-32}, etc)
+\item[$\bullet$] \emph{Key}: the 128-bit key used in the AES algorithm
 \item[$\bullet$] \emph{Last Initial Vector (IV)/ Frame Counter}: this is an incremental value used 1) by the source to encrypt the message and 2) by the recipient as frame counter to avoid replay attacks.\\
 \end{itemize}
 
 In simple words, when a node wants to communicate with another node (send or receive a message) it looks at the ACL to see if it is a trusted brother; in that case it uses the security measures contained in the respective security policy.\\\\
 
-\subsection{ZigBee Security measures}
+\subsection{ZigBee Security features}
+\label{ssec:zigbeesecfeatures}
 \bigskip
-IEEE 802.15.4 sets the encryption algorithm to encrypt the data we want to transmit, but it does not specify how the keys have to be managed and the authentication policies to use; this is task of upper layers, hence ZigBee is responsible for that.\\
-Even if we are talking about an open trust model in which every stack layer is responsible for its own security, the keys used by the MAC Layer are established by the upper layers.\\
-They set the default key of the MAC Layer equal to the current network key and its link keys equal to the current link keys of the upper layers.
+The ZigBee security architecture includes security mechanisms, such as frame protection, at three layers of the protocol stack: MAC, Network and Application.\\
+Each layer is responsible for its own security processing but, as already said, the keys and the security level used by the MAC Layer are established by the upper layers.
+%They set the default key of the MAC Layer equal to the current network key and its link keys equal to the current link keys of the upper layers.
 
-\subsubsection{Frame Encryption}
+\subsubsection{Frame Protection}
 \bigskip
-In addition to the security features provided by IEEE 802.15.4 standard,  ZigBee adopts \emph{AES CCM*} to, optionally protect frames (secrecy and integrity).\\
-\emph{CCM mode} combines the \emph{CBC-MAC} and \emph{CTR}: CBC-MAC is first computed to get a tag \emph{t}, then the message and the tag are encrypted using counter mode.\\
+In addition to the security features provided by IEEE 802.15.4 standard,  ZigBee adopts \emph{AES CCM*} to protect frames, that means granting their secrecy and integrity.\\
+\emph{CCM mode} combines the \emph{CBC-MAC} and \emph{CTR}: CBC-MAC is used to generate a tag for the frame, and CTR is used to encrypt the frame itself as well as the generated tag.\\
 \emph{CCM* mode} is nothing but a minor variation of CCM, which includes all the features of CCM and, in addition to them, it offers encryption-only and integrity-only capabilities.\\
-The AES-CCM* is used to encrypt the data and generate an associated MAC, which is sent along with the frame.\\
-Clearly, the receiver uses AES-CCM* to decrypt the encrypted data and generate itself the MAC in order to compare it with the received one.
 
-\begin{figure}[H]
-\includegraphics[width=11.5cm,height=12cm,keepaspectratio]{frame_encryption}
-\centering
-\caption{Frame Encryption}
-\end{figure}
+So, AES-CCM* is used to encrypt the entire frame and generate its associated MAC, which is sent along with it.\\
+Clearly, the receiver uses AES-CCM* and the proper key to decrypt the encrypted frame and the tag, then he generates the MAC on his own in order to compare it with the received and decrypted one.\\
+Thanks to the extra capabilities in CCM*, ZigBee simplify the protocol security, eliminating the need for the data encryption/integrity provided by the MAC Layer of the 802.15.4 suite.\\
+This is obvious, since it would be useless to encrypt, and generate a MAC for, the payload within a frame if we are already able to grant secrecy and integrity for such frame.\\
+In other words, using AES-CCM* is convenient because it can cover all the security levels provided by the 802.15.4 standard, simply turning on (or off) the integrity-only and the encryption-only capability.\\
+The key used to encrypt and generate the MAC for a frame, is the one specified in the receiver's ACL.
 
-The parameter \emph{``nonce"} is a 13-octet string which both the transmitter and the receiver can obtain starting from these three fields of auxiliary header: \emph{security control}, \emph{frame counter} and \emph{source address}.\\
-The \emph{MIC} block is nothing but the generated MAC, which can be even called \emph{Message Integrity Code}.
 
 \subsubsection{Replay Attacks Protection}
 \bigskip
 We have already mentioned that ZigBee offers protection from replay attacks, using a frame counter.\\
 More in details, every node in the network has a 32-bit frame counter which is incremented at every packet transmission.\\
-Besides, each device tracks the previous frame counter of every node with which it has communicated because, doing this way, if a node receives a packet from another node with the same or lesser frame counter value than it had previously received, the packet will be dropped.\\
+Besides, each device tracks the previous frame counter of every node with which it has communicated because, doing this, if a node receives a packet from another node with the same or lesser frame counter value than it had previously received, the packet will be dropped.\\
 It is important to say that the frame counter is reset to 0 when the Trust Center updates the network key.
 
 \subsubsection{Device Authentication}
@@ -1613,7 +1640,7 @@ More in details, there are two different procedures for authenticating devices:
 If the new device does not have a network key and not even a link key (which must be known by the Trust Center obviously), the TC  sends the network key in plain-text, which is a quite important vulnerability.\\
 Since the new device does not know the address of the trust center, it will use the source address of the received message to set the trust center address.
 
-\item[$\bullet$] \emph{High Security (Commercial) mode}: in this second, and more secure, mode the Trust Center never sends the network key over an unprotected channel.\\
+\item[$\bullet$] \emph{High Security (Commercial) mode}: in this second, and more secure, mode the Trust Center never sends the network key over an unprotected communication channel.\\
 If the device has a valid pre-configured link key, global or unique, to communicate with the TC, then this last one will send the network key to it, and will consider it as authenticated.\\
 A global link key requires less memory to the Trust Center, but it is less secure than the unique link key.\\
 Instead, if no pre-configured link key is owned by the device, then the Trust Center expects it to have, at least, the master key by which it is possible to start the key establishment protocol, after that the device and the TC will share the link key.\\
@@ -1651,12 +1678,14 @@ We will not discuss the following techniques, since they are outside the context
 
 We conclude this section saying that ZigBee takes care about security, as we have understood so far discussing its security measures.\\
 But we have also seen some important vulnerabilities in the exchange of keys, that, just right now, makes the protocol not perfect at all.\\
-This is not surprising since ZigBee was designed to keep devices low-cost and low-energy.
-In the next section we are going to discuss the most relevant ZigBee vulnerabilities.
+This is not surprising since ZigBee was designed to keep devices low-cost and low-energy.\\
+
+In section \ref{sec:zigbeevulns} we will discuss the most relevant ZigBee vulnerabilities.
 
 
 \clearpage
 \section{ZigBee vulnerabilities}
+\label{sec:zigbeevulns}
 \bigskip
 The aim of this section is to discuss the most relevant ZigBee vulnerabilities and some practical attacks, and related tools, to exploit a ZigBee network.\\
 Some of them are related to the specific implementation, while some others are strictly related to the protocol itself.\\
@@ -1670,18 +1699,18 @@ If an attacker is able to extract the network key from a network device, then al
 \item[$\bullet$] \emph{Key transportation}: we have seen before that if the Trust Center operates in standard (residential) mode, it could happen that the network key is sent in plain-text; clearly, this is a quite important vulnerability since we transmit the key shared by all the devices within the network to send broadcast messages with no protection at all, compromising the whole network.
 
 \item[$\bullet$] \emph{Ghost Attack}: frame counter checks allow recipient devices to ignore duplicate messages, but a \emph{Denial Of Service (DOS)} vulnerability persists: if an attacker crafts an authentic message and replay it, the recipient will discard it but it will spend time and energy to check its validity.\\
-Said that, if an attacker performs tons of replay attacks against the same target, the battery life of this last one will be drastically reduced (especially considering that we are talking about low-power devices).
+If an attacker performs tons of replay attacks against the same target, the battery life of this last one will be drastically reduced (especially considering that we are talking about low-power devices).
 
-\item[$\bullet$] \emph{Predictable sensor polling rates}: as we know, end devices can put themselves in sleep mode and wake up at regular intervals to poll the coordinator for data inputs or, in non-beacon mode, when it receives a beacon from the coordinator, in order to save their battery-life.\\
+\item[$\bullet$] \emph{Predictable sensor polling rates}: as we know, end devices can put themselves in sleep mode and wake up at regular intervals to poll the coordinator for data inputs or, in beacon mode, when it receives a beacon from the coordinator, in order to save their battery-life.\\
 This mechanism gives the attacker an advantage: it can send crafted messages to the device at regular intervals even if it is not necessary, forcing it to wake up and process the received messages.\\
 Switching from sleep mode to active mode requires a quite big amount of energy, as well as processing invalid messages, as we have just seen.\\
 So, this is nothing but an extension of the previous Ghost Attack, which has been proved to be extremely effective.
 
-\item[$\bullet$] \emph{Manufacturer-defined Link Keys}: manufacturers set default link keys within their devices, and these keys are used by them to join ZigBee networks when the device is unknown to the TC and has no specific authorization associated to it.\\
-This is a very bad choice, in fact this means that an attacker can join the network using a device with no pre-established authorization but from a trusted manufacturer, then collect several information about the network it is going to hack in the future.
+\item[$\bullet$] \emph{Manufacturer-defined Link Keys}: manufacturers set default link keys within their devices, and sometimes these keys are used to join ZigBee networks.\\
+Using manufacturer default link keys is a bad choice, because they are usually of public domain, so available to a possible attacker.
 
 \item[$\bullet$] \emph{Association Flooding}: by default, there is no integrity checks on acknowledgment packets, therefore an attacker is able to send fake ACK to devices, and they will be considered as authentic.\\
-An attacker, within an already compromised network, can keep on reading messages sent by a device even if the respective recipient is not responding, simply sending fake ACK packets to the sender every time it sniff a message from it. 
+An attacker, within an already compromised network, can keep on reading messages sent by a device even if the respective recipient is not responding, simply sending fake ACK packets to the sender every time it sniffs a message from it. 
 
 \item[$\bullet$] \emph{No protection from DOS attacks}: ZigBee has no known denial of service protection mechanisms.\\
 There are several ways to perform a DOS attack against a device:
@@ -1709,7 +1738,7 @@ This kind of attack where the replay messages are sent to all the network device
 \end{itemize}
 
 \clearpage
-\section{Best practices}
+\section{Considerations and best practices}
 \bigskip
 We conclude this second and last part about ZigBee listing some useful considerations:
 
@@ -1717,18 +1746,20 @@ We conclude this second and last part about ZigBee listing some useful considera
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] the protocol itself is not much secure, regardless of its implementation
 \item[$\bullet$] the protocol works well if all the devices within the considered network are able to protect themselves from keys theft
+\item[$\bullet$] choose carefully the physical devices based on the role they will have within the network
 \item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee the integrity of the frames
 \item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
 \item[$\bullet$] prefer unique keys rather than global ones every time you can
 \item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before deploying it (especially in productive scenarios)
 \item[$\bullet$] it is fundamental to properly specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
-\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
-\item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor\\
+%\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
+\item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor.
+\item[$\bullet$] select the frequency band that generates the least interference with other wireless systems.\\
 \end{itemize}
 
 The considerations above should help you to understand how to build an almost secure and reliable ZigBee network, but I would like to clarify a last thing, which is probably even more important than the previous ones.\\
 ZigBee was born almost fifteen years ago when devices had much less computational power than today and they needed a very light-weight and low power-consumption protocol to be able to communicate with each other. Nowadays, technological progress is surprisingly fast, and even very small devices often have enough computational power and battery-life to support \emph{Wi-Fi} protocol, which is more secure, reliable, extensible, easier to configure and continuously improved.\\
-I conclude this section, saying that, in my opinion, ZigBee is a not-so-well thought protocol having many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice with no doubt.\\
+I conclude this section, saying that, in my opinion, ZigBee is a not so secure protocol having many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice with no doubt.\\
 
 
 
@@ -1835,8 +1866,7 @@ Internet of Things (IoT) is a neologism, introduced by Kevin Ashton~\cite{kevina
 growing interest from companies and because nowadays it is possible to produce small devices with a reasonable computational power;
 these small devices are embedded into bigger objects in order to improve them by making them, in some way, smart.\\
 
-Iot has a variety of different applications: ranging from everyday things like watches that measures how many kilometers we have walked during the day, to smart homes that control the air conditioning system based on temperature and pollution in the air, or even smart cities where semaphores adjust their times based on the traffic condition.\\
-But these are only three examples, IoT extends also to other fields like: health care, industrial monitoring, self driving cars and agriculture.\\
+Iot has a variety of different applications: ranging from everyday things like watches that measures how many kilometers we have walked during the day, to smart homes  that control the air conditioning system based on temperature and pollution in the air, smart cities where semaphores adjust their times based on the traffic condition, industrial automation, self driving cars, health monitoring system, agriculture, and so on.\\
 
 The IoT is also changing the way software is developed, in order to produce a good IoT system companies are brought to cooperate with each other,
 moving from a one-company-does-it-all perspective to a let’s-work-together approach\cite{successiot}, this means that proprietary systems 
@@ -3312,9 +3342,9 @@ The most important subfield of the Security Control field is \emph{Security Leve
     0x02 & AES-CBC-MAC-64 & N & Y \\ \hline
     0x03 & AES-CBC-MAC-128 & N & Y\\ \hline
     0x04 & AES-CTR & Y & N\\ \hline
-    0x05 & AES-CCM-32 & Y & N\\ \hline
-    0x06 & AES-CCM-64 & Y & N\\ \hline
-    0x07 & AES-CCM-128 & Y &N\\ \hline
+    0x05 & AES-CCM-32 & Y & Y\\ \hline
+    0x06 & AES-CCM-64 & Y & Y\\ \hline
+    0x07 & AES-CCM-128 & Y &Y\\ \hline
     \end{tabular}
 \end{center}
 \bigskip
@@ -3341,7 +3371,7 @@ The Data Payload field can have three different configurations, depending on the
 \subsubsection{Access Control List (ACL)}
 \bigskip
 
-Each 802.15.4 device must have an \emph{Access Control List (ACL)}, which is a liste containing the so-called \emph{``trusted-brothers"} and their respective security policies.\\
+Each 802.15.4 device must have an \emph{Access Control List (ACL)}, which is a list containing the so-called \emph{``trusted-brothers"} and their respective security policies.\\
 More in details, for every trusted brother we store the following information:
 
 \begin{itemize}
@@ -3356,8 +3386,7 @@ In simple words, when a node wants to communicate with another node (send or rec
 
 \subsection{ZigBee Security measures}
 \bigskip
-IEEE 802.15.4 sets the encryption algorithm to encrypt the data we want to transmit, but it does not specify how the keys have to be managed and the authentication policies to use; this is task of upper layers, hence ZigBee is responsible for that.\\
-Even if we are talking about an open trust model in which every stack layer is responsible for its own security, the keys used by the MAC Layer are established by the upper layers.\\
+We said that the keys used by the MAC Layer are established by the upper layers.\\
 They set the default key of the MAC Layer equal to the current network key and its link keys equal to the current link keys of the upper layers.
 
 \subsubsection{Frame Encryption}
