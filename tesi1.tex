@@ -1311,23 +1311,26 @@ Mesh topologies are more robust than the others, therefore they are the most use
 \bigskip
 
 The protocol is based on the IEEE 802.15.4 standard, which provides the physical and MAC layers, while the above layers are given by ZigBee.\\
-Each layer provides a set of services exposed to the upper layer.\\
+Each layer provides a set of services exposed to the upper layer.
 
 \begin{figure}[H]
-\includegraphics[width=8cm,height=10cm,keepaspectratio]{zigbee_protocol_stack}
+\includegraphics[width=6cm,height=6cm,keepaspectratio]{zigbee_stack}
 \centering
 \caption{ZigBee Protocol Stack}
 \end{figure}
 
-Let's briefly see them~\cite{digi}: 
+Let's briefly see them: 
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Physical Layer}: this layer, as the next one, is provided by \emph{IEEE 802.15.4} standard, and defines the physical features and operations of ZigBee devices, such as power, channels, modulation, demodulation, transmission rate, etc.
+\item[$\bullet$] \emph{Physical Layer}: it provides the basic radio communication capabilities, such as power, channels, modulation, demodulation, transmission rate, etc.
 \item[$\bullet$] \emph{Medium Access Control layer (MAC)}: it manages data transmissions between neighboring devices (point to point). 
-It includes services like transmission retry and acknowledgment management.
-\item[$\bullet$] \emph{Network Layer}: it adds routing capabilities that allows data packets to traverse multiple devices (multiple hops) to route data from source to destination.
-\item[$\bullet$] \emph{Application Layer}: it consists of ZigBee device objects (ZDOs), Application support sub-layer (APS) and the Application Framework, where: 
+It includes services like transmission retry and acknowledgment management~\cite{digi}.
+\item[$\bullet$] \emph{Network Layer}: it adds routing capabilities that allows data packets to traverse multiple devices (multiple hops) to route data from source to destination, in order to create more complex topologies.
+\item[$\bullet$] \emph{Application Layer}: it provides device and service discovery features, applications supporting layer primitives used by devices, capabilities to manage the security policies and configuration of a device. Finally, it collaborates with the Network layer to establish and manage cryptographic keys, and provides primitives for their management.
+
+\iffalse
+it consists of ZigBee device objects (ZDOs), Application support sub-layer (APS) and the Application Framework, where: 
 
 \begin{itemize}
 \item \emph{ZDOs} are applications supporting layer primitives used by end devices, routers and coordinators.\\ 
@@ -1336,6 +1339,7 @@ Furthermore, ZDOs manages the security policies and configuration of a device.
 \item \emph{Application Framework} is nothing but the environment in which application objects are hosted.\\
 
 \end{itemize}
+\fi
 \end{itemize}
 
 \subsection{ZigBee communication modes}
