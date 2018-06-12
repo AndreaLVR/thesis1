@@ -1808,9 +1808,10 @@ Implementing a security feature or fixing security flaws in software already in 
 Security should be part of the application since the requirements phase and corrective maintenance should be limited whenever possible.\\
 
 In order to produce good software we must focus on two aspects: the development process and the software security testing.\\
-Talking about the first one, there is an interesting metholody proposed by Microsoft, called \emph{Security Development Lifecycle (SDL)~}, which provides a standard approach for security development.\\
-The classic software development lifecycle involves:
+Talking about the first one, Microsoft proposed an interesting metholody called \emph{Security Development Lifecycle (SDL)~}, that provides a standard approach for security development, involving:
+
 \begin{itemize}
+\setlength{\itemindent}{+4mm}
   \item Requirements
   \item Design
   \item Implementation
@@ -1818,35 +1819,36 @@ The classic software development lifecycle involves:
   \item Release
   \item Response
 \end{itemize}
-Of course, the stages we will discuss soon can be added in different software development methodology without problems.\\
-During the requirements phase, the best practices for security are integrated, they come from industry standard or from
-solution adopted on responses to problems addressed in the past.
-In this phase the functional security requirements are defined in order to be implemented in the final software, 
-these requirements are exactly the same used to define the features of an application, they only focus on the security front.\\
-If the methodology is agile, then the requirements are expressed as user stories, in this case these stories concern the security aspects from the user's point of view.\\
 
-During the design phase a threat modeling is defined in order to define how a system will be attacked, of course this
-activity must occur before the implementation, otherwise it will not be effective.\\
-The threat model is used to understand the attack surface of a certain features and what are the common attacks that
-the development team must face.\\
-It is also important to define a way to mitigate the problem if a certain attack occurs, and it is crucial to identify
-security issues early on.\\
+The \emph{Requirements} phase involves the best security practices, taken from industry standards or solutions adopted on responses to problems faced in the past.\\
+In this phase the functional security requirements to be implemented are defined, and they are similar to those used to define the features of the application, with the only difference that they focus on security.\\
+If the methodology is agile, then the requirements are expressed as user stories; ithese stories concern the security aspects from the user's point of view.\\
 
-The implementation phase is surely the most difficult one because writing secure code is difficult, and even if you have
-a security team that take care of the most important part of the application, nothing can prevent a normal programmer to introduce a security bug in a part of the application that is considered not critical.\\
-It is important to define coding guideline in a similar way to best practices in order to avoid mistakes by programmers.\\
-It is also important to use tools for static and dynamic application security testing (\emph{SAST} and \emph{DAST}), the first one is used to
-identify potential vulnerabilities in the source code, while DAST checks the application at runtime.\\
+During the \emph{Design} phase, a threat model is defined in order to understand how our system could be attacked.\\
+The threat model is used to understand the attack surface of certain features and the common attacks that the development team must face.\\
+It is also important to define a way to mitigate the problem if certain attacks have success, and it is crucial to identify security issues early on.\\
 
-During the testing phase, in addition to the standard test on the application, we should perform other activities like:
-security functional testing, vulnerability scanning and penetration testing; of course with specific application and tools.\\ 
+The \emph{Implementation} phase is the most difficult one because writing secure code is difficult, and even if you have a dedicated security team, it might happen that a programmer introduces a security bug in a code currently considered not critical.\\
+It is important to define coding guidelines in a similar way to best practices in order to avoid mistakes by programmers.\\
+It is also important to use tools for static and dynamic application security testing (\emph{SAST} and \emph{DAST}): the first one is used to
+identify possible vulnerabilities in the source code, while the second checks the application at runtime.\\
 
-When the software is finally released, it is shipped to customers or made available for download; of course there will be
-problems, but if everything was done in the proper way they should have been minimized.\\
-During the final response phase, the customer will notify problems occurred with the application in order to receive
-an update that fix them.\\
+During the \emph{Verification} phase, in addition to the standard tests on the application, we should perform other activities related to security, like:
 
-About security testing there is lots to say because it covers different activities, but I will just give you a small overview:
+\begin{itemize}
+\setlength{\itemindent}{+4mm}
+\item Security functional testing
+\item Vulnerability Scanning and Penetration Testing
+\end{itemize}
+
+Of course, both of them require specific applications and tools.\\
+
+When the software is finally \emph{released}, it is shipped to customers or made available for download; of course there will be imperfections.\\
+
+During the final \emph{Response} phase, the customer will report faced problems occurred with the application and ask for updates.\\
+
+About security testing there is a lot to say because it covers different activities. The following is a brief overview:
+
 \begin{itemize}
   \item Discovery - this activity does not search flaws in the code but it only focus on identifying the version of software in use, this is important because by the version number we can discover potential vulnerabilities.
   \item Vulnerability scan - this activity is carried out with automated tools that search for
