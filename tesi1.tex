@@ -1850,23 +1850,19 @@ During the final \emph{Response} phase, the customer will report faced problems 
 About security testing there is a lot to say because it covers different activities. The following is a brief overview:
 
 \begin{itemize}
-  \item Discovery - this activity does not search flaws in the code but it only focus on identifying the version of software in use, this is important because by the version number we can discover potential vulnerabilities.
-  \item Vulnerability scan - this activity is carried out with automated tools that search for
+  \item Discovery: this activity does not search flaws in the code but it only focus on identifying the software version in use.\\
+This is important because sometimes it is possible to discover potential vulnerabilities by only knowing this information.
+  \item Vulnerability scan: this activity is carried out with automated tools that search for
   known vulnerabilities in the application.
-  \item Penetration test - it is a simulation of an attack, it tries to exploit flaws in the application like a real attacker.
-  \item Security Review - verifies if security standards have been applied to the system; it is
-  done via analysis of code and different build of the program.
+  \item Penetration test: it is a simulation of an attack, so it tries to exploit flaws in the application like a real attacker.
+  \item Security Review: verifies if security standards have been applied to the system; it is done via analysis of the code and different build of the program.
 \end{itemize}
 
 
-Security testing can be conducted in a black box way, where the tester does not know details of the system and the architecture behind it; or
-in a white box settings where the tester has deep knowledges of the system and it may have access to the source code.\\
-Where possible the testing phase is automatized; for searching the open port on a machine we can use nmap, a tool for port scanning; while if we
-need to carry out a buffer overflow we may need to write an exploit and test it manually, of course if a certain vulnerability is known 
-we can use specific tools.\\
-Due to the fact that each application is different, the security testing technique should adapt to the application taken under examination in order
-to be as accurate as possible; for instance if you are testing a web application client side, it is not likely you will find a buffer overflow, but 
-an XSS is more likely.\\
+Security testing can be conducted either in a black box way, where the tester does not know details about the system and its architecture, or
+in a white box settings where the tester has a deep knowledge of the system and it may have access to the source code.\\
+The testing phase is automatized as much as possible.\\
+Since each application is different from the others, the security testing techniques should be adapted to the target application taken.
 
 Of course, security testing is quite more difficult compared to standard testing (that is, by itself a difficult task), for this reason companies prefer to avoid it or pay third party that are specialized in this particular activity.\\
 Also take in mind that a security testing may not provide you all the vulnerabilities in your system, but only a certain amount; for this reason it
