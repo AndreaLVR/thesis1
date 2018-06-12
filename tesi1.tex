@@ -1751,8 +1751,9 @@ We conclude this second and last part about ZigBee listing some useful considera
 \item[$\bullet$] the protocol itself is not much secure, regardless of its implementation
 \item[$\bullet$] the protocol works well if all the devices within the considered network are able to protect themselves from keys theft
 \item[$\bullet$] choose carefully the physical devices based on the role they will have within the network
-\item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee the integrity of the frames
+\item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee their integrity
 \item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
+\item[$\bullet$] avoid using manufacturer link keys, and remember that often they are public
 \item[$\bullet$] prefer unique keys rather than global ones every time you can
 \item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before deploying it (especially in productive scenarios)
 \item[$\bullet$] it is fundamental to properly specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
@@ -1769,37 +1770,46 @@ Nowadays, technological progress is surprisingly fast, and even very small devic
 I conclude this section, saying that, in my opinion, ZigBee is a not so secure protocol having many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice.\\
 
 \chapter{Conclusion}
-During the internship I noticed that the security aspect during the development of an application is not easy as it could seems.\newline
-From an academic point of view, making a secure application is the main goal, but from a business perspective, the same goal is not so easy to reach because there are other factors that must be kept in mind.\newline
-If you are developing an application by yourself and for yourself, you have no deadline, no customers to meet and no budget limitations.\newline
-On the other hand, if you are in a company, you are developing an application for a customer you must take care of:
+During my internship, I learned that there are so many aspects to consider to make secure and reliable applications.\\
+If you are developing an homemade application, you probably have no deadline, no customers to satisfy.\\
+On the other hand, if you are developing a business application for a customer you must take care of:
 \begin{itemize}
   \item Relationship with him
   \item Deadlines
   \item Support for the application after the release
 \end{itemize}
 
-In order to maintain a solid relationship with your costumer, deadlines must be respected, and here the development of the application comes to play; including security in the development of an application may seems easy at the beginning, but it is not so simple as it may seems and it may cost lots of time, and when there is a deadline the goal is to finish the job, no matter if the application is secure or not.\newline
-This is one reason why some developers simply avoid security aspect during the development of an application.\newline
+In order to maintain a solid relationship with your costumer, deadlines must be respected, and here the development of the application comes to play; including security in the development of an application may seems easy at the beginning, but it is not so simple as it may seems and it may cost lots of time, and when there is a deadline the goal is to finish the job, no matter if the application is secure or not.\\
+This is one reason why some developers simply avoid security aspect during the development of an application.\\
 
-Another reason is about money, some customers are not interested or not even aware about security issues that an application could have, so they are not simply interested in paying for it, but when a security problem occurs they will surely come yelling at you.\newline
-In this case, I think that if you could add security to an application and the time spent is equal to the time spent in making the same thing in an insecure way, then I suggest you to go for the secure way.\newline
-Of course if something requires lots of time, talk about it with the customer and convince him to pay for the additional security features.\newline
-Usually, when company A sells an application to company B, company A provides a technical support for a certain period of time, it means that company A must adjust the software if something is not working properly, and it should provide updates.
-If there is no time to add a certain feature at the first release, it could be added later with an update.\newline
+Another reason is about money: some customers are not interested or not even aware about security issues that an application could have, so they are simply not interested in paying for it, but if a security problem occurs they will surely come yelling at you.\newline
+If you think you will spend the same time making a secure version of an application and an unsecure version of it, then you should obviously follow the first way. On the countrary, if the required working time increases in a relevant way, it is fundamental to find a solution together with the customer.\\ 
 
-During the development of software, it is common that the development team adopts certain software development process; Abo Data adopted an agile software development process.\newline
-From what I have noticed it is the right choice because the application requirements are changing frequently, but from the security point of view I think it is a bit problematic and could lead to flaws in the code.\newline
-The security part on an application should be defined in way that allows the development team to edit it at least as possible.\newline
+Usually, when company A sells an application to company B, company A provides technical support and updates for a certain period of time, depending on the specific scenario.\\
+If there is no time to add a feature at the first release, it could be added in the next ones.\\
 
-The security part should also be developed with particular care in order to be updated easily in the future, suppose that the hashing algorithm employed in your application become insecure for some reasons, then you should update your application, but of course an update has a cost and requires a certain amount of time in order to be completed, if the code is monolithic it will be difficult and expensive to update, on the other hand if the code is modular it will be easy.\newline
-Another thing to take in mind is that in the IoT world we also deal with constrained devices, if for some reason you need to change the algorithm for a new one you should check if your constrained devices are capable of handling the new algorithm, otherwise you should stick with the old algorithm or use powerful devices. Of course here you have to find a trade-off.\newline
-From my experience I noticed that implementing a security feature or fixing security flaws is difficult in software that is in an advanced stage of development, it may require substantial changes to the whole project, this could slow down the development and it could be difficult to meet the deadline.\newline
-Basically, security should be part of the application since the requirements phase, or big problems will emerge later on.\newline
+During the software development, the development team adopts specific software development strategies; ABO DATA adopts an agile software development strategy.\\ 
+This is the right choice in scenarios where application's requirements change frequently, but from the security point of view this may lead to flaws in the code.\\
 
-In order to produce a secure software we must focus on two aspects: the development process and the software security testing.\\
-Talking about the development process, there are established methodology like the Security Development Lifecycle (SDL) proposed by Microsoft\cite{microsoftsdl} which provide a standard approach for security development.\\
-SDL introduce some stages in the classic software development life cycle which is composed by:
+The security part on an application should be defined in way that allows the development team to:
+
+\begin{itemize}
+\setlength{\itemindent}{+4mm}
+\item[$\bullet$] edit it as least as possible
+\item[$\bullet$] update it easily
+\end{itemize}
+
+Just to make an example:  let's suppose that the hashing algorithm employed in our application becomes insecure for some reasons, so we must update our application, but updates are expensive; if our code is monolithic it will be hard, otherwise if the code is modular it will be easy.\\
+
+Another thing to keep in mind is that in the IoT world we often deal with constrained devices; if, for some reason, we need to change an already employed algorithm with a newer one, we should check if our constrained devices are capable of handling it. Sometimes it is necessary to stick with the old algorithm, or introduce more powerful devices.\\
+This is another important to take care about: \emph{find a proper trade-off}.\\
+
+Implementing a security feature or fixing security flaws in software already in an advanced development stage is difficult: it may require substantial changes to the whole project, making difficult to meet the deadline.\\
+Security should be part of the application since the requirements phase and corrective maintenance should be limited whenever possible.\\
+
+In order to produce good software we must focus on two aspects: the development process and the software security testing.\\
+Talking about the first one, there is an interesting metholody proposed by Microsoft, called \emph{Security Development Lifecycle (SDL)~}, which provides a standard approach for security development.\\
+The classic software development lifecycle involves:
 \begin{itemize}
   \item Requirements
   \item Design
@@ -1825,7 +1835,7 @@ security issues early on.\\
 The implementation phase is surely the most difficult one because writing secure code is difficult, and even if you have
 a security team that take care of the most important part of the application, nothing can prevent a normal programmer to introduce a security bug in a part of the application that is considered not critical.\\
 It is important to define coding guideline in a similar way to best practices in order to avoid mistakes by programmers.\\
-It is also important to use tools for static and dynamic application security testing (SAST and DAST), the first one is used to
+It is also important to use tools for static and dynamic application security testing (\emph{SAST} and \emph{DAST}), the first one is used to
 identify potential vulnerabilities in the source code, while DAST checks the application at runtime.\\
 
 During the testing phase, in addition to the standard test on the application, we should perform other activities like:
@@ -1861,21 +1871,18 @@ Also take in mind that a security testing may not provide you all the vulnerabil
 is important to take care about your software periodically; when you change a part of your application, you should check that changes do not
 introduce flaws.\\
 
-Another aspect of security I did not mentioned in this thesis is privacy, even if they are two distinct concepts, they are related because without security there is no privacy, I think it is important to discuss it a bit due to the fact that recently the General Data Protection Regulation (GDPR)
-has been approved by the European commission in order to strength the protection of personal data of citizens of the European Union.\\
-This new regulation should allow citizens to have more control over their data and it should also make sure that companies implements secure system
-in order to avoid data breach, considering that there are fines if a company does not notify the supervisory authority within 72 hours after becoming aware of the leak; this is also enforced by Article 25 that requires data protection to be designed into the development of business processes\cite{wikica}.\\
-The GDPR also take into consideration the trade of data between companies, an hot topic due to recent events\cite{ca}.\\
+Another security aspect to mention is \emph{privacy}: even if they are two distinct concepts, they are related because without security there is no privacy.\\
+I think it is important to discuss it a bit since recently the \emph{General Data Protection Regulation (GDPR)} has been approved by the European commission in order to strength the protection of personal data of citizens of the European Union.\\
+This new regulation should allow citizens to have more control over their data and it should make sure that companies implement secure enough system to avoid data breach. This is also enforced by Article 25, which requires data protection to be designed into the development of business processes\cite{wikica}.\\
+The GDPR also take into consideration the trade of data between companies, which is an hot topic thanks to recent events\cite{ca}.\\
 
 
-I want to highlight that even documentation and refactoring are important while dealing with security; most of the time documentation is neglected because it takes lot of time and is not payed by the customer, working on a big project for long time
-requires good documentation in order to understand the purpose of certain code in order to avoid the introduction of flaws.\\
-Talking about refactoring, it is extremely important because it reduces the amount of line of code and
-avoids absurd copy and paste of code; suppose that a particular piece of code is vulnerable and it is executed
-before every method in your code, if you refactored your code you will need to fix your code only once, otherwise
-if you applied the copy and paste "technique" you will need to fix the code before every function, and it is likely that you will forget some occurrences and the flaw will remain in your code; for this reason refactoring is extremely important.\\
-Thus even the maintenance of software plays an important role on security and this should make us consider that every
-aspects in software development, even little details, should be treated with particular care in order to produce secure software.
+Even \emph{documentation} and \emph{refactoring} are important while dealing with security; most of the time documentation is neglected because it takes lot of time and is not payed by the customer. 
+Good documentation is necessary to understand the code and avoid the introduction of flaws, especially in big projects.
+Refactoring is fundamental because it permits to better organize and maintain the code.\\ For instance, if we keep only one copy of a vulnerable code rather than several ones, we will spare time to fix it.\\
+
+Another important role is played by \emph{maintenance}, which should make us consider that every aspects in software development, including little details, should be treated with particular care in order to produce secure software.
+
 
 %\bibliography{tesiref} 
 %\bibliographystyle{unsrt}
