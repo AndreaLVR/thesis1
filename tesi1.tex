@@ -848,7 +848,7 @@ The MQTT port will remain open for a certain (little) period of time, after whic
 
 We notice that this system is robust even without TLS, and this might be the proper choice to authenticate devices unable to employ it, but the problem persists after the authentication: it is true that only messages coming from trusted clients are received by the broker, but the messages following the authentication are still vulnerable to MITM attacks.\\
 
-Let's analyze some possible alternative solutions to TLS to face this problem, but keeping in mind that they are not totally safe, and \emph{they should be considered only if TLS is absolutely impossible to use}.
+Let's analyze some possible alternative solutions to TLS to face this problem, but keeping in mind that they are simple workarounds, and \emph{they should be considered only if TLS is absolutely impossible to use}.
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
