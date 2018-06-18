@@ -846,19 +846,19 @@ Clearly, the bad aspect of this restriction is that it is less scalable.\\
 Once a (valid) client have sent a proper AP, the server hosting the broker will allow it to connect to the MQTT dedicated port, and finally the broker will receive messages from it.\\
 The MQTT port will remain open for a certain (little) period of time, after which the client will have to send another AP to get authorization.\\
 
-We notice that this system is robust even without TLS, and this might be the proper choice to authenticate devices unable to employ it, but the problem persists after the authentication: it is true that only messages coming from trusted clients are received by the broker, but the messages following the authentication are still vulnerable to MITM attacks.\\
+We notice that this system is robust even without TLS, and this might be the proper choice to authenticate devices unable to support it, but the problem persists after the authentication: it is true that only messages coming from trusted clients are received by the broker, but the messages following the authentication are still vulnerable to MITM attacks.\\
 
 Let's analyze some possible alternative solutions to TLS to face this problem, but keeping in mind that they are simple workarounds, and \emph{they should be considered only if TLS is absolutely impossible to use}.
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] since authorized users already know the secret password, using it as cipher key and encrypt communication seems to be an almost good idea. We said ``almost" for a reason: using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
+\item[$\bullet$] since authorized users already know the secret password, using it as cipher key seems to be an almost good idea. We said ``almost" for a reason: using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
 Of course, if we assume that the server rejects invalid IP addresses, the attacker will have also to properly spoof its IP.\\
 Cracking the password of some intercepted messages is not easy at all, but it is better to be as careful as possible.
 \item[$\bullet$] an alternative way might be sending a cipher key to the user once he has successfully authenticated to the server, encrypting the message and generating the MAC using the password as a key. \\
 In order to guarantee more security, it would be better to generate a different cipher key for each client ip instead of a shared one. Why?
 Let's assume that an attacker wants to sniff some messages with the hope of cracking their cipher key: if every client uses the same cipher key the attacker will have a much bigger number of samples to work with.\\
-In the previous case, anyone knowing the key could pretend to be another valid client using spoofing techniques, but in this case, since each client has its own cipher key, this is no longer possible.\\
+In the event that all the clients share the same key, anyone (a valid client or an attacker that have stolen it) could pretend to be another valid client using spoofing techniques, but in this case, since each client has its own cipher key, this is no longer possible.\\
 
 
 The bad aspect of this solution is that the server would have to keep a, potentially huge, list of client IPs and assigned cipher keys, continuously updated.\\
