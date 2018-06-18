@@ -4,6 +4,7 @@
 \usepackage{wrapfig}
 \usepackage{pythonhighlight}
 \usepackage{svg}
+\usepackage{hyperref}
 
 \usepackage{listings}
 \usepackage{color}
@@ -549,7 +550,7 @@ It is suggested to use certificates, only when clients are under their strict co
 There are two ways to obtain that:
 
 \begin{enumerate}
-\item \emph{Publish Certificate Revocation Lists (CRLs)}: they are simple lists of certificates that have been revoked before their expiration.
+\item \emph{Certificate Revocation Lists (CRLs)}: they are simple lists of certificates that have been revoked before their expiration.
 These lists are created and continuously updated by the related Certification Authority.
 A server hosting a broker can have a own local CRL to consult, but clearly it has to remain updated getting the updated list from the CA from time to time.\\
 This is not a very convenient procedure.
@@ -739,7 +740,7 @@ In section \ref{sec:mqttsdp}, we see how to make a MQTT system even more secure 
 \section{MQTT combined with an SDP}
 \label{sec:mqttsdp}
 \bigskip
-In this section we describe a sophisticated solution to implement a very secure MQTT system; since this architecture's implementation seems to be a bit difficult, it should be taken into consideration only if your system needs to be extremely protected.\\
+In this section we describe a sophisticated solution to implement a very secure MQTT system; since this architecture's implementation seems to be a bit difficult, it should be taken into consideration only if your system needs to be very protected.\\
 
 \subsection{What is an SDP?}
 \bigskip
@@ -772,30 +773,30 @@ Figure \ref{fig:sdpstructure} shows an example of a possible SDP structure.
 \label{fig:sdpstructure}
 \end{figure}
 
-There are two components: \emph{SDP Hosts} and \emph{SDP Controllers}; SDP Hosts can either initiate or accept connections, and these actions are managed by interactions with the SDP controllers through a control channel.\\
+There are two components: \emph{SDP Hosts} and \emph{SDP Controllers}; SDP Hosts can either initiate or accept connections, and these actions are managed by interactions with the SDP controllers through a secure control channel.\\
 This is a possible SDP workflow:
 
 \begin{enumerate}
 \item One or more Controllers are brought online and connected to the appropriate authentication/authorization services
 \item Hosts, after being brought online, connect and authenticate to the controllers and, for the moment, they do not accept to communicate with any other host
 \item Controllers determine a list of Accepting Hosts to which the Initiating Hosts are authorized to communicate
-\item Controllers instruct the Accepting SDP Hosts to accept communication from the Initiating Hosts and gives these last ones the list of Accepting Hosts.\\
+\item Controllers instruct the Accepting Hosts to accept connection from the Initiating Hosts and gives these last ones the list of Accepting Hosts.\\
 Since we said that communication is encrypted, policies containing infomation about encryption are sent to both Accepting and Initiating hosts.
 \item Now Initiating Hosts can communicate with Accepting Hosts.\\
 \end{enumerate}
 
 \subsection{How can this architecture be combined with MQTT?}
 \bigskip
-Before describing how we can make SDP working with MQTT, let's clarify that the SDPs we are going to see are not exactly like the one in Figure \ref{fig:sdpstructure}; they are similar, since they follow the idea of ``hide to protect", but simpler.\\
+%Before describing how we can make SDP working with MQTT, let's clarify that the SDPs we are going to see are not exactly like the one in Figure \ref{fig:sdpstructure}; they are similar, since they follow the idea of ``hide to protect", but simpler.\\
 
-We have seen that MQTT allows clients to specify username and password while connecting to a broker.\\By using an SDP, the pair username/password can be replaced with a so-called \emph{Single Packet Authorization (SPA)}~\cite{mqttonlywithsdp}.\\
+We have seen that MQTT allows clients to specify username and password while connecting to a broker.\\By using an SDP, the pair username/password can be replaced using the so-called \emph{Single Packet Authorization (SPA)}~\cite{mqttonlywithsdp}.\\
 
 What is a Single Packet Authorization?~\cite{portknockandspaanalysis}\\
 
-SPA is a technique to securely communicating authentication and authorization information across closed firewall ports, opening certain ports to allow temporary access.\\
+SPA is a technique to securely get access to certain service ports, communicating across closed firewall ports.\\
 So, the initial idea is to make services unaccessible to the outside keeping all the server's ports closed, or at least those ones where services to protect are listening on.\\
 
-SPA is a kind of evolution of an older system called Port Knocking, in which we are able to  open some closed firewall ports from the outide by sending connection attempts to a pre-established sequence of closed doors; then the firewall updates its own rules in order to allow the sending host to connet to the desired port.\\
+SPA is a kind of evolution of an older system called Port Knocking, in which we are able to  open some closed firewall ports from the outside by sending connection attempts to a pre-established sequence of closed doors; then the firewall updates its own rules in order to allow the sending host to connet to the desired port.\\
 This old system is basically flawed and vulnerable to replay attacks, as we can see in Figure \ref{fig:portknocking}, in fact an attacker can sniff the attempts and replay them, obtaining the access to the service's port.\\
 
 \begin{figure}[H]
@@ -845,7 +846,7 @@ Clearly, the bad aspect of this restriction is that it is less scalable.\\
 Once a (valid) client have sent a proper AP, the server hosting the broker will allow it to connect to the MQTT dedicated port, and finally the broker will receive messages from it.\\
 The MQTT port will remain open for a certain (little) period of time, after which the client will have to send another AP to get authorization.\\
 
-We notice that this system is robust even without TLS, and this might be the proper choice to authenticate devices unable to employ encryption, but the problem persists after the authentication: it is true that only messages coming from trusted clients are received by the broker, but if no encryption is used, the messages following the authentication are still vulnerable to MITM attacks.\\
+We notice that this system is robust even without TLS, and this might be the proper choice to authenticate devices unable to employ it, but the problem persists after the authentication: it is true that only messages coming from trusted clients are received by the broker, but the messages following the authentication are still vulnerable to MITM attacks.\\
 
 Let's analyze some possible alternative solutions to TLS to face this problem, but keeping in mind that they are not totally safe, and \emph{they should be considered only if TLS is absolutely impossible to use}.
 
@@ -854,19 +855,21 @@ Let's analyze some possible alternative solutions to TLS to face this problem, b
 \item[$\bullet$] since authorized users already know the secret password, using it as cipher key and encrypt communication seems to be an almost good idea. We said ``almost" for a reason: using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
 Of course, if we assume that the server rejects invalid IP addresses, the attacker will have also to properly spoof its IP.\\
 Cracking the password of some intercepted messages is not easy at all, but it is better to be as careful as possible.
-\item[$\bullet$] an alternative way might be sending a cipher key to the user once he has successfully authenticated to the server, encrypting the message using the password as a key. In order to guarantee more security, it would be better to generate a different cipher key for each client ip instead of a shared one. Why?
+\item[$\bullet$] an alternative way might be sending a cipher key to the user once he has successfully authenticated to the server, encrypting the message and generating the MAC using the password as a key. \\
+In order to guarantee more security, it would be better to generate a different cipher key for each client ip instead of a shared one. Why?
 Let's assume that an attacker wants to sniff some messages with the hope of cracking their cipher key: if every client uses the same cipher key the attacker will have a much bigger number of samples to work with.\\
-Besides, using individual cipher keys provides secrecy and integrity: if each client has its own cipher key, then when the server receives an encrypted message from a specific client IP, it tries to decrypt it using the corresponding key and if it succeds it is secure to know who is talking to.\\
-We cannot say the same if every client has the same key because if an attacker can crack the messages of even just one client, then he will discover the key used by everyone and, using IP spoofing techniques, he will be able to pretend to be any client.\\
+In the previous case, anyone knowing the key could pretend to be another valid client using spoofing techniques, but in this case, since each client has its own cipher key, this is no longer possible.\\
+
 
 The bad aspect of this solution is that the server would have to keep a, potentially huge, list of client IPs and assigned cipher keys, continuously updated.\\
 \end{itemize}
 
-As already said, any of these strategies is safe as a real SDP, which expects the integration of TLS.\\\\
+As already said, any of these strategies is secure as employing TLS.\\
 
-In the next section, let's wrap up the best practices to build a secure MQTT system we have seen so far.\\
+In section~\ref{sec:mqttbestpractices}, we wrap up the best practices to build a secure MQTT system we have seen so far.\\
 
 \section{Best practices}
+\label{sec:mqttbestpractices}
 \bigskip
 Combining all the things we have discussed so far, we can try to list some best practices to consult before creating a very secure MQTT system.
 \bigskip
@@ -891,7 +894,7 @@ There are many tools to automatize this mechanism, called load balancers and mos
 
 In the next section, we will try to apply in practice the theoritical concepts seen so far, developing an homemade secure MQTT system.\\
 
-\section{Practical example of building of a secure MQTT system}
+\section{Homemade secure MQTT system}
 \bigskip
 This example can be seen as a kind of pratical guide of how to build a \emph{simplified} homemade secure MQTT system.\\
 Before starting, let's see a list of the technologies we are going to use:
@@ -1882,8 +1885,8 @@ Refactoring is fundamental because it permits to better organize and maintain th
 Another important role is played by \emph{maintenance}, which should make us consider that every aspects in software development, including little details, should be treated with particular care in order to produce secure software.
 
 
-%\bibliography{tesiref} 
-%\bibliographystyle{unsrt}
+\bibliography{tesiref} 
+\bibliographystyle{unsrt}
 
 
 
