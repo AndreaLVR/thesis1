@@ -1408,7 +1408,7 @@ All the ZigBee security features we are going to discuss are strictly related to
 \item[$\bullet$] cryptographic keys are securely stored in quite-resistant hardware devices
 \item[$\bullet$] keys are always transmitted encrypted, so never revealed
 \item[$\bullet$] cryptographic mechanism and security policies are properly implemented
-\item[$\bullet$] Availability of almost perfect random number generators\\
+\item[$\bullet$] availability of almost perfect random number generators\\
 \end{itemize}
 
 \clearpage
@@ -1438,9 +1438,9 @@ The \emph{centralized security model} is a bit more complex, but even more secur
 In this case we have routers, end devices and the coordinator, that from now on we will call \emph{Trust Center (TC)}.\\
 This time the responsible for the management and acceptance of routers and end devices joining the network as well as the creation and sharing of the keys is the TC.\\
 Besides, devices have not to be all pre-configured with the same link key and they have not to communicate with each other using necessarily the network key to encrypt messages.\\
-The TC will also create and provide a new network key periodically, in order to protect the network from possible attackers, who can try to stole it.\\
+The TC will also create and provide a new network key periodically, in order to protect the network from possible attackers, who can try to steal it.\\
 
-So, The first model is certainly simpler but even less secure, and almost not used, so we will focus on this second one}.\\
+The first model is certainly simpler but even less secure, and almost not used, so we will focus on this second one}.\\
 
 \section{Security keys types and management}
 \label{sec:zigbeeseckeys}
@@ -1467,8 +1467,6 @@ More in details, we have three different types of link key~\cite{secanalysisofzi
 As the words \emph{global} and \emph{pre-configured} suggest, this key is the same for all the network nodes and pre-installed in the devices that want to join the network.\\
 The global key can be defined by the manufacturer, or, even much simpler, by ZigBee.
 \item \emph{Pre-configured Unique Link key}: same use of the previous one, but different for every node.
-%\item \emph{Install Code}: it is nothing but another pre-configured link key based on the assumption that every ZigBee device can have a unique 128-bit install code.\\
-%We can instruct the TC to require to every new device to use its own install code to join the network; clearly, we have to previously store the code within the Trust Center in order to check if it matches the one provided by the device.
 \item \emph{Trust Center Link Key (TCLK)}: like the last one, this key is used to allow the TC and another node to communicate securely, but the difference is that this time it is not pre-configured.\\
 The TC generates it randomly or derive it from the network key (or from the pre-configured unique link key, if existent) using the \emph{Matyas-Meyer-Oseas} hash function~\cite{onewaycompressionfunc}.\\ 
 Without entering in too many details about this hash function, we just say that it takes two 128-bit keys as input and return one 128-bit key as output; the second input key of the function is known only by the TC.\\
@@ -1504,7 +1502,7 @@ The key establishment procedure involves the following four steps:
 \item Confirm the key using the MAC
  \end{enumerate}
 
-The key generation and the MAC derivation exploit two mathematical functions which are, respectively, the \emph{Elliptic Curve MQV}\footnote{https://www.ecmqv.com/} and a Key derivation function, but we will not delve into them as they go beyond the context.\\
+The key generation and the MAC derivation use the \emph{Elliptic Curve MQV}\footnote{https://www.ecmqv.com/} and a Key derivation function, but we will not delve into them as they go beyond the context.\\
 At the end of this process, both the Trust Center and the device \emph{i} share a new Link Key LK\textsubscript{i}, which is used to encrypt the TCLK they are going to use to communicate.\\
 Now, if two devices \emph{i} and \emph{j} have obtained their TC Link Key, and want to communicate with each other, they can obtain their Application Link key by asking it to the Trust Center, as usual, which will generate a random Application Link Key LK\textsubscript{ij} and send it to both the devices using their respective Trust Center Link Key.\\
 
@@ -1614,7 +1612,7 @@ The ZigBee security architecture includes security mechanisms, such as frame pro
 Each layer is responsible for its own security processing but, as already said, the keys and the security level used by the MAC Layer are established by the upper layers.
 %They set the default key of the MAC Layer equal to the current network key and its link keys equal to the current link keys of the upper layers.
 
-\subsubsection{Frame Protection}
+\subsubsection{Frame Protection (PROBABLY TO DELETE)}
 \bigskip
 In addition to the security features provided by IEEE 802.15.4 standard,  ZigBee adopts \emph{AES CCM*} to protect frames, that means granting their secrecy and integrity.\\
 \emph{CCM mode} combines the \emph{CBC-MAC} and \emph{CTR}: CBC-MAC is used to generate a tag for the frame, and CTR is used to encrypt the frame itself as well as the generated tag.\\
@@ -1700,10 +1698,10 @@ Let's see each of them in details:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Key storage}: previously, we mentioned that ZigBee assumes that keys are stored securely within the devices, but this is not always respected.\\
+\item[$\bullet$] \emph{Key storage}: previously, we mentioned that ZigBee assumes that keys are securely stored within the devices, but this is not always respected.\\
 If an attacker is able to extract the network key from a network device, then all the communications within the network will be at risk.
 
-\item[$\bullet$] \emph{Key transportation}: we have seen before that if the Trust Center operates in standard (residential) mode, it could happen that the network key is sent in plain-text; clearly, this is a quite important vulnerability since we transmit the key shared by all the devices within the network to send broadcast messages with no protection at all, compromising the whole network.
+\item[$\bullet$] \emph{Key transportation}: we have seen before that if the Trust Center operates in residential mode, it could happen that the network key is sent in plain-text; clearly, this is a quite important vulnerability since we transmit the key shared by all the devices within the network to send broadcast messages with no protection at all, compromising the whole network.
 
 \item[$\bullet$] \emph{Ghost Attack}: frame counter checks allow recipient devices to ignore duplicate messages, but a \emph{Denial Of Service (DOS)} vulnerability persists: if an attacker crafts an authentic message and replay it, the recipient will discard it but it will spend time and energy to check its validity.\\
 If an attacker performs tons of replay attacks against the same target, the battery life of this last one will be drastically reduced (especially considering that we are talking about low-power devices).
@@ -1725,21 +1723,21 @@ There are several ways to perform a DOS attack against a device:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item \emph{Set the frame counter to its maximum value}: an attacker can send a frame to the victim device setting the frame counter field to the largest acceptable value.\\
-Doing this, all the messages that will be sent to the victim device after this one will be rejected since they have a frame counter value smaller than the one received by the attacker.\\
-This is the simplest DOS attack, but fortunately it is possible only in those situations where there is no integrity check on the frame, hence when we do not exploit the AES-CCM* mechanism seen before.\\
+\item \emph{Set the frame counter to its maximum value}: an attacker can send a frame to other devices setting the frame counter to the largest acceptable value and spoofing its address pretending to be another device of the network.\\
+This last one can no longer communicate with the other devices as it is impossibile to create a valid frame counter.
+This is the simplest DOS attack, but fortunately it is possible only in those situations where there is no integrity check on the frame.
 
 \item \emph{Flooding}: it consists in the simple sending of tons of messages towards victim devices. For instance, an attacker could replay all the messages it is able to craft (or create legit messages, if it already knows the network key).\\
-This kind of attack where the replay messages are sent to all the network devices is called \emph{broadcast storm attack}.\\
+This kind of attack where the replay messages are sent to all the network devices is called \emph{broadcast storm attack}.
 
-\item \emph{Physical Jamming}: this is a physical attack which involves tools able to cause signal interferences big enough to prevent communication among devices.\\
+\item \emph{Physical Jamming}: this is a physical attack which involves tools able to cause signal interferences big enough to prevent communication among devices.
 
-\item \emph{Sinkhole attack}: this attack consists in sending messages in the network in order to compromise communication, altering the routing tables and redirecting the traffic to a fake device through fake routing paths, which cannot be able to carry on the transmission.
+%\item \emph{Sinkhole attack}: this attack consists in sending messages in the network in order to compromise communication, altering the routing tables and redirecting the traffic to a fake device through fake routing paths, which cannot be able to carry on the transmission.
 \end{itemize}
 
 \item[$\bullet$] \emph{No key re-using control}: a device is allowed to join the network using the same link key several times (even forever if no explicit constraint is specified), but this is a poor choice because if an attacker is good enough to steal the link key of the device, then it will be able to spoof the authentic device credentials and join the network pretending to be it.
 
-\item[$\bullet$] \emph{Trap networks}: since a ZigBee device connects directly to the first available network (or probably the one with the strongest signal) without asking anything to the user, then an attacker could create a fake network which would work as a kind of trap for the device.
+\item[$\bullet$] \emph{Trap networks}: since a ZigBee device tries to connect directly to the first available network (or probably the one with the strongest signal) without asking anything to the user, then an attacker could create a fake network which would work as a kind of trap for the device.
 
 \item[$\bullet$] \emph{Statistical attacks}: an attacker can obtain several information about the functioning of a ZigBee network if it analyzes its traffic properly using statistical algorithms.\\ 
 \end{itemize}
@@ -1759,7 +1757,7 @@ We conclude this second and last part about ZigBee listing some useful considera
 \item[$\bullet$] avoid using manufacturer link keys, and remember that often they are public
 \item[$\bullet$] prefer unique keys rather than global ones every time you can
 \item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before deploying it (especially in productive scenarios)
-\item[$\bullet$] it is fundamental to properly specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
+\item[$\bullet$] you can specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
 %\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
 \item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor.
 \item[$\bullet$] select the frequency band that generates the least interference with other wireless systems.\\
