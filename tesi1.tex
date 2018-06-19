@@ -411,8 +411,8 @@ On 3 June 2018 this search produced 160393 results, as shown in figure~\ref{fig:
 \label{fig:shodanres}
 \end{figure}\
 
-We found, all over the world, more than 60 thousand devices listening on port 1883, many of them owned by important organizations like Google, Amazon, Microsoft and Alibaba.
-While this is already a big number, the more interesting thing is that such a number is growing up very quickly: just to realize, two weeks before the same research gave me almost 46 thousand devices.\\\\
+We found, all over the world, more than 160 thousand devices listening on port 1883, many of them owned by important organizations like Google, Amazon, Microsoft and Alibaba.
+While this is already a big number, the more interesting thing is that such a number is growing up very quickly: just to realize, two weeks before the same research gave me almost 146 thousand devices.\\\\
 The port 8883 is standardized for a secured MQTT connection, whose name is ``secure-mqtt", and this port is exclusively reserved for MQTT over TLS.
 The first clue that lead us to think that security is neglected is that, if we search again on Shodan, this time filtering on port 8883, we get only 56 servers, so statistically only one broker in a thousand opt for the secure version of the protocol.
 
@@ -456,7 +456,7 @@ When a client reconnects, it sends its state to the server and if this last one 
 Despite everything, very constrained devices do not have enough computational power to support TLS anyway. 
 In this case, clients might think to use TLS-PSK cipher suites (not supported by all TLS libraries), since they avoid CPU intensive operations, or totally avoid TLS and use other strategies discussed later.\\\\
 
-To conclude this TLS section, we can list some best practices:
+To conclude this TLS section, we list some best practices:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
@@ -498,7 +498,7 @@ How can the attacker obtain this information? He can easily sniff that, since co
 
 We have discussed in section~\ref{ssec:mqttpersistence} MQTT persistent sessions, saying that the broker restores the persistent session of a client after he proves its identity specifying its Client Id during connection.\\
 This mechanism is not secure by default, in fact an attacker, who have sniffed the unique identifier of the client, can use it to pretend to be him, reads the new messages from his subscribed topics and those sent while it was offline, publishes messages, or simply disable persistence making the real client losing possible important information.\\
-Another vulnerability is that broker stores as much information as possible for clients who have requested persistence, so it stores all the messages from their subscribed topics until it finish its available memory.\\
+Another vulnerability is that the broker stores as much information as possible for clients who have requested persistence, so it stores all the messages from their subscribed topics until it finish its available memory.\\
 This behaviour gives an attacker the possibility to connect the broker, requiring a persistent connection, subscribe to as many topics as possible (for instance, subscribing to \emph{'\#'}), then disconnect; doing this, the broker will store a huge number of messages to be sent to the client when it reconnects.\\
 
 Moral of the story: \emph{never rely on clientId to secure your system}.\\
@@ -1241,13 +1241,13 @@ Nowadays, ZigBee is mainly used in the following fields of application:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Industrial automation}: industries exploit ZigBee to manage and continuously monitor critical equipments.\\
-Why ZigBee and not simply Wi-Fi or Bluetooth? Because it has lower communication costs than Wi-Fi and a higher communication range than Bluetooth, hence it optimizes the control process.
+Why ZigBee and not simply Wi-Fi or Bluetooth? Because it has lower communication costs than Wi-Fi and a higher communication range than Bluetooth, hence it optimizes the control process (theoretically).
 \item[$\bullet$] \emph{Smart Home}: this protocol is perfectly suited for controlling home appliances remotely. We may think to TVs, surveillance devices, locks, thermostats, lighting system, garage door, windows, blinds, speakers, as well as any other home system that can be controlled remotely.\\
 Currently, this is the most common ZigBee application.\\
 
 \end{itemize}
 
-In section \ref{sec:zigbeearch} let's start to analyze the architecture and the basic concepts of this protocol.\\
+In section \ref{sec:zigbeearch} we start to analyze the architecture and the basic concepts of this protocol.\\
 
 \section{Architecture and basic concepts}
 \label{sec:zigbeearch}
@@ -1268,8 +1268,8 @@ As we can see in figure \ref{fig:zigbeearch}, the ZigBee system consists of thre
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Coordinators}: they manage the overall network and they are responsible for starting it, allowing other devices to join it, keeping trace of them, handling and storing the information while performing transmission data operations, configuring the security level of the network.\\
-A coordinator is considered as the \emph{Trust Center (TC)}, which performs security control of the network, stores and distributes the network keys.\\
+\item[$\bullet$] \emph{Coordinators}: they manage the overall network and they are responsible for starting it, allowing other devices to join it, keeping trace of them and configuring the security level of the network.\\
+A coordinator is considered as the \emph{Trust Center (TC)}, which performs security control of the network, storing and distributing the  keys.\\
 For all these reasons, the coordinator never sleeps, instead it must be continuously powered.
 
 
@@ -1277,7 +1277,7 @@ For all these reasons, the coordinator never sleeps, instead it must be continuo
 Routers, as well as end devices, need to be accepted in the network by the coordinator.\\
 Routers have two things in common with the coordinator: 1) they cannot sleep, 2) they can give permissions to new devices to join the network.
 
-\item[$\bullet$] \emph{End devices}: they are low-power, or battery-power, devices (usually sensors) that can communicate only through their parent nodes (we will explain this better in a few pages).\\
+\item[$\bullet$] \emph{End devices}: they are low-power, or battery-power, devices (usually sensors) that can communicate only through their parent nodes.\\
 Unlike routers, end devices cannot route traffic and they can go to sleep to reduce power consumption.
 \end{itemize}
 
@@ -1302,8 +1302,8 @@ This time we have even routers, which can have either the coordinator or another
 This solution is not so better than the previous one because we still have a single point of failure, given by the coordinator, besides children nodes become unreachable if their parent node breaks down.
 
 \item[$\bullet$] \emph{Mesh}: this topology has, as usual, a single coordinator, several routers to extend the network and, of course, end devices.\\
-Once again, the coordinator establish the network and is responsible to choose network parameters.\\
-There is no more a single point of failure because in this case we have multiple paths to reach a node, therefore a more robust protection from link failure.\\
+Once again, the coordinator establishes the network and is responsible to choose the network parameters.\\
+There is no more a single point of failure because in this case we have multiple paths to reach a node, therefore a more robust protection from link failures.\\
 The only drawback of this topology is that is complex and more difficult to setup than the previous ones.\\
 \end{itemize}
 
