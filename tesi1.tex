@@ -853,13 +853,13 @@ Let's analyze some possible alternative solutions to TLS to face this problem, b
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] since authorized users already know the secret password, using it as cipher key might be an idea. Using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
-On the countrary, if an attacker can crack the MD5 message used for AP authentication, he will be able to get access to the server and send messages to the broker using, of course, spoofing techniques.\\
-Of course, if we assume that the server rejects invalid IP addresses, the attacker will have also to properly spoof its IP.\\
+On the countrary, if an attacker can crack the MD5 message used for AP authentication, he will be able to get access to the server and send messages to the broker.\\
+If we assume that the server rejects invalid IP addresses, the attacker will have also to properly spoof its IP.\\
 Cracking the password of some intercepted messages is not easy at all, but it is better to be as careful as possible.
 \item[$\bullet$] an alternative way might be sending a cipher key to the user once he has successfully authenticated to the server, encrypting the message and generating the MAC using the password as a key. \\
 In order to guarantee more security, it would be better to generate a different cipher key for each client ip instead of a shared one. Why?
 Let's assume that an attacker wants to sniff some messages with the hope of cracking their cipher key: if every client uses the same cipher key the attacker will have a much bigger number of samples to work with.\\
-Besides, in the event that all the clients share the same key, anyone (a valid client or an attacker that have stolen it) could pretend to be another valid client using spoofing techniques, but in this case, since each client has its own cipher key, this is no longer possible.\\
+Besides, in the event that all the clients share the same key, anyone (a valid client or an attacker that have stolen it) could pretend to be another valid client using spoofing techniques, but in this case, since each client has its own cipher key, this is not possible.\\
 
 
 The bad aspect of this solution is that the server would have to keep a, potentially huge, list of client IPs and assigned cipher keys, continuously updated.\\
@@ -877,15 +877,14 @@ Combining all the things we have discussed so far, we can try to list some best 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] hiding devices and limiting access to resources/services using SPA with a secure enough password (in this case, secure enough means not vulnerable to brute force and dictionary attacks: attackers must not be able to get accepted from the server trying a huge number of generated passwords or taken by a list)
-\item[$\bullet$] define properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP (as already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent); the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
+\item[$\bullet$] define properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP. As already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent; the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
 \item[$\bullet$] define an authentication password to specify within the APs, and how to share it with registered clients at the beginning
 \item[$\bullet$] define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
 \item[$\bullet$] force the client to a further authentication mechanism, that is using credentials to login to a broker. This step is optional, since the client has already authenticated on the server sending the AP, and it seems to be a bit redundant but it might be an additional option.
 \item[$\bullet$] encrypting communication using TLS.\\
 Standard TLS is already secure enough, but only proves the identity of the server to the client using a X.509 certificate, while the authentication of the client to the server is left to the application layer.\\
 To strengthen even more this mechanism, we may think to use mutual authentication, so, as already discussed, the client will send its own X.509 certificate to the server to prove its identity.\\
-Then, even the server will be sure that it is talking to a specific, as well as trusted, client.\\
-Besides, we have already said that it would be possible to avoid application layer's authentication using client certificates, and this is a feature to consider in order to improve performances.
+Then, even the server will be sure that it is talking to a specific, as well as trusted, client.
 
 \item[$\bullet$] thinking about a good load balancing: a large MQTT system may distribute the traffic to multiple MQTT brokers rather than just one, to avoid work overloads.\\
 There are many tools to automatize this mechanism, called load balancers and most of them are also able to detect unusually high traffic and block it.
@@ -1102,7 +1101,7 @@ This proposal's goal is to collect data from machines' sensors in order to:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] create a so-called \emph{Local Control Room}, which allows the company's customers to check the performances, real use and health status of their machines, in real-time
-\item[$\bullet$] create a so-called \emph{Centralized Control Room}, which allows the company itself to monitor their resources operating on different customers in order to collect historical data useful to make analysis and comparisons
+\item[$\bullet$] create a so-called \emph{Centralized Control Room}, which allows the company itself to monitor their resources operating with different customers in order to collect historical data useful to make analysis and comparisons
 \end{itemize}
 
 These monitoring systems collecting tons of data are often used by companies and industries to drastically change and improve their maintenance approach.
@@ -1148,7 +1147,7 @@ This company provides two different monitoring systems for two different possibl
 This first scenario expects the customer to be an industry, having its own private network to which the company's machines (equipped with internal sensors) are connected.\\
 As we can see in Figure \ref{fig:factoryarchitecture}, the customer runs a MQTT broker on a local server to which the company's sensors publish their data.\\
 
-This MQTT broker is developed, provided and properly configured by a third company, which is the owner of the Cloud network as well as the provider of the monitoring service, and in our case we are talking about \emph{SAP}~\footnote{https://www.sap.com/}.\\
+This MQTT broker is developed and provided by a third company, which is the owner of the Cloud network as well as the provider of the monitoring service, and in our case we are talking about \emph{SAP}~\footnote{https://www.sap.com/}.\\
 In this specific scenario, MQTT communication is not encrypted and there is no required authentication system; simply, there are several open topics, one for each sensor, where these last ones publish their measures at regular intervals of time.\\
 It is easy to understand that this is a risky choice for an industrial system architecture, that should be considered only if we can totally trust all the devices connected to the internal network.\\
 Clearly, to trust all of them we have also to be sure that the internal network protection is secure enough: having a wired network defintely helps, since an attacker must physically access the building to connect its malicious device, but of course this is not always possible, especially when devices belonging to the same network are not located in the same building.\\
@@ -1191,7 +1190,7 @@ This procedure should be considered only when there are several machines close t
 
 Having customers' sensors spread all over the world is a very common scenario; just think about sensors applied on transports, for instance sensors used to check the health status of car tires.\\
 
-So, for all these cases there is only one way to communicate: have a remote MQTT broker on the cloud and let each sensor publishes its own data on it.\\
+So, for all these cases there is only one way to communicate: having a remote MQTT broker on the cloud and let each sensor publishes its own data on it.\\
 Clearly, this time it is necessary to use the secure version of MQTT, therefore relying on TLS.\\
 As before, it is also necessary to verify if sensors' data actually come from trusted senders, so mutual authentication is required again.\\
 
@@ -1202,7 +1201,7 @@ Using client certificates, this problem does not exist, in fact if the private k
 As we have already seen, another benefit of using client certificates is that authentication is moved from the application layer to the transport one.\\
 
 Here we have a practical example of what we discussed before in the section dedicated to the construction of an homemade MQTT system: I recommended you to trust only certificates approved by reliable certification authorities and never trust self-signed certificates. \\
-In the homemade demo, our server trusts the client's self-signed certificate because it stores it locally, but this last architecture helps us to understand that, in addition to the fact that it is not good to trust self-signed certificates, forcing the server to keep a potentially huge number of certificates is not convenient and totally pointless; therefore, the right way is to trust client's certificates which are trusted by certification authorities we trust.\\
+This last architecture helps us to understand that, in addition to the fact that it is not good to trust self-signed certificates, forcing the server to keep a potentially huge number of certificates is not convenient and totally pointless; therefore, the right way is to trust client's certificates which are trusted by certification authorities we trust.\\
 
 \bigskip
 
