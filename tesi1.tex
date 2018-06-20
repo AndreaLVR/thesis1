@@ -1565,14 +1565,14 @@ The most important subfield of the Security Control field is \emph{Security Leve
     0x07 & AES-CCM-128 & Y &Y\\ \hline
     \end{tabular}
 \end{center}
-\bigskip
-The Data Payload field can have three different configurations, depending on the previously defined security fields:
 
+\iffalse
 \begin{figure}[H]
 \includegraphics[width=10cm,height=9cm,keepaspectratio]{datapayload_fields}
 \centering
 \caption{Data Payload possible configurations}
 \end{figure}
+\fi
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
@@ -1612,18 +1612,34 @@ The ZigBee security architecture includes security mechanisms, such as frame pro
 Each layer is responsible for its own security processing but, as already said, the keys and the security level used by the MAC Layer are established by the upper layers.
 %They set the default key of the MAC Layer equal to the current network key and its link keys equal to the current link keys of the upper layers.
 
-\subsubsection{Frame Protection (PROBABLY TO DELETE)}
+\subsubsection{Frame Protection}
 \bigskip
-In addition to the security features provided by IEEE 802.15.4 standard,  ZigBee adopts \emph{AES CCM*} to protect frames, that means granting their secrecy and integrity.\\
+In addition to the security features provided by IEEE 802.15.4 standard, Zigbee adopts \emph{AES CCM*} to protect network and application layers frames.\\
+As for the MAC layer, frames have an Auxiliary Security Header and a payload field, which can be encrypted and contain a MAC for data integrity.\\
+Figure \ref{fig:zigbeenwkframestruc} and \ref{fig:zigbeeapsframestruc} show you the structure of these two frames.\\
+
+\begin{figure}[H]
+\includegraphics[width=13cm,height=11cm,keepaspectratio]{nwk_frame}
+\centering
+\caption{ZigBee NWK Frame's Structure}
+\label{fig:zigbeenwkframestruc}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=13cm,height=13cm,keepaspectratio]{aps_frame}
+\centering
+\caption{ZigBee APS Frame's Structure}
+\label{fig:zigbeeapsframestruc}
+\end{figure}
+
+
 \emph{CCM mode} combines the \emph{CBC-MAC} and \emph{CTR}: CBC-MAC is used to generate a tag for the frame, and CTR is used to encrypt the frame itself as well as the generated tag.\\
 \emph{CCM* mode} is nothing but a minor variation of CCM, which includes all the features of CCM and, in addition to them, it offers encryption-only and integrity-only capabilities.\\
+Using AES-CCM* is convenient because it can cover all the security levels provided by the 802.15.4 standard, simply turning on, or off, the integrity-only and the encryption-only capability.\\
 
-So, AES-CCM* is used to encrypt the entire frame and generate its associated MAC, which is sent along with it.\\
-Clearly, the receiver uses AES-CCM* and the proper key to decrypt the encrypted frame and the tag, then he generates the MAC on his own in order to compare it with the received and decrypted one.\\
-Thanks to the extra capabilities in CCM*, ZigBee simplify the protocol security, eliminating the need for the data encryption/integrity provided by the MAC Layer of the 802.15.4 suite.\\
-This is obvious, since it would be useless to encrypt, and generate a MAC for, the payload within a frame if we are already able to grant secrecy and integrity for such frame.\\
+Clearly, the receiver uses AES-CCM* and the proper key to decrypt the encrypted frame and the tag, then he generates the MAC on his own in order to compare it with the received one.\\
 In other words, using AES-CCM* is convenient because it can cover all the security levels provided by the 802.15.4 standard, simply turning on (or off) the integrity-only and the encryption-only capability.\\
-The key used to encrypt and generate the MAC for a frame, is the one specified in the receiver's ACL.
+The key used to encrypt and generate the MAC for a frame, is the one specified in the receiver's ACL; ZigBee simplify the protocol security, using the same key for all the layers.\\
 
 
 \subsubsection{Replay Attacks Protection}
