@@ -1176,7 +1176,7 @@ Having to do with a secure HTTPS connection we know that data is transferred sec
 There is just one remaining risk to be removed: only trusted clients' requests must be accepted by the \emph{PUT API}, hence those coming from the company customers' broker servers.\\
 To do that, mutual authentication is required, so when a customer's broker sends sensors' data to the API it will send even its own X.509 certificate to the remote webserver to prove its identity.\\
 \underline{Note}: this is the solution chosen and implemented by SAP, but an alternative one could be to include authentication credentials in the POST content, avoiding the mutual authentication mechanism, which, as already seen, can afflict performances.
-We will discuss more in detail about this at the end of Section \ref{ssec:connectedmachines}, related to the Connected Machines architecture.
+%We will discuss more in detail about this at the end of Section \ref{ssec:connectedmachines}, related to the Connected Machines architecture.
 
 We should notice that the Factory architecture brings a great benefit in terms of certificates management: since all the customer's machines/sensors belong to the same private network and only the server is allowed to establish outgoing connections, then just one X.509 client certificate is necessary for all of them.\\
 
@@ -1203,20 +1203,18 @@ Having customers' sensors spread all over the world is a very common scenario; j
 
 So, for all these cases there is only one way to communicate: having a remote MQTT broker on the cloud and let each sensor publishing its own data on it.\\
 Clearly, this time it is necessary to use the secure version of MQTT, therefore relying on TLS.\\
-As before, it is also necessary to verify if sensors' data actually come from trusted senders; we notice that in this case MQTT client authentication would be enough, but practically mutual authentication is employed again.
+As before, it is also necessary to verify if sensors' data actually come from trusted senders; we notice that in this case MQTT client authentication would be enough, but practically mutual authentication is employed again.\\
 
-Now that we have seen that mutual authentication is used in both the architectures, I would like to briefly discuss this implementative choice: previously, I told you that using mutual authentication could be replaced by authentication credentials sent along with POST data in order to spare computational time; in this last architecture it would be necessary to create credentials for each individual sensor, but we know that the number of sensors can be huge and this can be a little inconvenient.\\
-Unless you use access tokens, using login credentials and sending them at every request would be extremely heavy for the server that should verify them, browsing a very large database continuously; this would result in a perceptible slowdown in the application layer and a large memory consumption.\\
-To achieve better performances, someone may think to use the same credentials for multiple sensors, or even all of them, in order to avoid having to deal with a huge number of records, but this would be a risky choice because if the credentials of a sensor are stolen, then many will pay the consequences.\\
-Using client certificates, this problem does not exist, in fact if the private key of a sensor's certificate is stolen, only that specific sensor will be in trouble.\\
-As we have already seen, another benefit of using client certificates is that authentication is moved from the application layer to the transport one.\\
+Probably they preferred this solution because the other one would be heavy for the server that should verify clients' credentials browsing a large database several times, resulting in a perceptible slowdown in the application layer and a large memory consumption.\\
+
+As we have already seen, a benefit of using client certificates is that authentication is moved from the application layer to the transport one.\\
 
 Here we have a practical example of what we discussed before in the section dedicated to the construction of an homemade MQTT system: I recommended you to trust only certificates approved by reliable certification authorities and never trust self-signed certificates. \\
 This last architecture helps us to understand that, in addition to the fact that it is not good to trust self-signed certificates, forcing the server to keep a potentially huge number of certificates is not convenient and totally pointless; therefore, the right way is to trust client's certificates which are trusted by certification authorities we trust.\\
 
 \bigskip
 
-After having seen these two real-world architectures, we can conclude that there is no single perfect solution covering all cases, but it is necessary to find the most proper one for the specific case we are dealing with, considering all the relevant factors, such as networks topologies, performances, secrecy, integrity, users' needs, maintenance.\\
+After having seen these two real-world architectures, we can conclude that there is no unique perfect solution covering all cases, but it is necessary to find the most proper one for the specific scenario we are dealing with, considering all the relevant factors, such as networks topologies, performances, secrecy, integrity, users' needs, maintenance.\\
 
 
 
