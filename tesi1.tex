@@ -530,6 +530,8 @@ The only way to use credentials safely is to combine them with an encrytped comm
 Another possible way to identify clients is using their X.509 certificates, which will be sent during the TLS handshake.\\
 We are used to servers providing their X.509 certificates to clients to prove their identity, and clients authenticating in the application layer.\\
 In this case, however, we perform \emph{mutual authentication}, since client and server authenticate each other at the same time using X.509 certificates.\\
+The broker will use the information in the certificate for application layer authentication after the TLS handshake has completed with success.\\
+
 This authentication method is very secure but rarely used because it requires the provisioning and managing of the certificates to the clients, besides this double negotiation afflicts even more the performances.\\
 
 Now, let's take a look at pros and cons of using client certificates.
@@ -1205,11 +1207,10 @@ So, for all these cases there is only one way to communicate: having a remote MQ
 Clearly, this time it is necessary to use the secure version of MQTT, therefore relying on TLS.\\
 As before, it is also necessary to verify if sensors' data actually come from trusted senders; we notice that in this case MQTT client authentication would be enough, but practically mutual authentication is employed again.\\
 
-Probably they preferred this solution because the other one would be heavy for the server that should verify clients' credentials browsing a large database several times, resulting in a perceptible slowdown in the application layer and a large memory consumption.\\
+Probably they preferred this solution because the authentication mechanism can be expensive, as already discussed; it may be struggling for the server to verify clients' credentials browsing a large database several times, and it may result in a perceptible slowdown of the application layer with a large memory consumption.\\
+So, a benefit of using client certificates is that authentication is moved from the application layer to the transport one.\\
 
-As we have already seen, a benefit of using client certificates is that authentication is moved from the application layer to the transport one.\\
-
-Here we have a practical example of what we discussed before in the section dedicated to the construction of an homemade MQTT system: I recommended you to trust only certificates approved by reliable certification authorities and never trust self-signed certificates. \\
+Here we have a practical example of what we have discussed before in the section dedicated to the construction of an homemade MQTT system: I recommended you to trust only certificates approved by reliable certification authorities and never trust self-signed certificates. \\
 This last architecture helps us to understand that, in addition to the fact that it is not good to trust self-signed certificates, forcing the server to keep a potentially huge number of certificates is not convenient and totally pointless; therefore, the right way is to trust client's certificates which are trusted by certification authorities we trust.\\
 
 \bigskip
