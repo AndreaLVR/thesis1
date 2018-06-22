@@ -789,7 +789,7 @@ Since we said that communication is encrypted, policies containing infomation ab
 \bigskip
 %Before describing how we can make SDP working with MQTT, let's clarify that the SDPs we are going to see are not exactly like the one in Figure \ref{fig:sdpstructure}; they are similar, since they follow the idea of ``hide to protect", but simpler.\\
 
-We have seen that MQTT allows clients to specify username and password while connecting to a broker.\\By using an SDP, the pair username/password can be replaced using the so-called \emph{Single Packet Authorization (SPA)}~\cite{mqttonlywithsdp}.\\
+We have seen that MQTT allows clients to specify username and password while connecting to a broker.\\By using an SDP, the pair username/password could be replaced using the so-called \emph{Single Packet Authorization (SPA)}~\cite{mqttonlywithsdp}.\\
 
 What is a Single Packet Authorization?~\cite{portknockandspaanalysis}\\
 
@@ -872,24 +872,35 @@ In section~\ref{sec:mqttbestpractices}, we wrap up the best practices to build a
 \section{Best practices}
 \label{sec:mqttbestpractices}
 \bigskip
-Combining all the things we have discussed so far, we can try to list some best practices to consult before creating a very secure MQTT system.
+Combining all the things we have discussed so far, we can try to list some best practices to consult before creating a secure MQTT system.
 \bigskip
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] hiding devices and limiting access to resources/services using SPA with a secure enough password (in this case, secure enough means not vulnerable to brute force and dictionary attacks: attackers must not be able to get accepted from the server trying a huge number of generated passwords or taken by a list)
+\item[$\bullet$] protect communication using encryption; use TLS whenever possible, otherwise encrypt sensitive data and grant data integrity using one of the techniques we have previously described.\\
+If we use TLS, we must remember that standard TLS is already secure enough, but it only proves the identity of the server to the client using a X.509 certificate, while the authentication of the client to the server is left to the application layer.\\
+If we want to strengthen even more this mechanism, we may think to use mutual authentication, so, as already discussed, the client will send its own X.509 certificate to the server to prove its identity.\\
+This choice can afflict performances.
+\item[$\bullet$] Request clients authentication.%, that is using credentials to login to a broker. This step is optional, since the client has already authenticated on the server sending the AP, and it seems to be a bit redundant but it might be an additional option.
+\item[$\bullet$] Disallow client authentication through clients identifiers.
+\item[$\bullet$] Disallow access to system topics. They can contain information about the connected clients, including their identifiers.
+\item[$\bullet$] define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
+\item[$\bullet$] use Throttling, that means limiting the total incoming bytes per second on a global or a per-client basis, in order to spare bandwidth.
+\item[$\bullet$] think about a good load balancing: a large MQTT system may distribute the traffic to multiple MQTT brokers rather than just one, to avoid work overloads.\\
+There are many tools to automatize this mechanism, called load balancers and most of them are also able to detect unusually high traffic and block it.
+\item[$\bullet$] define the maximum message size (the default one is 256 MB)
+\item[$\bullet$] choose the proper QoS level according to your needs.
+\item[$\bullet$] check you server and its operating system.
+\item[$\bullet$] keep software and libraries updated.\\
+\end{itemize}
+
+If you also plan to combine MQTT with an SDP, you should:
+
+\begin{itemize}
+\setlength{\itemindent}{+4mm}
+\item[$\bullet$] hide devices and limit access to resources/services using SPA with a secure enough password (in this case, secure enough means not vulnerable to brute force and dictionary attacks: attackers must not be able to get accepted from the server trying a huge number of generated passwords or taken by a list)
 \item[$\bullet$] define properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP. As already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent; the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
 \item[$\bullet$] define an authentication password to specify within the APs, and how to share it with registered clients at the beginning
-\item[$\bullet$] define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
-\item[$\bullet$] force the client to a further authentication mechanism, that is using credentials to login to a broker. This step is optional, since the client has already authenticated on the server sending the AP, and it seems to be a bit redundant but it might be an additional option.
-\item[$\bullet$] encrypting communication using TLS.\\
-Standard TLS is already secure enough, but only proves the identity of the server to the client using a X.509 certificate, while the authentication of the client to the server is left to the application layer.\\
-To strengthen even more this mechanism, we may think to use mutual authentication, so, as already discussed, the client will send its own X.509 certificate to the server to prove its identity.\\
-Then, even the server will be sure that it is talking to a specific, as well as trusted, client.
-
-\item[$\bullet$] thinking about a good load balancing: a large MQTT system may distribute the traffic to multiple MQTT brokers rather than just one, to avoid work overloads.\\
-There are many tools to automatize this mechanism, called load balancers and most of them are also able to detect unusually high traffic and block it.
 \item[$\bullet$] using tools to detect brute force/dictionary attacks and lock out attackers.
-\item[$\bullet$] choose the proper QoS level according to your needs.\\
 \end{itemize}
 
 In the next section, we will try to apply in practice the theoritical concepts seen so far, developing an homemade secure MQTT system.\\
@@ -1145,7 +1156,7 @@ This company provides two different monitoring systems for two different possibl
 \end{figure}
 
 This first scenario expects the customer to be an industry, having its own private network to which the company's machines (equipped with internal sensors) are connected.\\
-As we can see in Figure \ref{fig:factoryarchitecture}, the customer runs a MQTT broker on a local server to which the company's sensors publish their data.\\
+As we can see in Figure \ref{fig:factoryarchitecture}, the customer runs a MQTT broker on a local server, on which the company's sensors publish their data.\\
 
 This MQTT broker is developed and provided by a third company, which is the owner of the Cloud network as well as the provider of the monitoring service, and in our case we are talking about \emph{SAP}~\footnote{https://www.sap.com/}.\\
 In this specific scenario, MQTT communication is not encrypted and there is no required authentication system; simply, there are several open topics, one for each sensor, where these last ones publish their measures at regular intervals of time.\\
@@ -1155,7 +1166,7 @@ In that case it is necessary to create a secure wireless network protected by st
 
 As shown above, the customer private network increases its security putting a firewall in front of the server hosting the MQTT broker.\\
 This firewall is properly configured to hide all the devices from the external world, blocking all the incoming and outgoing connections.\\
-Actually, there is only one outgoing connection allowed, that is the one that allows the server, on which the broker runs, to send the data collected by the sensors to the cloud.\\
+Actually, there is only one outgoing connection allowed, that is the one that allows the server, on which the broker runs, to send the collected data by the sensors to the cloud.\\
 Before going on, I would like to clarify that putting a firewall in front of the server is a good practice and gives the network a robust protection, but in this case, having a \emph{NAT} router which does not any port forwarding and no mapping between the public IP address and the internal ones, using it seems to be a little redundant.\\
 
 So, we were saying that there is one outgoing connection allowed: this is nothing but the request sent by the local server to transmit sensors' data to the cloud.\\
@@ -1184,15 +1195,15 @@ This service simply provides an intuitive dashboard to the user, by which he can
 \end{figure}
 
 This second system architecture deals with a different and more difficult to protect scenario.\\
-In this case, there are several customers' machines positioned in different places, probably far from each other, therefore no common and secure network protecting them, but simply standalone machines and their related sensors.\\
+In this case, there are several customer's machines positioned in different places, probably far from each other, therefore no common and secure network protecting them, but simply standalone machines and their related sensors.\\
 It is obvious that this fact changes everything: it would not make sense to give each machine a local server running an MQTT broker to which send data, and then forward it to the cloud through it as before.\\
 This procedure should be considered only when there are several machines close to each other which can share a private network in order to create a singular exit node towards the cloud network.\\
 
 Having customers' sensors spread all over the world is a very common scenario; just think about sensors applied on transports, for instance sensors used to check the health status of car tires.\\
 
-So, for all these cases there is only one way to communicate: having a remote MQTT broker on the cloud and let each sensor publishes its own data on it.\\
+So, for all these cases there is only one way to communicate: having a remote MQTT broker on the cloud and let each sensor publishing its own data on it.\\
 Clearly, this time it is necessary to use the secure version of MQTT, therefore relying on TLS.\\
-As before, it is also necessary to verify if sensors' data actually come from trusted senders, so mutual authentication is required again.\\
+As before, it is also necessary to verify if sensors' data actually come from trusted senders; we notice that in this case MQTT client authentication would be enough, but practically mutual authentication is employed again.
 
 Now that we have seen that mutual authentication is used in both the architectures, I would like to briefly discuss this implementative choice: previously, I told you that using mutual authentication could be replaced by authentication credentials sent along with POST data in order to spare computational time; in this last architecture it would be necessary to create credentials for each individual sensor, but we know that the number of sensors can be huge and this can be a little inconvenient.\\
 Unless you use access tokens, using login credentials and sending them at every request would be extremely heavy for the server that should verify them, browsing a very large database continuously; this would result in a perceptible slowdown in the application layer and a large memory consumption.\\
@@ -1633,7 +1644,7 @@ Figure \ref{fig:zigbeenwkframestruc} and \ref{fig:zigbeeapsframestruc} show you 
 \end{figure}
 
 
-\emph{CCM mode} combines the \emph{CBC-MAC} and \emph{CTR}: CBC-MAC is used to generate a tag for the frame, and CTR is used to encrypt the frame itself as well as the generated tag.\\
+\emph{CCM mode} combines \emph{CBC-MAC} and \emph{CTR}: CBC-MAC is used to generate a tag for the frame, and CTR is used to encrypt the frame itself as well as the generated tag.\\
 \emph{CCM* mode} is nothing but a minor variation of CCM, which includes all the features of CCM and, in addition to them, it offers encryption-only and integrity-only capabilities.\\
 Using AES-CCM* is convenient because it can cover all the security levels provided by the 802.15.4 standard, simply turning on, or off, the integrity-only and the encryption-only capability.\\
 
