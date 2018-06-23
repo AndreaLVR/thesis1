@@ -1163,8 +1163,8 @@ As we can see in Figure \ref{fig:factoryarchitecture}, the customer runs a MQTT 
 This MQTT broker is developed and provided by a third company, which is the owner of the Cloud network as well as the provider of the monitoring service, and in our case we are talking about \emph{SAP}~\footnote{https://www.sap.com/}.\\
 In this specific scenario, MQTT communication is not encrypted and there is no required authentication system; simply, there are several open topics, one for each sensor, where these last ones publish their measures at regular intervals of time.\\
 It is easy to understand that this is a risky choice for an industrial system architecture, that should be considered only if we can totally trust all the devices connected to the internal network.\\
-Clearly, to trust all of them we have also to be sure that the internal network protection is secure enough: having a wired network defintely helps, since an attacker must physically access the building to connect its malicious device, but of course this is not always possible, especially when devices belonging to the same network are not located in the same building.\\
-In that case it is necessary to create a secure wireless network protected by strong passwords.\\
+Clearly, to trust all of them we have also to be sure that the internal network protection is secure enough: having a wired network defintely helps, since an attacker must have physical access, but of course this is not always possible, especially when devices belonging to the same network are not located in the same place.\\
+In that case it is necessary to create a secure wireless network protected by WPA2 and a strong password.\\
 
 As shown above, the customer private network increases its security putting a firewall in front of the server hosting the MQTT broker.\\
 This firewall is properly configured to hide all the devices from the external world, blocking all the incoming and outgoing connections.\\
@@ -1172,11 +1172,11 @@ Actually, there is only one outgoing connection allowed, that is the one that al
 Before going on, I would like to clarify that putting a firewall in front of the server is a good practice and gives the network a robust protection, but in this case, having a \emph{NAT} router which does not any port forwarding and no mapping between the public IP address and the internal ones, using it seems to be a little redundant.\\
 
 So, we were saying that there is one outgoing connection allowed: this is nothing but the request sent by the local server to transmit sensors' data to the cloud.\\
-To do that, it exploits an \emph{HTTPS API} (simply a web service), provided by a webserver belonging to the Cloud network, so to the SAP network, whose job is to receive data from sensors and write them on the database.\\
+To do that, it uses an \emph{HTTPS API} (simply a web service), provided by a webserver belonging to the Cloud network, so to the SAP network, whose job is to receive data from sensors and write them on the database.\\
 Having to do with a secure HTTPS connection we know that data is transferred securely, therefore we can assume that the customer-side is properly protected.\\
 
 There is just one remaining risk to be removed: only trusted clients' requests must be accepted by the \emph{PUT API}, hence those coming from the company customers' broker servers.\\
-To do that, mutual authentication is required, so when a customer's broker sends sensors' data to the API it will send even its own X.509 certificate to the remote webserver to prove its identity.\\
+To do that, mutual authentication is employed, so when a customer's broker sends sensors' data to the API it will send even its own X.509 certificate to the remote webserver to prove its identity.\\
 \underline{Note}: this is the solution chosen and implemented by SAP, but an alternative one could be to include authentication credentials in the POST content, avoiding the mutual authentication mechanism, which, as already seen, can afflict performances.
 %We will discuss more in detail about this at the end of Section \ref{ssec:connectedmachines}, related to the Connected Machines architecture.
 
@@ -1184,7 +1184,7 @@ We should notice that the Factory architecture brings a great benefit in terms o
 
 One last thing to notice is that, considering what has been said so far, it seems that the customer has no way to verify if the data sent to the API has been correctly received and stored on the Cloud.\\
 This is not true, in fact the customer, as well as the company itself, can verify the health status of their machines using another secure web service, called \emph{IoT Cockpit}, provided by the same webserver.\\
-This service simply provides an intuitive dashboard to the user, by which he can stay updated and check their machines and measures; the difference from the other API is that this last one requires a user authentication and can be accessed from any network.\\
+This service simply provides an intuitive dashboard to the user, by which he can stay updated and check their machines and measures; the difference from the other API is that this last one can be accessed by everyone but it requires a user authentication.\\
 
 
 \subsection{Connected Machines}
@@ -1197,7 +1197,7 @@ This service simply provides an intuitive dashboard to the user, by which he can
 \end{figure}
 
 This second system architecture deals with a different and more difficult to protect scenario.\\
-In this case, there are several customer's machines positioned in different places, probably far from each other, therefore no common and secure network protecting them, but simply standalone machines and their related sensors.\\
+In this case, there are several customer's machines located in different places, probably far from each other, therefore no common and secure network protecting them, but simply standalone machines and their related sensors.\\
 It is obvious that this fact changes everything: it would not make sense to give each machine a local server running an MQTT broker to which send data, and then forward it to the cloud through it as before.\\
 This procedure should be considered only when there are several machines close to each other which can share a private network in order to create a singular exit node towards the cloud network.\\
 
