@@ -156,8 +156,8 @@ Let's start to discuss them starting from the first one, MQTT.
 \setlength{\itemindent}{+4mm}
   \item[$\bullet$] minimal battery loss
   \item[$\bullet$] minimal bandwidth
-  \item[$\bullet$] be easy simple to implement
-  \item[$\bullet$] providing a good quality delivery service
+  \item[$\bullet$] simple to implement
+  \item[$\bullet$] good quality delivery service
 \end{itemize}\
 All these aspects make this protocol particularly suitable for very constrained devices, which are often used in IoT services.\\\\
 Nowadays MQTT is used in many different fields of applications:
@@ -178,14 +178,14 @@ Nowadays MQTT is used in many different fields of applications:
 
 \section{Why is MQTT perfect for IoT?}
 \bigskip
-Internet of Things requires a \emph{real-time event-driven communication model}, besides it must be possible to send information in \emph{one-to-many} modality.\\
-Since we mainly deal with sensors sending lots of data continuously, we need to reduce as much as possible the dimension of data packets to be sent, however in a reliable way.\\
+Internet of Things requires a \emph{real-time event-driven communication model}, besides it must be possible to send information in \emph{one-to-many} modality efficiently.\\
+Since we mainly deal with sensors sending lots of data continuously, we need to reduce as much as possible the size of data packets to be sent, however in a reliable way.\\
 
 HTTP protocol is not suitable for this purpose because it is based on the request/reply paradigm and has a too big network overhead; we must always remember that IoT deals with low-power devices whose connectivity can be really poor and extremely expensive.\\
 
 MQTT is simple and light-weight, and can manage a huge number of communications as well as granting the delivery and reception of messages, without having to poll sensors.\\
 
-For all these reasons, \emph{Google Trends} highlights a strong and growing interest related to this protocol.
+For all these reasons, \emph{Google Trends} highlights a strong and growing interest related to the keyword ``MQTT".
 
 
 \section{Architecture and basic concepts}
@@ -702,11 +702,11 @@ We conclude this section wrapping up the pros and cons of data encryption:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item encrypting specific data only is a method to add a security layer to communication, and can be an option for constrained devices which cannot rely on TLS.
+\item encrypting only specific data is a method to add a security layer to communication, and can be an option for constrained devices which cannot rely on TLS.
 \item[$\bullet$] even if TLS is heavier, encrypting and decrypting every message can be too intensive for constrained devices, in fact it is fundamental to choose a fast encryption algorithm
-\item[$\bullet$] we must remember that encrypting only specific data prevents attackers to steal our sensitive information by sniffing, but man in the middle attacks, as well as replay attacks, are still possible.\\ 
+\item[$\bullet$] we must remember that encrypting only specific data prevents attackers to sniff our sensitive information, but man in the middle attacks, as well as replay attacks, are still possible.\\ 
 Just to make an example: an attacker could intercept a valid message and modify some parts of it, like the topic
-\item[$\bullet$] keys management adds a layer of complexity, for instance it is important to establish a secure provisioning of them.
+\item[$\bullet$] keys management adds a layer of complexity, for instance it is important to establish a secure provision of them.
 \end{itemize}
 \bigskip
 In section \ref{sec:dataintegrity} we will see another fundamental security aspect: data integrity.\\
