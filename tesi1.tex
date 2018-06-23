@@ -878,31 +878,31 @@ Combining all the things we have discussed so far, we can try to list some best 
 \bigskip
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] protect communication using encryption; use TLS whenever possible, otherwise encrypt sensitive data and grant data integrity using one of the techniques we have previously described.\\
+\item[$\bullet$] Protect communication using encryption; use TLS whenever possible, otherwise encrypt sensitive data and grant data integrity using one of the techniques we have previously described.\\
 If we use TLS, we must remember that standard TLS is already secure enough, but it only proves the identity of the server to the client using a X.509 certificate, while the authentication of the client to the server is left to the application layer.\\
 If we want to strengthen even more this mechanism, we may think to use mutual authentication, so, as already discussed, the client will send its own X.509 certificate to the server to prove its identity.\\
 This choice can afflict performances.
 \item[$\bullet$] Request clients authentication.%, that is using credentials to login to a broker. This step is optional, since the client has already authenticated on the server sending the AP, and it seems to be a bit redundant but it might be an additional option.
 \item[$\bullet$] Disallow client authentication through clients identifiers.
 \item[$\bullet$] Disallow access to system topics. They can contain information about the connected clients, including their identifiers.
-\item[$\bullet$] define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
-\item[$\bullet$] use Throttling, that means limiting the total incoming bytes per second on a global or a per-client basis, in order to spare bandwidth.
-\item[$\bullet$] think about a good load balancing: a large MQTT system may distribute the traffic to multiple MQTT brokers rather than just one, to avoid work overloads.\\
+\item[$\bullet$] Define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
+\item[$\bullet$] Use Throttling, that means limiting the total incoming bytes per second on a global or a per-client basis, in order to spare bandwidth.
+\item[$\bullet$] Think about a good load balancing: a large MQTT system may distribute the traffic to multiple MQTT brokers rather than just one, to avoid work overloads.\\
 There are many tools to automatize this mechanism, called load balancers and most of them are also able to detect unusually high traffic and block it.
-\item[$\bullet$] define the maximum message size (the default one is 256 MB)
-\item[$\bullet$] choose the proper QoS level according to your needs.
-\item[$\bullet$] check you server and its operating system.
-\item[$\bullet$] keep software and libraries updated.\\
+\item[$\bullet$] Define the maximum message size (the default one is 256 MB)
+\item[$\bullet$] Choose the proper QoS level according to your needs.
+\item[$\bullet$] Check you server and its operating system.
+\item[$\bullet$] Keep software and libraries updated.\\
 \end{itemize}
 
 If you also plan to combine MQTT with an SDP, you should:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] hide devices and limit access to resources/services using SPA with a secure enough password (in this case, secure enough means not vulnerable to brute force and dictionary attacks: attackers must not be able to get accepted from the server trying a huge number of generated passwords or taken by a list)
-\item[$\bullet$] define properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP. As already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent; the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
-\item[$\bullet$] define an authentication password to specify within the APs, and how to share it with registered clients at the beginning
-\item[$\bullet$] using tools to detect brute force/dictionary attacks and lock out attackers.
+\item[$\bullet$] Hide devices and limit access to resources/services using SPA with a secure enough password (in this case, secure enough means not vulnerable to brute force and dictionary attacks: attackers must not be able to get accepted from the server trying a huge number of generated passwords or taken by a list)
+\item[$\bullet$] Define properly who can communicate with whom: specifically, servers hosting brokers must accept only connections from clients able to send a proper AP. As already said, if our goal is to have a very strong system, the server can keep a list of accepted client IPs, and immediately truncate connections from unregistered ones, even if valid APs are sent; the same is true for clients, so each client must have a list of servers with which is allowed to communicate.
+\item[$\bullet$] Define an authentication password to specify within the APs, and how to share it with registered clients at the beginning
+\item[$\bullet$] Use tools to detect brute force/dictionary attacks and lock out attackers.
 \end{itemize}
 
 In the next section, we will try to apply in practice the theoritical concepts seen so far, developing an homemade secure MQTT system.\\
@@ -1084,7 +1084,7 @@ This library is easy to use, and allows us to set TLS, credentials, QoS levels a
 
 \begin{python}
 def publishMsg(client,topic,message,qos_level,retain_msg):
-  client.publish(topic,payload=message,qos=qos_level,             retain=retain_msg)
+  client.publish(topic,payload=message,qos=qos_level,        retain=retain_msg)
 
 client = mqtt.Client()
 ssl_version = ssl.PROTOCOL_TLSv1_2
