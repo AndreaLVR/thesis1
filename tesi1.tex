@@ -187,7 +187,7 @@ This behaviour is part of a process called \emph{decoupling of publisher and sub
   \item[$\bullet$] \emph{synchronization decoupling}: operations on both components are not suspended while publishing or receiving messages; they are independent
 \end{itemize}\
 
-Figure \ref{fig:pubsubschema} shows a schematic  example of the publish/subscribe pattern combined with topics subscription, but, in order to better understand it, let's keep a reference list of the existent MQTT messages we are going to deal with. Figure~\ref{fig:mqttmsgs} lists all of them.
+Figure \ref{fig:pubsubschema} shows a schematic  example of the publish/subscribe pattern combined with topics subscription, but, in order to better understand it, let us keep a reference list of the existent MQTT messages we are going to deal with. Figure~\ref{fig:mqttmsgs} lists all of them.
 
 
 \begin{figure}[H]
@@ -198,7 +198,7 @@ Figure \ref{fig:pubsubschema} shows a schematic  example of the publish/subscrib
 \end{figure}
 
 Message types' names are self-explanatory, anyway we will describe some of them more in details along the way.\\\\
-Now, let's analyze the example we were talking about.
+Now, let us analyze the example we were talking about.
 
 \begin{figure}[H]
 \includegraphics[width=12cm,height=11cm,keepaspectratio]{pubsub_schema1}
@@ -340,7 +340,7 @@ It is not uncommon for clients to get disconnected ungracefully from the broker.
 Therefore, there exist scenarios in which it may be helpful to notify other clients that a specific client has been suddenly disconnected.\\
 Thanks to the LWT feature provided by MQTT brokers, clients can choose a message that will be published to previously chosen topics when they get disconnected.\\
 As already seen, a client can specify the LWT message as part of the \texttt{CONNECT} packet, then the broker will store the message till it detects that the client has been abruptly disconnected, finally topic's subscribed clients will be notified.\\
-Let's clarify that ``ungracefully disconnected" means that a network failure happens, or the client fails to communicate within the keep-alive time, or the client closes the connection without sending a \texttt{DISCONNECT} message or the server faced a protocol error.\\\\
+let us clarify that ``ungracefully disconnected" means that a network failure happens, or the client fails to communicate within the keep-alive time, or the client closes the connection without sending a \texttt{DISCONNECT} message or the server faced a protocol error.\\\\
 In the real world LWT is often used in combination with retained messages to keep the state of a client updated on a specific topic.\\
 For instance, when a client has connected to a broker, it will send a retained message to a topic, named something similar to \emph{``clientname/status"}, with the payload \emph{``online"}.
 After that, the client sets the LWT message on the same topic to \emph{``offline"} and, clearly, mark it as retained.\\
@@ -375,7 +375,7 @@ Thanks to its dangerousness and power, many people call it \emph{``the hackers' 
 Its searching mechanism is based on the so-called \emph{service banners}, which are nothing but metadata sent back to clients by servers: service banners contain a lot of information describing the kind of server/device you are talking to.\\
 
 By default, MQTT brokers listen on port 1883; we can simply find the current visible servers listening on that port by using Shodan and searching for \emph{``port:1883"}.\\\\
-On 3rd June 2018 this search produced 160393 results, as shown in figure~\ref{fig:shodanres}.\\
+On 3rd July 2018 this search produced 216675 results, as shown in figure~\ref{fig:shodanres}.\\
 
 \begin{figure}[H]
 \includegraphics[width=10cm,height=10cm,keepaspectratio]{shodan_numdevices}
@@ -384,8 +384,8 @@ On 3rd June 2018 this search produced 160393 results, as shown in figure~\ref{fi
 \label{fig:shodanres}
 \end{figure}\
 
-We found, all over the world, more than 160 thousand devices listening on port 1883, many of them owned by important organizations like Google, Amazon, Microsoft and Alibaba.
-While this is already a big number, a more interesting thing is that such a number is growing up very quickly: just two weeks before the same research returned almost 146 thousand devices.\\\\
+We found, all over the world, more than 200 thousand devices listening on port 1883, many of them owned by important organizations like Google, Amazon, Microsoft and Alibaba.
+While this is already a big number, a more interesting thing is that such a number is growing up very quickly: just two weeks before the same research returned almost 180 thousand devices.\\\\
 The port 8883 is standardized for a secured MQTT connection, whose name is ``secure-mqtt", and this port is exclusively reserved for MQTT over TLS.
 The first clue that leads us to think that security is neglected is that, if we search again on Shodan, this time filtering on port 8883, we get only 56 servers, so statistically only one broker in a thousand opt for the secure version of the protocol.
 
@@ -411,7 +411,7 @@ This choice was made purposely by developers to keep it simple, fast and lightwe
 We know that TLS uses an handshake mechanism to negotiate various parameters necessary to establish an encrypted and secure communication which cannot be read or altered by third parties.\\
 Usually servers provide their \emph{X.509 certificates}, signed by a trusted authority, to clients to prove their identity.\\
 The negotiation of the parameters brings to a communication overhead afflicting performances, requiring more work for the CPUs. This may turn out to be a problem for very constrained devices.\\
-Let's suppose to have a constrained device which establishes a new connection every time it has to communicate with the broker; this will bring a huge overhead because the handshaking messages will be the most significant portion of content to send in each communication (considering that usually MQTT devices send simple text messages of few bytes, and the handhsake ones are a few KB).\\
+let us suppose to have a constrained device which establishes a new connection every time it has to communicate with the broker; this will bring a huge overhead because the handshaking messages will be the most significant portion of content to send in each communication (considering that usually MQTT devices send simple text messages of few bytes, and the handhsake ones are a few KB).\\
 Therefore, it is recommended for constrained devices to use long-living MQTT connections rather than short-living ones in order to drastically improve the TLS performances. This idea is implemented in a technique, called \emph{Session resumption}.
 
 \subsection{Session resumption}
@@ -455,7 +455,7 @@ There are three ways used by MQTT brokers to verify the identity of a client:
   \item[$\bullet$] X.509 Client certificates
 \end{itemize}\
 
-Let's analyze each of them in details.\\
+let us analyze each of them in details.\\
 
 
 \subsection{Client Id}
@@ -506,7 +506,7 @@ The broker will use the information in the certificate for application layer aut
 
 This authentication method is very secure but rarely used because it requires the provisioning and managing of the certificates to the clients, besides this double negotiation afflicts even more the performances.\\
 
-Now, let's take a look at pros and cons of using client certificates.
+Now, let us take a look at pros and cons of using client certificates.
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] Pros:
@@ -531,7 +531,7 @@ This is not a very convenient procedure.
 \item \emph{Online Certificate Status Protocol (OCSP)}:  it is a protocol used for asking information about specific client certificates, more specifically to know if they are still trustable.\\
 In order to use OCSP there must be a so-called \emph{OCSP Responder}, which is an HTTP server waiting for revocation-check requests, provided by the certification authority.
 This is a better and faster solution since you do not have to download the entire, and possibly huge, list every time before checking a certificate.\\
-Let's see a simple example~\cite{ocspwiki} of how it works:
+let us see a simple example~\cite{ocspwiki} of how it works:
 
 \begin{itemize}
 \item Alice and Bob want to communicate and have their certificates issued by a certification authority, called Carol
@@ -684,7 +684,7 @@ It is important to say that SDPs are not strictly connected to IoT technologies,
 \bigskip
 
 Devices trying to access are first identified, then, once they have been accepted within the protected network, they are subjected to a further verification process, an authentication with credentials, and finally are assigned permissions based on their authorizations.\\
-Let's see more in details how it works.\\
+let us see more in details how it works.\\
 
 First of all, an SDP expects a secure connection, therefore encrypted, based on a \emph{``need-to-know"} logic, that allows only identified, authenticated and authorized clients to access network resources.\\
 There exist many different SDP structures, as we will detail in the following, but they all refer to the idea of \emph{``hide to protect"}.\\\\
@@ -712,7 +712,7 @@ Since we said that communication is encrypted, policies containing infomation ab
 
 \subsection{How can this architecture be combined with MQTT?}
 \bigskip
-%Before describing how we can make SDP working with MQTT, let's clarify that the SDPs we are going to see are not exactly like the one in Figure \ref{fig:sdpstructure}; they are similar, since they follow the idea of ``hide to protect", but simpler.\\
+%Before describing how we can make SDP working with MQTT, let us clarify that the SDPs we are going to see are not exactly like the one in Figure \ref{fig:sdpstructure}; they are similar, since they follow the idea of ``hide to protect", but simpler.\\
 
 We have seen that MQTT allows clients to specify username and password while connecting to a broker.\\By using an SDP, the pair username/password could be replaced using the so-called \emph{Single Packet Authorization (SPA)}~\cite{mqttonlywithsdp}.\\
 
@@ -816,7 +816,7 @@ If you also plan to combine MQTT with an SDP, you should:
 \label{sec:homemademqtt}
 \bigskip
 This example can be seen as a kind of pratical guide of how to build a \emph{simplified} homemade secure MQTT system.\\
-Before starting, let's see a list of the technologies we are going to use:
+Before starting, let us see a list of the technologies we are going to use:
 \bigskip
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
@@ -838,7 +838,7 @@ By using this minimal set of technologies, we can build a quite secure MQTT syst
 
 Clearly, \emph{this is just a simplified demo}, therefore we will make some assumptions along the way.\\
 
-Let's start understanding how to hide resources.
+let us start understanding how to hide resources.
 
 \subsection{Hiding resources}
 \bigskip
@@ -852,7 +852,7 @@ Assuming our tiny system is composed by the following actors:
 \item[$\bullet$] Client 2 (\emph{192.168.1.7})\\
 \end{itemize}
 
-Let's start creating a simple text file containing the list of registered client IPs; let's call it ``\texttt{trusted\_client\_ips.txt}".\\
+let us start creating a simple text file containing the list of registered client IPs; let us call it ``\texttt{trusted\_client\_ips.txt}".\\
 Then, we move on blocking all the incoming and outgoing connections, except for the ones from/to the registered client IPs on the SPA dedicated port.\\\\
 To do that, we simply write two bash scripts to properly configure the server and clients' firewall using nothing more than iptables.
 
@@ -932,7 +932,7 @@ The idea is pretty simple: if the daemon receives a valid AP, it adds an Iptable
 
 This detector implements a very simple but effective detection strategy: when it reads a new line of the daemon's log file, it takes the client IP address and checks if the number of invalid APs received by it in the last \textsc{time\_range} minutes is larger than \textsc{max\_requests}; if so, that client IP is locked out for \textsc{ban\_time} hours, and to do that it simply adds an iptables rule again.\\
 This last rule will expire automatically using once again the command ``at" to delete it from Iptables.\\
-Of course, it is important to define properly these constants: let's say, for instance, that we may accept at most 5 invalid APs for IP in the last 30 minutes and ban the user for 6 hours.\\
+Of course, it is important to define properly these constants: let us say, for instance, that we may accept at most 5 invalid APs for IP in the last 30 minutes and ban the user for 6 hours.\\
 
 We skip the analysis of the SPA client because it is nothing but a Python script sending well-formed requests to the server's daemon through sockets.\\
 
@@ -1039,7 +1039,7 @@ Clearly, both the second and third approaches can be seen in two different ways.
 \item[$\bullet$] Local Control Room for other purposes, and let the company predicting possible failures using Centralized Control Room's data.\\
 \end{itemize}
 
-Now that we know what a monitoring system can be useful for, let's see the structure of the system mentioned above.\\
+Now that we know what a monitoring system can be useful for, let us see the structure of the system mentioned above.\\
 
 This company provides two different monitoring systems for two different possible scenarios:
 \bigskip
@@ -1418,7 +1418,7 @@ Now, if two devices \emph{i} and \emph{j} have obtained their TC Link Key, and w
 We have already mentioned that in a centralized architecture the TC periodically updates and distributes the network key in order not to give attackers time to try to steal it.\\
 Clearly, the updates of the network key are sent over-the-air, so they must be encrypted with some keys, which usually are either the current network key or the TC Link key (unique or global, depending on the scenario).\\
 Obviously, the second one is a better and more secure choice, because if an attacker has already stolen the current network key, and the TC uses such key to encrypt the new one, then the attacker can always obtain the updated network key.\\
-%Let's clarify that each node is able to store several network keys, but also to identify the current one with a unique key sequence number assigned by the Trust Center.\\
+%let us clarify that each node is able to store several network keys, but also to identify the current one with a unique key sequence number assigned by the Trust Center.\\
 
 Keys are not the only things we may think to update over the air, in fact ZigBee gives the user the chance to update a device, adding new features as well as applying security patches, if necessary.\\
 Clearly, if this kind of communication is not protected enough, it might happen that devices accept some critical fake updates from untrusted sources.\\
@@ -1440,7 +1440,7 @@ This is a task concerning the upper layers, hence ZigBee is responsible for that
 
 \subsubsection{Security Control Header}
 \bigskip
-Let's start taking a look at Figure \ref{fig:zigbeemacframestruc}, representing the structure of a MAC data frame~\cite{security802154}.\\
+let us start taking a look at Figure \ref{fig:zigbeemacframestruc}, representing the structure of a MAC data frame~\cite{security802154}.\\
 
 \begin{figure}[H]
 \includegraphics[width=13cm,height=13cm,keepaspectratio]{mac_frame}
@@ -1617,7 +1617,7 @@ This is not surprising since ZigBee was designed to keep devices low-cost and lo
 \bigskip
 The aim of this section is to discuss the most relevant ZigBee vulnerabilities and some practical attacks to exploit a ZigBee network.\\
 Some of them are related to the specific implementation, while some others are strictly related to the protocol itself.\\
-Let's see each of them in details:
+let us see each of them in details:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
