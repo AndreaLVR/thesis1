@@ -58,30 +58,24 @@
 \chapter{Introduction to IoT}
 \bigskip
 Internet of Things (IoT) is a neologism, introduced by Kevin Ashton~\cite{kevinashton} in 1999, which has become popular in recent years due to the growing interest from companies and because nowadays it is possible to produce small devices with a reasonable computational power.
-Often, these small devices are embedded into bigger objects in order to improve them by making them, in some way, smart.\\
+Often, these small devices are embedded into bigger objects in order to improve them by making them, in some way, \emph{smart}.\\
 
-IoT has a variety of different applications: ranging from everyday things like watches that measures how many kilometers we have walked during the day, to smart homes that control the air conditioning system based on temperature and pollution in the air, or even smart cities where semaphores adjust their times based on the traffic condition.\\
+IoT has a variety of different applications ranging from everyday things, like watches that measure how many kilometers we have walked during the day, to smart homes that control the air conditioning system on the basis of  temperature and pollution in the air, or even smart cities where semaphores adjust their times on traffic conditions.\\
 But these are only three examples, IoT extends also to other fields like: health care, industrial monitoring, self driving cars and agriculture.\\
 
-IoT is also changing the way software is developed: in order to produce good IoT systems companies are brought to cooperate with each other,
-moving from a one-company-does-it-all perspective to a let’s-work-together approach\cite{successiot}.
-This means that proprietary systems are no more a good choice and companies should embrace open systems in order to cooperate in a better way.\\
+IoT is also changing the way software is developed: in order to produce good IoT systems, companies are brought to cooperate with each other,
+moving from a one-company-does-it-all perspective to a let’s-work-together approach~\cite{successiot}.
+This means that proprietary systems are no more a good choice and companies should embrace open systems in order to cooperate better.\\
 
-From the financial point of view, IoT seems like a very profitable market: it is esteemed that the global IoT market will grow to \$457B by 2020\cite{forbes}, by assuming this forecast as real, it means that lots of devices will be deployed in the network, but exposing a device
-or an host on the Internet also means exposing it to possible threats.\\
+From the financial point of view, IoT seems like a very profitable market: it is esteemed that the global IoT market will grow to \$457B by 2020~\cite{forbes}.\\ 
+Assuming this forecast is on target, it means that lots of devices will be deployed in the network, exposing a device on the Internet also means exposing it to threats.\\
 An interesting case of insecure IoT system is given by a luxury hotel in Austria \cite{whydoiot}: the electronic key system was attacked
-by hackers that were able to lock out (or in, it depends) guests by their rooms, until they paid a ransom; the system lacked a fundamental security
+by hackers that were able to lock out (or in, it depends) guests their rooms, until they paid a ransom; the system lacked a fundamental security
 component necessary to avoid intrusion.\\
 Long story short: after the attack, the hotel reverted to physical keys.\\
-We can imagine other problematic situations that do not imply an attack; for instance: if a blackout occurs, a guest is still able to access his well paid room?\\
+We can imagine other problematic situations that do not imply an attack; for instance: if a blackout occurs, is a guest still able to access his well paid room?\\
 What if the content of the electronic key is not encrypted and it is possible to change its content in order to access other guests' room?\\
-This event should also make us think if we really need an IoT system for every aspect of our life. An electronic key system is convenient, since you can configure the electronic key as you want in few seconds, but on the other hand it is easy to overwrite its content, while it is not so simple to steal and duplicate a physical key.\\
-
-Another interesting and funny case of insecure devices comes from CloudPets\cite{toys}, a company that produces Internet-connected fluffy animals toys. These toys were able to connect via Bluetooth to a smartphone's app in order to download and upload audio messages; it was possible to access the voice recordings without any authentication if you knew the exact URL at which they were stored.\\
-The Guardian states that ``The personal information of more than half a million people who bought Internet-connected fluffy animals has been compromised". By personal information we mean username, password, profile pictures and voice recordings.\\
-\textbf{Note:} the passwords were cracked easily because they were extremely easy to guess (``password", ``123456", ``qwerty", ``qwerty123456" and so on).\\
-
-Another interesting thing to highlight is that the personal information was contained in a database connected directly to the Internet, with no usernames or passwords preventing visitors from accessing it. \\Probably the entire application was developed with no security in mind.\\
+This event should also make us think if we really need an IoT system for every aspect of our life. An electronic key system is convenient, since you can configure the electronic key as you want in few seconds, but on the other hand it is also easy to corrupt its content, while it is not so simple to steal and duplicate a physical key.\\
  
 The security aspect of an IoT application is not related only to possible external attacks by criminals but it also involves reliability; just think about a power plant monitored by an IoT system, if it is not well designed and for some reason it does not take the proper counter measures to an overload, a blackout can occur and the consequences are bad, mostly on the financial point of view.\\
 These are the reasons why I am interested in analyzing the security aspect of IoT applications, considering that in near future
@@ -91,13 +85,13 @@ IoT could be integral part of our life I think it is crucial to develop secure s
 \section{Structure of an IoT application}
 \bigskip
 Most of times an IoT system is a large scale application that put in place different protocols, hardware and software.\newline
-From the point of view of the protocols there are lots of choices, such as: \emph{HTTP}, \emph{MQTT}, \emph{WebSocket}, \emph{ZigBee}, \emph{CoAP}, etc; each of them has its own advantages and disadvantages, so it is crucial to choose the most proper one that fits our business logic; also take in mind that some protocols like MQTT or CoAP are used in sensors-server communication, while HTTP and WebSocket are used for client-server communications.\\
+From the point of view of the protocols, there are lots of choices, such as: \emph{HTTP}, \emph{MQTT}, \emph{WebSocket}, \emph{ZigBee}, \emph{CoAP}, etc; each of them has its own advantages and disadvantages, so it is crucial to choose the one that fits our business logic; also considering that some protocols like MQTT or CoAP are used in sensors-server communication, while HTTP and WebSocket are used for client-server communications.\\
 
-While dealing with IoT we can bump into different types of hardware: from constrained devices with low computational power to high performance cluster machines. Basically the dirty work is taken over by lots of low power devices which communicate with the server, which elaborate received data or forward them to the cloud in order to elaborate them in a faster way.\newline
+While dealing with IoT we can bump into different types of hardware: from constrained devices with low computational power to high performance cluster machines. Basically the ``dirty work" is taken from low power devices to the server, which elaborate received data or forward them to the cloud.\\
 Talking about software, instead, we can work with a variety of programming languages: from a low level \emph{Assembly} to high level languages like \emph{C\#} or \emph{JavaScript}.\\
 
-The development of an IoT system firstly requires a deep knowledge of the different parts of an application, hence the developement team should be formed by experts with different skills and specializations.\newline
-This little overview should help us to understand how difficult could be to design and develop an IoT application; figure \ref{fig:iotstructure} illustrates the schema of a possible architecture of an IoT application.\\
+The development of an IoT system firstly requires a deep knowledge of the different parts of an application, hence the developement team should consist of experts with different skills and specializations.\newline
+This little overview should help us to understand how difficult could be to design and develop an IoT application; Figure \ref{fig:iotstructure} illustrates the schema of a possible architecture of an IoT application.\\
 
 \begin{figure}[H]
 \includegraphics[width=13cm,height=12cm,keepaspectratio]{iotapp_architecture}
@@ -105,50 +99,26 @@ This little overview should help us to understand how difficult could be to desi
 \label{fig:iotstructure}
 \end{figure}
 
+\section{Structure of the thesis}
 \bigskip
-\section{Requirements of an IoT system}
-\bigskip
-In IoT systems it is common to deal with a lot of high data rate communication involving constrained devices, probably powered with batteries, having limited (sometimes extremely limited) computational power, bandwidth and RAM.\\
-For this reason, we need some standard providing low-latency with low-energy consumption even at lower bandwidths.\\
+In this thesis I am going to analyze and discuss two of the most important and widespread IoT protocols: \emph{MQTT}, in part I, and \emph{ZigBee}, in part II.\\
+More in details, we will start looking at their architecture and basic concepts, then we will discuss their security features, weaknesses and possible fixes.\\
+Finally we list the best practices to follow in order to build a a secure communication environment.\\
 
-More in details, these are the main requirements for an application network composed by a relevant number of constrained devices:
+With regard to the MQTT protocol, we discuss two interesting real use cases on which I had the opportunity to work during my internship, in order to see how much theory is respected in practice and how a real-world production system should be designed.\\
 
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-\item[$\bullet$] be able to scale to larger sizes and operate for a long time (years, in some scenarios) without manual intervention
-\item[$\bullet$] long battery life for devices
-\item[$\bullet$] granting good quality services
-\item[$\bullet$] low complexity and low cost communication
-\end{itemize}
-
-\section{Argument of the thesis}
-\bigskip
-In this thesis I am going to analyze and discuss two of the most important and widespread IoT protocols: \emph{MQTT} and \emph{ZigBee}.\\
-More in details, we will start looking at their architecture and basic concepts, then we will discuss their security features, weaknesses and possible fixings, finally we will list the best practices to follow in order to build a a secure communication environment based on them.\\
-
-With regard to the MQTT protocol, I will also talk about two interesting real use cases on which I had the opportunity to work during my internship, in order to see how much theory is respected in practice and how a real-world productive system should be designed.\\
-
-Unfortunately, I had not the opportunity to work on industrial ZigBee projects, during my internship since, as we will see, it is a protocol mainly aimed to home applications rather than industrial ones.\\\newline
-
-{\setlength{\parindent}{0cm}
-Let's start to discuss them starting from the first one, MQTT.
+Unfortunately, I had not have the opportunity to work on industrial ZigBee projects, during my internship, since, as we will see, it is a protocol mainly aimed to home applications rather than industrial ones.\\\\
 
 \part{MQTT}
 
 \chapter{Protocol Overview}
 
-\section{Introduction}
-\bigskip
-\textsc{MQTT} \emph{(Message Queue Telemetry Transport)}~\cite{mqttrfc} is a simple, open and light-weight standarized messaging transport protocol, based on top of TCP/IP, invented by \emph{Andy Stanford-Clark} of \emph{IBM} and \emph{Arlen Nipper} of \emph{Cirrus Link Solutions}\cite{cirruslink} in 1999, with the following goals:
-
-%{\addtolength{\leftskip}{5mm}
-%indent
-%}
+\textsc{MQTT} \emph{(Message Queue Telemetry Transport)}~\cite{mqttrfc} is a simple, open and light-weight standarized messaging transport protocol, built on top of TCP/IP, invented by \emph{Andy Stanford-Clark} of \emph{IBM} and \emph{Arlen Nipper} of \emph{Cirrus Link Solutions}\cite{cirruslink} in 1999, with the following goals:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
   \item[$\bullet$] minimal battery loss
-  \item[$\bullet$] minimal bandwidth
+  \item[$\bullet$] minimal bandwidth usage
   \item[$\bullet$] simple to implement
   \item[$\bullet$] good quality delivery service
 \end{itemize}\
@@ -158,8 +128,8 @@ Nowadays MQTT is used in many different fields of applications:
  \begin{itemize}
  \setlength{\itemindent}{+4mm}
   \item[$\bullet$] Sensors communications \emph{(light, temperature, humidity, magnetic fields, pressure, intrusion detectors, etc})
-  \item[$\bullet$] Health monitoring devices \emph{(blood pressure, insulin, heartbeat)}
-  \item[$\bullet$] Fitness devices\emph{ (fitbit)}
+  \item[$\bullet$] Health monitoring devices \emph{(e.g. blood pressure, insulin, heartbeat)}
+  \item[$\bullet$] Fitness devices\emph{ (e.g. fitbit)}
   \item[$\bullet$] Location services
   \item[$\bullet$] Home automation kits used in \emph{smart homes}
   \item[$\bullet$] Inventory tracking \emph{(systems designed to track movements of inventory)}
@@ -169,42 +139,45 @@ Nowadays MQTT is used in many different fields of applications:
 
 %\clearpage
 
-\section{Why is MQTT perfect for IoT?}
+%\section{Why is MQTT perfect for IoT?}
 \bigskip
-Internet of Things requires a \emph{real-time event-driven communication model}, besides it must be possible to send information in \emph{one-to-many} modality efficiently.\\
-Since we mainly deal with sensors sending lots of data continuously, we need to reduce as much as possible the size of data packets to be sent, however in a reliable way.\\
+{\setlength{\parindent}{0cm}
+Internet of Things requires a \emph{real-time event-driven communication model}, and it must be possible to send information in \emph{one-to-many} modality efficiently.\\
+Since we mainly deal with sensors sending lots of data continuously, we need to reduce as much as possible the size of data packets to be sent, reliably.\\
 
-HTTP protocol is not suitable for this purpose because it is based on the request/reply paradigm and has a too big network overhead; we must always remember that IoT deals with low-power devices whose connectivity can be really poor and extremely expensive.\\
+HTTP is not suitable in this case because it is based on the request/reply paradigm and has a big network overhead. We must always remember that IoT deals with low-power devices whose connectivity can be really poor and extremely expensive.\\
 
 MQTT is simple and light-weight, and can manage a huge number of communications as well as granting the delivery and reception of messages, without having to poll sensors.\\
 
-For all these reasons, \emph{Google Trends} highlights a strong and growing interest related to the keyword ``MQTT".
+%For all these reasons, \emph{Google Trends} highlights a strong and growing interest related to the keyword ``MQTT".
+}
 
 
 \section{Architecture and basic concepts}
+
+%\subsection{Publish/Subscribe pattern}
+\label{ssec:pubsubpattern}
+\bigskip
+MQTT protocol exploits the modern publish/subscribe pattern, sometimes called pub-sub, which is a valid alternative to the traditional client-server model, in which a client communicates directly with an endpoint.\\
+This design pattern provides asynchronous communication between clients.\\
+Nodes are arranged around a component, usually called \emph{broker} or \emph{dispatcher}, in a star topology and, as we can see in Figure~\ref{fig:mqttArchitecture}, they can talk to each other by publishing and subscribing to topics; we discuss them in the section \ref{ssec:topicsandsub}.
+
 \begin{figure}[H]
-\includegraphics{mqtt_architecture}
+\includegraphics[width=12cm,height=12cm,keepaspectratio]{mqtt_architecture1}
 \caption{MQTT Architecture}
 \label{fig:mqttArchitecture}
 \end{figure}
 
-\bigskip
-\subsection{Publish/Subscribe pattern}
-\label{ssec:pubsubpattern}
-\bigskip
-MQTT protocol exploits the modern publish/subscribe pattern, sometimes called pub-sub, which is a valid alternative to the traditional client-server model, in which a client communicates directly with an endpoint.
-This design pattern provides asynchronous communication between clients.\\
-Nodes are arranged around a component, usually called \emph{broker} or \emph{dispatcher}, in a star topology and, as we can see in figure~\ref{fig:mqttArchitecture}, they can talk to each other publishing and subscribing to topics; we are going to discuss them in the section \ref{ssec:topicsandsub}.
-The sender of a message is called \emph{publisher}, while who is going to receive is called \emph{subscriber}.\\
+The sender of a message is called \emph{publisher}, while who is interested in receiving it is called \emph{subscriber}.\\
 So, a broker is nothing but a kind of message container, known by both the publisher and subscriber, able to filter all incoming messages and distribute them accordingly.\\
 
 \subsection{Topics and subscription}
 \label{ssec:topicsandsub}
 \bigskip
-Clients publish or subscribe to particular topics, which are simply message subjects having a syntax similar to file pathnames. For instance, assuming we want two topics related to sensors placed in our kitchen and bedroom, we may opt for the following names: $$'sensors/home/lights/kitchen'$$ $$'sensors/home/lights/bedroom'$$\\
-MQTT brokers use these topics to decide who will receive messages, in fact if a publisher \texttt{P} publishes a message on the first topic, and a subscriber \texttt{S} subscribes to the second, this last one will not receive anything because it is not subscribed, and consequently not interested, in messages regarding the light sensors placed in the kitchen.\\\\ 
+Clients publish or subscribe to particular topics, which are simply message subjects having a syntax similar to file pathnames. For instance, assuming we want to name two topics related to sensors placed in our kitchen and bedroom, we may opt for the following names: $$'sensors/home/lights/kitchen'$$ $$'sensors/home/lights/bedroom'$$\\
+MQTT brokers use these topics to decide to who forward the messages to.\\\\ 
 It is important to notice that publishers and subscribers do not know about the existence of one another, but they can talk anyway.
-This behaviour is part of a process called \emph{decoupling of publisher and receiver}, which can be split in three dimensions:
+This behaviour is part of a process called \emph{decoupling of publisher and subscriber}, which can be split in three dimensions:
 
 \begin{itemize}
   \setlength{\itemindent}{+4mm}
@@ -212,7 +185,8 @@ This behaviour is part of a process called \emph{decoupling of publisher and rec
   \item[$\bullet$] \emph{time decoupling}: publisher and subscriber do not have to be synchronized and may run at different times
   \item[$\bullet$] \emph{synchronization decoupling}: operations on both components are not suspended while publishing or receiving messages; they are independent
 \end{itemize}\
-We will see in figure \ref{fig:pubsubschema}, a schematic  example of the publish/subscribe pattern combined with topics subscription, but, in order to better understand it, let's keep a reference list of the existent MQTT messages we are going to deal with. Figure~\ref{fig:mqttmsgs} lists all of them.
+
+Figure \ref{fig:pubsubschema} shows a schematic  example of the publish/subscribe pattern combined with topics subscription, but, in order to better understand it, let's keep a reference list of the existent MQTT messages we are going to deal with. Figure~\ref{fig:mqttmsgs} lists all of them.
 
 
 \begin{figure}[H]
@@ -234,7 +208,7 @@ Now, let's analyze the example we were talking about.
 
 \begin{enumerate}
 \setlength{\itemindent}{+5mm}
-\item A client wants to connect to the broker, and sends the proper CONNECT packet, whose structure is visible in figure \ref{fig:connectpacket}.
+\item A client wants to connect to the broker, and sends the proper CONNECT packet, whose structure is visible in Figure \ref{fig:connectpacket}.
 
 \begin{figure}[H]
 \includegraphics[width=7cm,height=7cm,keepaspectratio]{connect_message}
@@ -247,10 +221,10 @@ where:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{clientId} is a identifier, unique per broker, each client must have.\\
-  \emph{If you do not need a state to be hold by the broker, in MQTT 3.1.1 it is possible to send an empty value.}
+  \emph{If you do not need a state to be held by the broker, in MQTT 3.1.1 it is possible to send an empty value.}
   \item[$\bullet$] \emph{clean session} is used to establish persistent connections
   \item[$\bullet$] \emph{username} and \emph{password} are used to authenticate the user in a password-protected broker. These credentials are sent in plain-text, we will see later how to face this issue.
-  \item[$\bullet$] \emph{keep alive} is nothing but a time interval used by the client to commit regular \texttt{PING Request} messages to the broker (this last one will reply with a \texttt{PING Response} message)
+  \item[$\bullet$] \emph{keep alive} is nothing but a time interval used by the client to commit regular \texttt{PING Request} messages to the broker (that will reply with a \texttt{PING Response} message)
 \end{itemize}
 
 \item Once the broker has received a connection request, it replies with a \texttt{CONNACK} packet, containing a field called \emph{return code}. 
@@ -276,8 +250,10 @@ where:
 \item \emph{dupFlag} is a flag used to warn receivers that this message might have been already received
 \end{itemize}
 
-The broker will reply sending a \texttt{PUBREC} packet, used to let the client know that its message has been correctly received.
-\bigskip \\
+The broker will reply sending a \texttt{PUBREC} packet, used to let the client know that its message has been correctly received.\\
+The broker will send the message to subscribers as soon as possible, asynchronously.
+\bigskip
+
 In the second case it will send a \texttt{SUBSCRIBE} packet, which contains multiple pairs \emph{(topic,qos)}, since a single packet can be used to subscribe to multiple topics.\\
 Clearly, the broker will reply with a \texttt{SUBACK} packet, containing the return code for each topic the client is interested to.
 
@@ -301,14 +277,14 @@ Now that we have an idea of how MQTT communications work, in the section~\ref{ss
 We have briefly introduced the structure of the \texttt{PUBLISH} and \texttt{SUBSCRIBE} packets in section~\ref{ssec:pubsubpattern}; both of them contain a field called \emph{QoS}, acronym of \emph{Quality of Service}.\\
 This field allows clients to set the desired QoS level, according to how much reliability they expect from message delivering.
 Clearly, being QoS level an agreement between the client and the broker, this last one has to honor the contract.
-There exist three different QoS levels:
+There are three different QoS levels:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item \emph{QoS0 (at most once delivery)}: messages are sent at most once, so their delivery is not guaranteed
 \item \emph{QoS1 (at least once delivery)} messages are certainly delivered to the client at least once, but they might be also delivered more times.
 \item \emph{QoS2 (exactly once delivery)} messages are sent exactly once by using the following 4-way handshake mechanism.
-Of course, the exchange of 4 packets increases the overhead and afflicts performances, therefore this level should be used only in critical scenarios that cannot afford to lose messages or receiving duplicated messages.
+Of course, the exchange of 4 packets increases the overhead and afflicts performances, therefore this level should be used only in critical scenarios that cannot afford to lose messages or receive duplicated messages.
 \end{itemize}
 
 Figure \ref{fig:qos_levels} wraps up the three levels we have just discussed.
@@ -326,9 +302,9 @@ Figure \ref{fig:qos_levels} wraps up the three levels we have just discussed.
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item if we have a series of solar panels that publish every second some measures on a specific topic, we can accept with no worries that some messages are not delivered correctly, so we may think to use QoS0.
+\item if we have a series of solar panels that publish every second some measures on a specific topic, we can accept with no worries that some messages are not delivered correctly, so we may use QoS0.
 \item if we have an alarm sensor which publishes an alert message on a topic only if something bad happened in our house, then we want to be sure that such message will be correctly delivered, even more than once, so we may opt for QoS1.
-\item in this last scenario, we assume that for some reason there is a diabetic person having an auto-injecting insuline device applied to his body, which expects to receive an MQTT message when an extra injection is needed.\\Obviously, in this case it is necessary to receive one and only one message, so we must choose QoS2.
+\item if a diabetic person has an auto-injecting insuline device applied to his body, which expects to receive an MQTT message when an extra injection is needed. It is necessary to receive one and only one message, so we must choose QoS2.
 \end{itemize}
 
 \bigskip
@@ -352,7 +328,7 @@ MQTT also supports persistence of messages.\\
 This feature is very useful because each time a client connects to the broker, a new session for subscribing or publishing to topics is started; if, for any reason, the connection is lost, the process starts all over again with the client establishing a new session.\\
 Clearly, this behaviour afflicts the performances of the system, especially when clients have low power and poor connectivity (for instance, intermittent connectivity).\\
 A client can request a persistent session setting the \emph{cleanSession} flag within the \texttt{CONNECT} packet to false.\\
-Let's notice an important aspect of this feature that we are going to discuss later: to resume a session, the broker has to recognize whether the user is the same as before, and it can do that by using their unique identifier; once the broker finds the match between the clientId and an available persistent session, that session is immediately reassigned to the client.\\
+Let us notice an important aspect of this feature that we are going to discuss later: to resume a session, the broker has to recognize whether the user is the same as before, and it can do that by using their unique identifier; once the broker finds the match between the clientId and an available persistent session, that session is immediately reassigned to that client.\\
 
 \subsection{Last Will and Testament (LWT)}
 \bigskip
@@ -379,38 +355,37 @@ $$'sensors/home/livingroom/temperature'$$
 $$'sensors/home/kitchen/temperature'$$
 $$'sensors/home/bathroom/temperature'$$\\
 This first kind of wildcard is called \emph{``single-level"} since it allows the user to avoid to specify one single path level. \\
-
 There is another type of wildcard, called \emph{``multi-level"}, which allows the user to avoid to specify multiple path levels.\\
-For instance, both the topics \emph{'sensors/home/livingroom/temperature'} and \emph{'sensors/garage/temperature'} can be subscribed simply subscribing to \emph{'sensors/\#/temperature'}.\\
+For instance, both the topics \emph{'sensors/home/livingroom/temperature'} and \emph{'sensors/garage/temperature'} can be subscribed by simply subscribing to \emph{'sensors/\#/temperature'}.\\
 
 
 \chapter{Security Overview}
 \bigskip
 MQTT is probably the most used IoT protocol, and experts think it will play an important role in the coming years, therefore it is necessary to talk about its security aspects.\\
-Just to begin, we can take a look at this real-world example in order to understand how much this protocol is used, and how many times its security is completely ignored.\\\\
-In this example we are going to use a search engine, called \emph{Shodan}~\cite{shodan}.\\
+Just to begin, we can take a look at its real-world usage in order to understand how much this protocol is widespread, and how many times its security is completely ignored.\\\\
+To get this data we use a search engine, called \emph{Shodan}~\cite{shodan}.\\	 
 Shodan, developed in 2009, lets the user find specific IoT ``things"(webcams, routers, servers, sensors, printers, traffic lights, etc)  connected to the Internet, providing a huge variety of filters.\\
 
 Thanks to its dangerousness and power, many people call it \emph{``the hackers' search engine"}.\\
 Its searching mechanism is based on the so-called \emph{service banners}, which are nothing but metadata sent back to clients by servers: service banners contain a lot of information describing the kind of server/device you are talking to.\\
 
-By default, MQTT brokers listen on port 1883; we can simply find the current visible servers listening on that port by using Shodan and its filters, searching for \emph{``port:1883"}.\\\\
-On 3 June 2018 this search produced 160393 results, as shown in figure~\ref{fig:shodanres}.\\
+By default, MQTT brokers listen on port 1883; we can simply find the current visible servers listening on that port by using Shodan and searching for \emph{``port:1883"}.\\\\
+On 3rd June 2018 this search produced 160393 results, as shown in figure~\ref{fig:shodanres}.\\
 
 \begin{figure}[H]
 \includegraphics[width=10cm,height=10cm,keepaspectratio]{shodan_numdevices}
 \centering
-\caption{MQTT brokers found using Shodan}
+\caption{MQTT brokers found by using Shodan}
 \label{fig:shodanres}
 \end{figure}\
 
 We found, all over the world, more than 160 thousand devices listening on port 1883, many of them owned by important organizations like Google, Amazon, Microsoft and Alibaba.
-While this is already a big number, the more interesting thing is that such a number is growing up very quickly: just to realize, two weeks before the same research gave me almost 146 thousand devices.\\\\
+While this is already a big number, a more interesting thing is that such a number is growing up very quickly: just two weeks before the same research returned almost 146 thousand devices.\\\\
 The port 8883 is standardized for a secured MQTT connection, whose name is ``secure-mqtt", and this port is exclusively reserved for MQTT over TLS.
-The first clue that lead us to think that security is neglected is that, if we search again on Shodan, this time filtering on port 8883, we get only 56 servers, so statistically only one broker in a thousand opt for the secure version of the protocol.
+The first clue that leads us to think that security is neglected is that, if we search again on Shodan, this time filtering on port 8883, we get only 56 servers, so statistically only one broker in a thousand opt for the secure version of the protocol.
 
 Besides, I found a very interesting article on a reliable blog I have been visiting for several years, whose content is strongly related to cyber security\footnote{https://morphuslabs.com/}.\\
-An easy-to-implement Python scanner script, exploiting a paid Shodan API key, has been implemented to search for servers listening on port 1883 and then try to connect to them sending a \texttt{CONNECT} message with no authentication.
+An easy-to-implement Python scanner script, exploiting a paid Shodan API key, has been implemented to search for servers listening on port 1883 and then try to connect to them by sending a \texttt{CONNECT} message with no authentication.
 The strategy of this attack is pretty simple: the broker we are trying to connect to will reply, as we have already seen, with a \texttt{CONNACK} packet containing the return code; if the return code is equal to 0 it means that the connection has been accepted, therefore the broker leaves the door open to anyone.\\
 An analysis conducted on 800 found servers, has led to the following results.
 
@@ -421,7 +396,6 @@ An analysis conducted on 800 found servers, has led to the following results.
 \end{figure}\
 543 brokers out of 800, which is almost 67\%, do not use authentication at all!
 \\\\\\\\
-Now that we have realized how much MQTT security is neglected in real-world applications, let's start talking in details about this fundamental aspect.
 
 \clearpage
 
@@ -456,9 +430,9 @@ To conclude this TLS section, we list some best practices:
   \item[$\bullet$] Clients should always use TLS or, more generically, encrypted communication channels, if they can afford it
   \item[$\bullet$] Use the newest version of TLS, since older ones might have known, and now fixed, bugs~\cite{sslvulns}
   \item[$\bullet$] Always use certificates from trusted Certification Authorities. Using self-signed certificates or allow-all approach is not recommended
-  \item[$\bullet$] Including additional security mechanisms, like payload encryption and authorization mechanisms, in addition to TLS is a good choice.
+ % \item[$\bullet$] Including additional security mechanisms, like payload encryption and authorization mechanisms, in addition to TLS is a good choice.
 
-\end{itemize}\
+\end{itemize}
 
 In section~\ref{sec:mqttclientauth} we will talk about client authentication techniques supported by MQTT.
 
@@ -547,16 +521,16 @@ There are two ways to obtain that:
 \begin{enumerate}
 \item \emph{Certificate Revocation Lists (CRLs)}: they are simple lists of certificates that have been revoked before their expiration.
 These lists are created and continuously updated by the related Certification Authority.
-A server hosting a broker can have a own local CRL to consult, but clearly it has to remain updated getting the updated list from the CA from time to time.\\
+A server hosting a broker can have its own local CRL to consult, but clearly it has to get updates from the CA, from time to time.\\
 This is not a very convenient procedure.
-\item \emph{Online Certificate Status Protocol (OCSP)}:  it is a protocol used for asking information about specific client certificates, more in details to know if they are still trustable.\\
+\item \emph{Online Certificate Status Protocol (OCSP)}:  it is a protocol used for asking information about specific client certificates, more specifically to know if they are still trustable.\\
 In order to use OCSP there must be a so-called \emph{OCSP Responder}, which is an HTTP server waiting for revocation-check requests, provided by the certification authority.
-This is a better and faster solution since you do not have to download the entire, and possibly huge, list every time before checking the certificate; you simply ask your certification authority, which is going to do the boring job for you.\\
+This is a better and faster solution since you do not have to download the entire, and possibly huge, list every time before checking a certificate.\\
 Let's see a simple example~\cite{ocspwiki} of how it works:
 
 \begin{itemize}
 \item Alice and Bob want to communicate and have their certificates issued by a certification authority, called Carol
-\item Alice starts the transaction by sending to Bob her certificate
+\item Alice starts the transaction by sending her certificate to Bob 
 \item Bob, who suspects that Alice's private key might have been compromised, sends an \emph{OCSP request}, containing Alice's certificate serial number, to Carol
 \item Carol's OCSP responder search in its database the certificate's serial number received from Bob
 \item At this point, Carol's OCSP responder returns a signed successful \emph{OCSP response} to Bob if the certificate is still valid, otherwise will reply telling Bob that the certificate is not valid anymore
@@ -579,15 +553,8 @@ In section~\ref{sec:mqttauth} we will discuss authorization, another important c
 \bigskip
 Authorization and authentication go hand in hand, but they are very different security concepts.\\
 While authentication is used to recognize the identity of a client, authorization allow us to create policies in order to restrict access to certain resources (\emph{in this scenario resource means topic}).\\
-We can better understand this concept with an example related to web applications:\\
 
-\emph{Talking about Facebook, let's suppose to have a standard user and a developer.
-When we visit Facebook, we are asked to insert username and password to let the application identify us and this is the authentication part, equal for everyone.
-Then, the authorization process is different for the two users, in fact the standard user will have a more restricted access to resources, compared to the developer.}\\
-
-Coming back to MQTT, let's try to understand which constraints can be applied to clients.\\
-A client, once connected to a broker, can publish messages and subscribe to topics, nothing more.\\
-We may notice that without authorization every authenticated client could do whatever he wants, so publish or subscribe to any existent topic.\\
+In MQTT, without authorization, every authenticated client could do whatever he wants, so publish or subscribe to any existent topic.\\
 More in details, the resources to protect are the common actions: publishing, subscribing, setting a LWT or retained message, requiring a persistent session.\\\\
 How can the broker restrict permissions on topics?\\
 
@@ -602,60 +569,17 @@ Brokers can limit clients' permissions implementing some authorization policies 
 
 What does it happens when a client tries to access a restricted resource without having enough permissions?\\
 
-If the client tries to publish, the broker can disconnect it or simply reply to it normally, but without relaying the message to subscribers; instead, if the client tries to subscribe, the broker will reply with a standard \texttt{SUBACK} message containing a proper return code which tells the client that its subscription was denied, nothing more.\\
+If the client tries to publish, the broker can disconnect it or simply reply to it normally, but without relaying the message to subscribers; instead, if the client tries to subscribe, the broker will reply with a standard \texttt{SUBACK} message containing a return code that tells the client that its subscription was denied, nothing more.\\
 
 In section \ref{sec:mqttauth2} we discuss another form of authentication/authorization mechanism usually implemented in other protocols, like HTTP, and we will see wether and how it is possible to combine it with MQTT. 
-
-\section{MQTT combined with OAuth 2.0}
-\label{sec:mqttauth2}
-\bigskip
-OAuth~\cite{oauthwiki} is a standard for access delegation, used to allows a third party to access a resource owned by a resource owner without giving unencrypted credentials to the third party.
-
-\begin{figure}[H]
-\includegraphics[width=12.5cm,height=12.5cm,keepaspectratio]{oauth_scheme}
-\centering
-\caption{OAuth working scheme}
-\label{fig:oauthscheme}
-\end{figure}
-
-To make it clear, we may think to Spotify which allows its users to login with their Facebook account, then once they have authenticated, it gets their information (resources), like name, surname and maybe something else, from Facebook resource servers.\\
-More in details, referring to Figure \ref{fig:oauthscheme}, we have that Spotify is the client, Authorization server is the Facebook Authorization server, in charge to control the access to all the resources, and the Resource server is the Facebook Resource server where there are contained the information Spotify is going to take.\\
-The resource owner (the user) will login on Facebook communicating directly with its Authorization Server, without giving any credential to the client. Once Facebook authenticated the resource owner, it sends the access token to the client.
-
-So, the idea is pretty simple: we do not want to save our credentials within the client and use them every time to authenticate us because it could be dangerous, therefore the solution is using access tokens.\\
-Clearly, if we do not use encrypted communications everything is pointless because an attacker could easily sniff our access tokens and use it to access our own resources.\\
-
-What is the token's structure?\\
-
-Usually, OAuth uses \emph{JSON Web Tokens (JWT)}, JSON Objects with base64 encoding. They contain an header, a payload and a signature, where:
-
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-  \item[$\bullet$] The header contains information about the algorithm used to generate the signature
-  \item[$\bullet$] The payload contains information about the token, like expiration date, scope, issuer, issue date, etc.
-  \item[$\bullet$] The signature is used to certify that the token has been generated by the trusted authorization server
-  \end{itemize}
-
-How can we exploit this standard in MQTT?\\
-
-First of all, we have to clarify that OAuth is mainly designed for usages with HTTP, so over any other protocol is out of scope, but we can analyze the possible MQTT workarounds.\\
-In the previous example the login to the authorization server expects a human action, but IoT devices are often standalone. Therefore, no human can help them in this OAuth authentication process; they have to be both the client and the resource owner, but this is against the OAuth principles since it was born to avoid clients to hold their credentials locally.\\\\
-Anyway, since IoT devices are standalone, this is the only way to use OAuth: storing the credentials within the devices, use them to get a valid access token from an Authorization Server, and finally use it to communicate with the broker.\\Obviously, the expiration time of the access token must not be too small, otherwise the client should ask for the token every time it wants to communicate with the broker, and this would be equivalent to sending the username and password to the broker at the beginning of each communication.\\
-
-Probably, the real pros of using tokens in MQTT is that they can be used to get client's authorizations quickly, saving search time to the server: if no token is used, the broker will have to look up for users' authorizations in a database (after their authentication); a faster and more convenient way is to specify the permissions granted to the client within the token (for instance, in the payload). \\
-This way is secure, because, as already said, the broker can verify the authenticity of the token by checking its signature.
-
-The access token will be used in \texttt{CONNECT} packets, and optionally in \texttt{PUBLISH} and \texttt{SUBSCRIBE} ones. Before making this last decision, since there are tons of pub/sub messages, it is important to consider how much token validation afflicts performances, and, if necessary, think to some caching method.\\
-
-Conclusion: OAuth is a valid authentication mechanism, but it is difficult to combine with MQTT; besides, before deciding whether to use it or not, it is fundamental to evaluate if the few obtained advantages are worth the effort of implementation.
 
 
 \section{Simple Data Encryption}
 \bigskip
-Since, as we have already said, some devices have too low power to use TLS.
-In this section we discuss how those constraint devices may encrypt only specific data, like the payload in the \texttt{PUBLISH} message.\\
 
-Using this strategy sensitive data, let's assume the payload in our examples, will be encrypted, but other metadata remains unencrypted.\\
+In this section we discuss a workaround to grant secrecy of messages without involving TLS: encrypting ony sensitive data, such as the payload in \texttt{PUBLISH} messages.\\
+
+Using this strategy sensitive data, let us assume the payload in our examples, will be encrypted, but other metadata remains unencrypted.\\
 Notice that the broker has no decryption key, so it will relay the messages to subscribers as is, without knowing their real content.\\
 Clearly, this mechanism expects subscribers to have the proper key to decrypt the received payload.\\
 
@@ -686,7 +610,7 @@ Should we use an asymmetric or symmetric encryption scheme to encrypt the payloa
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] prefer asymmetric cryptography when we have many, possibly untrusted, publishers and few trusted subscribers, because these last ones know the private key which is used to read the messages in the subscribed topics.
 In this way, only trusted clients can decrypt the topic's messages.
-\item[$\bullet$] use symmetric cryptography when we have a trusted environment, in fact we must remember that in this case there is only one key to encrypt and decrypt, so we cannot share it with everyone.
+\item[$\bullet$] use symmetric cryptography when we have a trusted environment, in fact we must remember that in this case there is only one key to encrypt and decrypt, so we can share it with everyone.
 \end{itemize}
 \bigskip
 Certainly, using a single symmetric key is simpler to implement, but less flexible.\\
@@ -696,13 +620,12 @@ We conclude this section wrapping up the pros and cons of data encryption:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item encrypting only specific data is a method to add a security layer to communication, and can be an option for constrained devices which cannot rely on TLS.
-\item[$\bullet$] even if TLS is heavier, encrypting and decrypting every message can be too intensive for constrained devices, in fact it is fundamental to choose a fast encryption algorithm
+\item[$\bullet$] encrypting and decrypting every message can be intensive for constrained devices, in fact it is fundamental to choose a fast encryption algorithm
 \item[$\bullet$] we must remember that encrypting only specific data prevents attackers to sniff our sensitive information, but man in the middle attacks, as well as replay attacks, are still possible.\\ 
 Just to make an example: an attacker could intercept a valid message and modify some parts of it, like the topic
 \item[$\bullet$] keys management adds a layer of complexity, for instance it is important to establish a secure provision of them.
 \end{itemize}
 \bigskip
-In section \ref{sec:dataintegrity} we will see another fundamental security aspect: data integrity.\\
 
 \clearpage
 \section{Data Integrity}
@@ -719,7 +642,8 @@ There are three different approaches for message integrity checks:
 This value is sent with the payload, so the receiveing application has just to recalculate the checksum to verify the integrity of the message.\\
 This approach guarantees that data was not modified by a transmission error, but it cannot assure that it comes from a trusted sender.
 
-\item[$\bullet$] \emph{Message Authentication Code (MAC)}: this authentication code is calculated using a cryptographic Hash function (usually \emph{HMAC}) combined with a cryptographic key. Since only trusted clients know the secret key, we can discover if a message come from a trusted client or not. \emph{HMAC} is very fast compared to digital signatures.\\
+\item[$\bullet$] \emph{Message Authentication Code (MAC)}: this authentication code is calculated using a \emph{HMAC} combined with a cryptographic key. Since only trusted clients know the secret key, we can discover if a message come from a trusted client or not. \\
+\emph{HMAC} is very fast compared to digital signatures.\\
 Clearly, this second authentication way involves a key, so there must be a provisioning way.
 
 \item[$\bullet$] \emph{Digital signature}: it is a code generated by a public key encryption algorithm. More in details, the client signs the message with its private key and the broker validates the signature using the public key of the client.\\
@@ -728,8 +652,9 @@ So, this approach guarantees the same things of the previous one plus the certai
 The difference with respect to the previous approach is that the secret key was shared to all clients, while in this case each client has its own private key, but the broker is still able to decrypt their messages using their public key.\\
 \end{itemize}
 
-Integrity checks is always a good choice: secrecy combined with integrity gives the system a robust security: secrecy prevents attackers to see our things, and integrity prevents attackers to alter them without being discovered.\\\\
-In section \ref{sec:mqttsdp}, we see how to make a MQTT system even more secure by using a not very common, but very powerful, security architecture called \emph{Software Defined Perimeter}, or simply \emph{SDP}.\\
+Secrecy combined with integrity gives the system a robust security: secrecy prevents attackers to see our things, and integrity prevents attackers to alter them without being discovered.\\\\
+
+%In section \ref{sec:mqttsdp}, we see how to make a MQTT system even more secure by using a not very common, but very powerful, security architecture called \emph{Software Defined Perimeter}, or simply \emph{SDP}.\\
 
 
 \section{MQTT combined with an SDP}
@@ -791,7 +716,7 @@ What is a Single Packet Authorization?~\cite{portknockandspaanalysis}\\
 SPA is a technique to securely get access to certain service ports, communicating across closed firewall ports.\\
 So, the initial idea is to make services unaccessible to the outside keeping all the server's ports closed, or at least those ones where services to protect are listening on.\\
 
-SPA is a kind of evolution of an older system called Port Knocking, in which we are able to  open some closed firewall ports from the outside by sending connection attempts to a pre-established sequence of closed doors; then the firewall updates its own rules in order to allow the sending host to connet to the desired port.\\
+SPA is a kind of evolution of an older system called \emph{Port Knocking}, in which we are able to  open some closed firewall ports from the outside by sending connection attempts to a pre-established sequence of closed ports; then the firewall updates its own rules in order to allow the sending host to connet to the desired port.\\
 This old system is basically flawed and vulnerable to replay attacks, as we can see in Figure \ref{fig:portknocking}, in fact an attacker can sniff the attempts and replay them, obtaining the access to the service's port.\\
 
 \begin{figure}[H]
@@ -827,7 +752,7 @@ So, we have some advantages using SPA:
 It does not seem to be such a big problem, but it is not so unlikely to make it wrong since the server does not send any acknowledge packet back while receiving knock
 \item[$\bullet$] the timestamp and client IP within the AP prevent replay attacks
 \item[$\bullet$] the use of the password increases security, but clearly there must exists a way to share it with authorized clients
-\item[$\bullet$] encoding the packet using MD5 makes almost impossible for attackers to steal the secret password
+\item[$\bullet$] encoding the packet using MD5 makes almost impossible for attackers to steal the secret password, when the password is properly chosen
 \end{itemize}
 
 All these precautions make attackers' life very hard.\\
@@ -835,34 +760,16 @@ All these precautions make attackers' life very hard.\\
 Coming back to MQTT, we said that username and password could be replaced with an SPA.\\
 Applying what we have just discussed to MQTT security, we may think to hide devices, so that they cannot be seen by attackers, and let them communicate just with pre-established brokers.\\
 On the other side, we will let brokers communicate only with clients who send a valid Authorization Packet.\\\\
-\underline{Important}: to make it more secure, we may think to give the broker a list of authorized IP addresses, and reject the communication with any IP not contained in this list, even if able to send a proper AP.\\
-Clearly, the bad aspect of this restriction is that it is less scalable.\\
+To make it a bit more secure, we may think to give the broker a list of authorized IP addresses, and reject the communication with any IP not contained in this list, even if able to send a proper AP.\\
+Clearly, the bad aspect of this restriction is that it is less scalable and IP addresses can be spoofed.\\
 
 Once a (valid) client have sent a proper AP, the server hosting the broker will allow it to connect to the MQTT dedicated port, and finally the broker will receive messages from it.\\
 The MQTT port will remain open for a certain (little) period of time, after which the client will have to send another AP to get authorization.\\
 
 We notice that this system is robust even without TLS, and this might be the proper choice to authenticate devices unable to support it, but the problem persists after the authentication: it is true that only messages coming from trusted clients are received by the broker, but the messages following the authentication are still vulnerable to MITM attacks.\\
 
-Let's analyze some possible alternative solutions to TLS to face this problem, but keeping in mind that they are simple workarounds, and \emph{they should be considered only if TLS is absolutely impossible to use}.
+As always, using TLS is the best solution, but if not emplyable we may face this problem with a workaround, but keeping in mind that \emph{it should be considered only if TLS is absolutely impossible to use}: since authorized users already know the secret password, using it as input for a key derivation function to obtain a cipher key might be an idea.\\
 
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-\item[$\bullet$] since authorized users already know the secret password, using it as cipher key might be an idea. Using the AP password also as cipher key might be dangerous because if an attacker is able, somehow, to discover it thanks to some intercepted messages, then it will also get access granted to the server.\\
-On the countrary, if an attacker can crack the MD5 message used for AP authentication, he will be able to get access to the server and send messages to the broker.\\
-If we assume that the server rejects invalid IP addresses, the attacker will have also to properly spoof its IP.\\
-Cracking the password of some intercepted messages is not easy at all, but it is better to be as careful as possible.
-\item[$\bullet$] an alternative way might be sending a cipher key to the user once he has successfully authenticated to the server, encrypting the message and generating the MAC using the password as a key. \\
-In order to guarantee more security, it would be better to generate a different cipher key for each client ip instead of a shared one. Why?
-Let's assume that an attacker wants to sniff some messages with the hope of cracking their cipher key: if every client uses the same cipher key the attacker will have a much bigger number of samples to work with.\\
-Besides, in the event that all the clients share the same key, anyone (a valid client or an attacker that have stolen it) could pretend to be another valid client using spoofing techniques, but in this case, since each client has its own cipher key, this is not possible.\\
-
-
-The bad aspect of this solution is that the server would have to keep a, potentially huge, list of client IPs and assigned cipher keys, continuously updated.\\
-\end{itemize}
-
-As already said, any of these strategies is secure as employing TLS.\\
-
-In section~\ref{sec:mqttbestpractices}, we wrap up the best practices to build a secure MQTT system we have seen so far.\\
 
 \section{Best practices}
 \label{sec:mqttbestpractices}
@@ -872,14 +779,14 @@ Combining all the things we have discussed so far, we can try to list some best 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] Protect communication using encryption; use TLS whenever possible, otherwise encrypt sensitive data and grant data integrity using one of the techniques we have previously described.\\
-If we use TLS, we must remember that standard TLS is already secure enough, but it only proves the identity of the server to the client using a X.509 certificate, while the authentication of the client to the server is left to the application layer.\\
+If we use TLS, we must remember that commonly used TLS is already secure enough, but it only proves the identity of the server to the client using a X.509 certificate, while the authentication of the client to the server is left to the application layer.\\
 If we want to strengthen even more this mechanism, we may think to use mutual authentication, so, as already discussed, the client will send its own X.509 certificate to the server to prove its identity.\\
 This choice can afflict performances.
 \item[$\bullet$] Request clients authentication.%, that is using credentials to login to a broker. This step is optional, since the client has already authenticated on the server sending the AP, and it seems to be a bit redundant but it might be an additional option.
 \item[$\bullet$] Disallow client authentication through clients identifiers.
 \item[$\bullet$] Disallow access to system topics. They can contain information about the connected clients, including their identifiers.
 \item[$\bullet$] Define properly the authorizations to assign to clients, such that once a server accepted a client connection, this last one must have access only to authorized resources, that are brokers, specific topics and, even deeper, actions allowed on these ones (publish, subscribe, LWT, retained messages).
-\item[$\bullet$] Use Throttling, that means limiting the total incoming bytes per second on a global or a per-client basis, in order to spare bandwidth.
+\item[$\bullet$] Use \emph{Throttling}, that means limiting the total incoming bytes per second on a global or a per-client basis, in order to spare bandwidth.
 \item[$\bullet$] Think about a good load balancing: a large MQTT system may distribute the traffic to multiple MQTT brokers rather than just one, to avoid work overloads.\\
 There are many tools to automatize this mechanism, called load balancers and most of them are also able to detect unusually high traffic and block it.
 \item[$\bullet$] Define the maximum message size (the default one is 256 MB)
@@ -898,9 +805,10 @@ If you also plan to combine MQTT with an SDP, you should:
 \item[$\bullet$] Use tools to detect brute force/dictionary attacks and lock out attackers.
 \end{itemize}
 
-In the next section, we will try to apply in practice the theoritical concepts seen so far, developing an homemade secure MQTT system.\\
+%In the next section, we will try to apply in practice the theoritical concepts seen so far, developing an homemade secure MQTT system.\\
 
 \section{Homemade secure MQTT system}
+\label{sec:homemademqtt}
 \bigskip
 This example can be seen as a kind of pratical guide of how to build a \emph{simplified} homemade secure MQTT system.\\
 Before starting, let's see a list of the technologies we are going to use:
@@ -912,12 +820,12 @@ Before starting, let's see a list of the technologies we are going to use:
 \item[$\bullet$] Redis, Iptables, openssl, Nmap\\
 \end{itemize}
 
-By using this minimal set of technologies, we are able to build a quite secure MQTT system. In details, our goals are:\bigskip
+By using this minimal set of technologies, we can build a quite secure MQTT system. In details, our goals are:\bigskip
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] creating a simple MQTT broker
 \item[$\bullet$] making server's resources/services hidden to everyone and accessible only by registered, authenticated and authorized client IPs, by using the SPA strategy we have discussed before
-\item[$\bullet$] implementing a bruteforce/dictionary attacks detector, able to block attackers
+\item[$\bullet$] implementing a bruteforce/dictionary attack detector, able to block attackers
 \item[$\bullet$] making clients talk only with the server
 \item[$\bullet$] encrypting MQTT messages with TLS
 \item[$\bullet$] looking at an example of publish/subscribe specifying the desired QoS level and retained messages\\
@@ -953,6 +861,7 @@ To do that, we simply write two bash scripts to properly configure the server an
   
 \begin{lstlisting}[language=bash]
 #!/bin/sh
+iptables -F
 iptables -P INPUT DROP
 iptables -P OUTPUT DROP
 file="trusted_client_ips.lst"
@@ -972,7 +881,7 @@ The code above shows the bash script used to configure the server's firewall; th
 
 
 The dedicated port is the only open port on the server, running the Python daemon responsible to accept only registered IPs messages and verify if they are valid APs.\\
-\underline{Note}:  an attacker might try to perform brute force or dictionary attacks against this daemon, so we will explain later how to easily protect our system from them.\\
+%\underline{Note}:  an attacker might try to perform brute force or dictionary attacks against this daemon, so we will explain later how to easily protect our system from them.\\
 
 \subsection{SPA mechanism implementation}
 \bigskip
@@ -980,7 +889,7 @@ The dedicated port is the only open port on the server, running the Python daemo
 The SPA daemon is a simple Python server which accepts only connections from authorized client IPs and discard all the others.\\
 
 Once the daemon receives an AP, it simply uses the pre-established password, the IP address of the sender and the current timestamp to generate the expected MD5, then it compares it with the received one, and if they are equal the received AP has to be considered valid.\\
-All of this stuff can be done is few lines of code:\\
+All of this stuff can be done in few lines of code:\\
 
 \begin{python}
 
@@ -992,7 +901,7 @@ def grantAccessToClient(client_ip):
   cmd1="iptables -I INPUT -s %s -p tcp --dport %s -j ACCEPT" %(client_ip,service_port)
   
   cmd2='echo "iptables -D INPUT -s %s -p tcp --dport %s 
-        -j ACCEPT|at now+2 minute;' %(client_ip,service_port)
+        -j ACCEPT"|at now+2 minute;' %(client_ip,service_port)
         
   os.system(cmd1)
   os.system(cmd2)                                      
@@ -1016,7 +925,7 @@ def checkAP(received_md5,client_ip):
 The idea is pretty simple: if the daemon receives a valid AP, it adds an Iptables rule to allow the client to access the service port, otherwise it does nothing.\\
 \underline{Note}: since we want the access to the service to be limited in time, we run the command \emph{``at"} which gives us the opportunity to run a command after a certain period of time (in the example it is 2 minutes, but in a real scenario it should be larger). Another thing we should notice is that we log only the negative cases, and we do this because there is another script which makes use of this log file to detect and block bruteforce/dictionary attacks in real-time.\\
 
-This detector implements a very simple but effective detection strategy: when it reads a new line of the daemon's log file, it takes the client IP address and checks if the number of invalid APs received by him in the last \textsc{time\_range} minutes is larger than \textsc{max\_requests}; if so, that client IP is locked out for \textsc{ban\_time} hours, and to do that it simply adds an iptables rule again.\\
+This detector implements a very simple but effective detection strategy: when it reads a new line of the daemon's log file, it takes the client IP address and checks if the number of invalid APs received by it in the last \textsc{time\_range} minutes is larger than \textsc{max\_requests}; if so, that client IP is locked out for \textsc{ban\_time} hours, and to do that it simply adds an iptables rule again.\\
 This last rule will expire automatically using once again the command ``at" to delete it from Iptables.\\
 Of course, it is important to define properly these constants: let's say, for instance, that we may accept at most 5 invalid APs for IP in the last 30 minutes and ban the user for 6 hours.\\
 
@@ -1091,43 +1000,38 @@ publishMsg(client,topic_pub,"online",1,True)
 \chapter{Real-world examples}
 \bigskip
 I did my internship working for four months with a company called ABO DATA, which deals with IoT technologies.\\
-The company enables customers to customize and manage IoT business applications: most of times we talk about customers' devices/sensors which send their measurements to a cloud or a centralized system, then these measures are computed and exploited to do something else related to customers' business.\\
-So, during my internship in the company I often had to deal with tasks related to receiving data from a source and their subsequent forwarding to a destination, like a bridge, and most of times I worked with two protocols: HTTP(s) and MQTT.\\
+The company enables customers to customize and manage IoT business applications: most of the times we talk about customers' devices/sensors which send their measurements to a cloud or a centralized system, then these measures are computed and exploited to do something else related to customers' business.\\
+So, during my internship I often had to deal with tasks related to receiving data from a source and their subsequent forwarding to a destination, like a bridge, typically using two protocols: HTTP(s) and MQTT.\\
 
-In the next page, I would like to discuss two real-world cases I have worked on, which should make us reasoning about how a productive system should be thought and implemented.\\
+In Section \ref{sec:intership_case1}, I would like to discuss two real-world cases I have worked on, which should make us reasoning about how a production system should be thought and implemented.\\
 
 \clearpage
 \section{Case 1 - Real-world MQTT-based industrial system}
+\label{sec:intership_case1}
 \bigskip
 This is a real-world scenario involving an important company, whose name cannot be disclosed for reasons of privacy, partner of several automotive, pharmaceutical, writing tools and watchmaking industries, that produces and distributes automated systems as well as high-precision and efficient cutting tools.\\
 
-This company recently decided to build a realiable monitoring and management system for their machines using a Cloud architecture.\\
-This proposal's goal is to collect data from machines' sensors in order to:
+This company recently decided to build a realiable monitoring and management system for their machines using a \emph{cloud} architecture.\\
+The requirements were to collect data from machines' sensors in order to create a so-called:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] create a so-called \emph{Local Control Room}, which allows the company's customers to check the performances, real use and health status of their machines, in real-time
-\item[$\bullet$] create a so-called \emph{Centralized Control Room}, which allows the company itself to monitor their resources operating with different customers in order to collect historical data useful to make analysis and comparisons
+\item[$\bullet$] \emph{Local Control Room}, which allows the company's customers to check the performances, real use and health status of their machines, in real-time
+\item[$\bullet$] \emph{Centralized Control Room}, which allows the company itself to monitor their resources operating with different customers in order to collect historical data, useful to make analysis and comparisons
 \end{itemize}
 
 These monitoring systems collecting tons of data are often used by companies and industries to drastically change and improve their maintenance approach.
 
-\begin{figure}[H]
-\includegraphics[width=10cm,height=10cm,keepaspectratio]{maintenance_approach}
-\centering
-\caption{Maintenance approach innovation roadmap}
-\end{figure}
-
-A \emph{Time-based} maintenance approach is the simplest one, and unfortunately the most used, so when a machine breaks down, the customer contacts the company support to receive assistance.\\
+A \emph{Time-based} maintenance approach is the simplest one, and unfortunately the most used, so when a machine breaks down, the customer contacts the support company to receive assistance.\\
 The use of a monitoring system introduces a new maintenance approach, called \emph{Condition-based}, thanks to which the corrective maintenance is considerably reduced; in fact, the continuous monitoring of the health status of the machines allows to intervene before the failure occurs.\\
 Finally, in the last few years a new approach, called \emph{Predictive}, was born; this approach is based on the possibility of predicting possible failures in a smart way, using the huge amount of data received as input for Machine Learning algorithms.\\
 
-Clearly, both the second and third approaches can be seen in two different ways:
+Clearly, both the second and third approaches can be seen in two different ways. The customer uses data from its 
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] the customer uses data from its Local Control Room, and when he (or his ML algorithms) detects an imminent breakdown, he contacts the company assistance
-\item[$\bullet$] the customer uses data from its Local Control Room for other purposes, and let the company predicting possible failures using Centralized Control Room's data.\\
+\item[$\bullet$] Local Control Room, and when he (or his ML algorithms) detects an imminent breakdown, he contacts the company assistance
+\item[$\bullet$] Local Control Room for other purposes, and let the company predicting possible failures using Centralized Control Room's data.\\
 \end{itemize}
 
 Now that we know what a monitoring system can be useful for, let's see the structure of the system mentioned above.\\
@@ -1142,6 +1046,10 @@ This company provides two different monitoring systems for two different possibl
 
 \clearpage
 \subsection{Factory}
+\bigskip
+
+This first scenario expects the customer to be an industry, having its own private network to which the company's machines (equipped with internal sensors) are connected.\\
+As we can see in Figure \ref{fig:factoryarchitecture}, the customer runs a MQTT broker on a local server, on which the company's sensors publish their data.\\
 
 \begin{figure}[H]
 \includegraphics[width=15cm,height=11cm,keepaspectratio]{factory_architecture}
@@ -1150,26 +1058,21 @@ This company provides two different monitoring systems for two different possibl
 \label{fig:factoryarchitecture}
 \end{figure}
 
-This first scenario expects the customer to be an industry, having its own private network to which the company's machines (equipped with internal sensors) are connected.\\
-As we can see in Figure \ref{fig:factoryarchitecture}, the customer runs a MQTT broker on a local server, on which the company's sensors publish their data.\\
-
-This MQTT broker is developed and provided by a third company, which is the owner of the Cloud network as well as the provider of the monitoring service, and in our case we are talking about \emph{SAP}~\footnote{https://www.sap.com/}.\\
-In this specific scenario, MQTT communication is not encrypted and there is no required authentication system; simply, there are several open topics, one for each sensor, where these last ones publish their measures at regular intervals of time.\\
+This MQTT broker is developed and provided by a third company, which is the owner of the cloud network as well as the provider of the monitoring service, and in our case we are talking about \emph{SAP}~\footnote{https://www.sap.com/}.\\
+In this specific scenario, MQTT communication is not encrypted and there is no required authentication system; simply, there are several open topics, one for each sensor, which publishes its measures at regular intervals of time.\\
 It is easy to understand that this is a risky choice for an industrial system architecture, that should be considered only if we can totally trust all the devices connected to the internal network.\\
 Clearly, to trust all of them we have also to be sure that the internal network protection is secure enough: having a wired network defintely helps, since an attacker must have physical access, but of course this is not always possible, especially when devices belonging to the same network are not located in the same place.\\
 In that case it is necessary to create a secure wireless network protected by WPA2 and a strong password.\\
 
-As shown above, the customer private network increases its security putting a firewall in front of the server hosting the MQTT broker.\\
+As shown in Figure \ref{fig:factoryarchitecture}, the customer private network increases its security putting a firewall in front of the server hosting the MQTT broker.\\
 This firewall is properly configured to hide all the devices from the external world, blocking all the incoming and outgoing connections.\\
 Actually, there is only one outgoing connection allowed, that is the one that allows the server, on which the broker runs, to send the collected data by the sensors to the cloud.\\
-Before going on, I would like to clarify that putting a firewall in front of the server is a good practice and gives the network a robust protection, but in this case, having a \emph{NAT} router which does not any port forwarding and no mapping between the public IP address and the internal ones, using it seems to be a little redundant.\\
 
-So, we were saying that there is one outgoing connection allowed: this is nothing but the request sent by the local server to transmit sensors' data to the cloud.\\
-To do that, it uses an \emph{HTTPS API} (simply a web service), provided by a webserver belonging to the Cloud network, so to the SAP network, whose job is to receive data from sensors and write them on the database.\\
+The outgoing connection uses an \emph{HTTPS API} (simply a web service), provided by a webserver belonging to the Cloud network, so to the SAP network, whose job is to receive data from sensors and write them on the database.\\
 Having to do with a secure HTTPS connection we know that data is transferred securely, therefore we can assume that the customer-side is properly protected.\\
 
 There is just one remaining risk to be removed: only trusted clients' requests must be accepted by the \emph{PUT API}, hence those coming from the company customers' broker servers.\\
-To do that, mutual authentication is employed, so when a customer's broker sends sensors' data to the API it will send even its own X.509 certificate to the remote webserver to prove its identity.\\
+To do that, mutual authentication is employed, so when a customer's broker sends sensors' data to the API it will send also its own X.509 certificate to the remote webserver to prove its identity.\\
 \underline{Note}: this is the solution chosen and implemented by SAP, but an alternative one could be to include authentication credentials in the POST content, avoiding the mutual authentication mechanism, which, as already seen, can afflict performances.
 %We will discuss more in detail about this at the end of Section \ref{ssec:connectedmachines}, related to the Connected Machines architecture.
 
@@ -1181,16 +1084,20 @@ This service simply provides an intuitive dashboard to the user, by which he can
 
 
 \subsection{Connected Machines}
+\label{ssec:connectedmachines}
+\bigskip
+This second system architecture deals with a different, and more difficult to protect, scenario.\\
+In this case, there are several customer's machines located in different places, probably far from each other, therefore no common and secure network protecting them, but simply standalone machines and their related sensors.\\ 
+
+We can see this architecture in Figure \ref{fig:connectedmachines}.
 
 \begin{figure}[H]
 \includegraphics[width=14cm,height=11cm,keepaspectratio]{connectedmachines_architecture}
 \centering
 \caption{Connected Machines Architecture}
-\label{ssec:connectedmachines}
+\label{fig:connectedmachines}
 \end{figure}
 
-This second system architecture deals with a different and more difficult to protect scenario.\\
-In this case, there are several customer's machines located in different places, probably far from each other, therefore no common and secure network protecting them, but simply standalone machines and their related sensors.\\
 It is obvious that this fact changes everything: it would not make sense to give each machine a local server running an MQTT broker to which send data, and then forward it to the cloud through it as before.\\
 This procedure should be considered only when there are several machines close to each other which can share a private network in order to create a singular exit node towards the cloud network.\\
 
@@ -1200,10 +1107,7 @@ So, for all these cases there is only one way to communicate: having a remote MQ
 Clearly, this time it is necessary to use the secure version of MQTT, therefore relying on TLS.\\
 As before, it is also necessary to verify if sensors' data actually come from trusted senders; we notice that in this case MQTT client authentication would be enough, but practically mutual authentication is employed again.\\
 
-Probably they preferred this solution because the authentication mechanism can be expensive, as already discussed; it may be struggling for the server to verify clients' credentials browsing a large database several times, and it may result in a perceptible slowdown of the application layer with a large memory consumption.\\
-So, a benefit of using client certificates is that authentication is moved from the application layer to the transport one.\\
-
-Here we have a practical example of what we have discussed before in the section dedicated to the construction of an homemade MQTT system: I recommended you to trust only certificates approved by reliable certification authorities and never trust self-signed certificates. \\
+Here we have a practical example of what we have discussed before in Section \ref{sec:homemademqtt}: I recommended you to trust only certificates approved by reliable certification authorities and never trust self-signed certificates. \\
 This last architecture helps us to understand that, in addition to the fact that it is not good to trust self-signed certificates, forcing the server to keep a potentially huge number of certificates is not convenient and totally pointless; therefore, the right way is to trust client's certificates which are trusted by certification authorities we trust.\\
 
 \bigskip
@@ -1216,12 +1120,12 @@ After having seen these two real-world architectures, we can conclude that there
 \bigskip
 This second case is certainly less detailed than the previous one, but I would like to quickly discuss it because it helps to show how every aspect of a system should be considered important as the others, and as trivial errors can lead to serious consequences.\\
 
-In the previous case we have seen that the monitoring system was provided by SAP; we can say that, currently, the company relies on the SAP platform for most of its projects, and SAP structure is very solid and secure, paying attention to remain updated with the newest security measures to take.\\
+In the previous case we have seen that the monitoring system was provided by SAP; we can say that, currently, the company relies on the SAP platform for most of its projects, and SAP structure is very solid and secure, paying attention to be up to date with the newest security measures to take.\\
 For more information, you can consult their official documentation at \\ \texttt{https://www.sap.com/corporate/en/company/security.html}.\\
 
-This is a real case, but, for obvious reasons of privacy again, I will not be able to give a name to the customer I am going to talk about.\\
+This is a real case, but again, for obvious privacy reasons, I cannot disclose to the customer I am going to talk about.\\
 
-I worked on a project where I had to take some real-time data stored on a remote server belonging to the customer and send them to another remote server through a secure MQTT channel.\\
+In this project I had to take some real-time data, stored on a remote server belonging to the customer, and send them to another remote server through a secure MQTT channel.\\
 I started Wireshark to sniff data and see if it was possible for an attacker to alter the measures, but without success as the MQTT channel used TLS.\\
 
 What we did not say is that the protocol used to recover data from the source server was FTP, which is known to be extremely vulnerable since it sends data in plain-text.\\
@@ -1241,13 +1145,30 @@ ZigBee is a low-cost protocol developed by ZigBee Alliance, for low-power wirele
 This communication system is less expensive than Wi-Fi and it has a larger range than Bluetooth, besides its range can also be extended using routers.\\
 
 Nowadays, ZigBee is used in industrial automation, where industries exploit it to manage and monitor critical equipments, but in particular this protocol is perfectly suited for controlling home appliances remotely. We may think to TVs, surveillance devices, locks, thermostats, lighting system, garage door, windows, blinds, speakers, as well as any other home system that can be controlled remotely.\\
-Currently, ZigBee is mainly used to build Smart Homes.\\
+Currently, ZigBee is mainly used to build \emph{Smart Homes}.\\
 
-In section \ref{sec:zigbeearch} we start to analyze the architecture and the basic concepts of this protocol.\\
+In section \ref{sec:zigbeearch} we start to analyze the architecture and the basic concepts of this protocol. Security issues are described in the next chapter.\\
 
+\clearpage
 \section{Architecture and basic concepts}
 \label{sec:zigbeearch}
 \bigskip
+As we can see in Figure \ref{fig:zigbeearch}, a ZigBee system consists of three types of devices:
+
+\begin{itemize}
+\setlength{\itemindent}{+4mm}
+\item[$\bullet$] \emph{Coordinator}: they manage the overall network and they are responsible for starting it, allowing other devices to join it, keeping track of them and configuring the security level of the network.\\
+A coordinator is considered as the \emph{Trust Center (TC)}, which performs security control of the network, storing and distributing the  keys.\\
+For all these reasons, the coordinator never sleeps, instead it must be continuously powered.
+
+
+\item[$\bullet$] \emph{Routers}: they are intermediary devices responsible for routing packets between end devices or between an end device and the coordinator.\\
+Routers, as well as end devices, need to be accepted in the network by the coordinator.\\
+Routers have two things in common with the coordinator: 1) they cannot sleep, 2) they can give permissions to new devices to join the network.
+
+\item[$\bullet$] \emph{End devices}: they are low-power, or battery-power, devices (usually sensors) that can communicate only through their parent nodes.\\
+Unlike routers, end devices cannot route traffic and they can go to sleep to reduce power consumption.
+\end{itemize}
 
 \begin{figure}[H]
 \includegraphics[width=12cm,height=12cm,keepaspectratio]{zigbee_architecture}
@@ -1256,41 +1177,23 @@ In section \ref{sec:zigbeearch} we start to analyze the architecture and the bas
 \label{fig:zigbeearch}
 \end{figure}
 
-\bigskip
-\subsection{ZigBee components}
-\bigskip
-
-As we can see in figure \ref{fig:zigbeearch}, the ZigBee system consists of three types of devices:
-
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Coordinators}: they manage the overall network and they are responsible for starting it, allowing other devices to join it, keeping trace of them and configuring the security level of the network.\\
-A coordinator is considered as the \emph{Trust Center (TC)}, which performs security control of the network, storing and distributing the  keys.\\
-For all these reasons, the coordinator never sleeps, instead it must be continuously powered.
-
-
-\item[$\bullet$] \emph{Routers}: they are intermiediary devices responsible for routing packets between end devices or between an end device and the coordinator.\\
-Routers, as well as end devices, need to be accepted in the network by the coordinator.\\
-Routers have two things in common with the coordinator: 1) they cannot sleep, 2) they can give permissions to new devices to join the network.
-
-\item[$\bullet$] \emph{End devices}: they are low-power, or battery-power, devices (usually sensors) that can communicate only through their parent nodes.\\
-Unlike routers, end devices cannot route traffic and they can go to sleep to reduce power consumption.
-\end{itemize}
-
 There is no required number of specific components for a ZigBee network, instead the number of coordinators, routers and devices depends on the network we want to build and its topology (\emph{star, cluster tree or mesh}).
 
 \subsection{ZigBee network topologies}
+\bigskip
+Figure \ref{fig:zigbeetopologies} shows the three possible ZigBee network topologies: star, tree and mesh.
 
 \begin{figure}[H]
 \includegraphics[width=11cm,height=11cm,keepaspectratio]{zigbee_topologies}
 \centering
 \caption{ZigBee Topologies}
+\label{fig:zigbeetopologies}
 \end{figure}
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Star}: in this topology there is only the coordinator responsible for initiating and managing the network devices; since every device talks directly with the coordinator, we consider the other devices as end devices, therefore no routers in this topology.\\
-This topology is mainly used when all the endpoints need to communicate with a central controller, so likely in industries.\\
+This topology is mainly used when all the endpoints need to communicate with a central controller, so it is common in industries.\\
 Of course this topology is very simple, but its simplicity is also its greatest weakness, in fact the coordinator is a single point of failure, because if it breaks down the whole network goes down.
 
 \item[$\bullet$] \emph{Tree}: this topology has a root node, represented by the coordinator, which is responsible for establishing the network and choosing the proper key network parameters.\\
@@ -1300,7 +1203,7 @@ This solution is not so better than the previous one because we still have a sin
 \item[$\bullet$] \emph{Mesh}: this topology has, as usual, a single coordinator, several routers to extend the network and, of course, end devices.\\
 Once again, the coordinator establishes the network and is responsible to choose the network parameters.\\
 There is no more a single point of failure because in this case we have multiple paths to reach a node, therefore a more robust protection from link failures.\\
-The only drawback of this topology is that is complex and more difficult to setup than the previous ones.\\
+The only drawback of this topology is that is complex and more difficult to set up than the previous ones.\\
 \end{itemize}
 
 Mesh topologies are more robust than the others, therefore they are the most used.\\
@@ -1318,12 +1221,12 @@ Each layer provides a set of services exposed to the upper layer.
 \caption{ZigBee Protocol Stack}
 \end{figure}
 
-Let's briefly see them: 
+Let us briefly see them: 
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Physical Layer}: it provides the basic radio communication capabilities, such as channels, modulation, demodulation, transmission rate, etc.
-\item[$\bullet$] \emph{Medium Access Control layer (MAC)}: it manages data transmissions between neighboring devices (point to point). 
+\item[$\bullet$] \emph{Medium Access Control layer (MAC)}: it manages data transmissions between neighbor devices (point to point). 
 It includes services like transmission retry and acknowledgment management~\cite{digi}.
 \item[$\bullet$] \emph{Network Layer}: it adds routing capabilities that allows data packets to traverse multiple devices (multiple hops) to route data from source to destination, in order to create more complex topologies.
 \item[$\bullet$] \emph{Application Layer}: it provides device and service discovery features, applications supporting layer primitives used by devices, capabilities to manage the security policies and configuration of a device. Finally, it collaborates with the Network layer to establish and manage cryptographic keys, and provides primitives for their management.
@@ -1343,23 +1246,24 @@ Furthermore, ZDOs manages the security policies and configuration of a device.
 
 \subsection{ZigBee communication modes}
 \bigskip
-ZigBee employs two communication ways:
+ZigBee employs two communication modes:
 \bigskip
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Beacon} mode: the coordinator sends a beacon message periodically to the devices and these last ones wait for it before sending messages addressed to the coordinator.\\
+\item[$\bullet$] \emph{Beacon}: the coordinator periodically sends a beacon message to the devices and these wait for it before sending messages addressed to the coordinator, as you can see in Figure \ref{fig:zigbeebeaconmode}.\\
 When the transmission is completed, the coordinator set a schedule for the next beacon so that the device can go to sleep till that moment.\\
 Beacon intervals can be from 15 ms up to 252 seconds.\\
-So, in this mode, all the devices know when to communicate with the coordinator.\\
+In this mode, all the devices know when to communicate with the coordinator.\\
 Beacon mode is mainly used when the coordinator runs on batteries, hence it needs to save as much power as possible.
 
 \begin{figure}[H]
 \includegraphics[width=7cm,height=7cm,keepaspectratio]{zigbee_beaconmode}
 \centering
 \caption{Beacon mode}
+\label{fig:zigbeebeaconmode}
 \end{figure}
 
-\item[$\bullet$] \emph{Non-Beacon} mode: in this case the coordinator is mains-powered and wait continuously for data from the devices, which can transmit at random intervals.\\
+\item[$\bullet$] \emph{Non-Beacon}: in this case the coordinator is mains-powered and wait continuously for data from the devices, which can transmit at random intervals.\\
 This mode is used in systems where devices are almost always 'asleep' (for instance, in smoke detector systems).\\
 Clearly, it might happen that an end device finds the channel busy and in that case the coordinator will miss the call.
 
@@ -1371,7 +1275,7 @@ Clearly, it might happen that an end device finds the channel busy and in that c
 
 \end{itemize}
 \bigskip
-In chapter \ref{chap:zigbeesecchap} we start to discuss the security aspects of this protocol.\\
+%In chapter \ref{chap:zigbeesecchap} we start to discuss the security aspects of this protocol.\\
 
 \chapter{Security Overview}
 \label{chap:zigbeesecchap}
@@ -1386,8 +1290,6 @@ Just think about a thief, good enough to find and exploit a ZigBee vulnerability
 
 In the next sections, we are going to discuss the security measures offered and adopted by the ZigBee standard; more in details, we will analyze its security models, keys (types, generation and management), authentication mechanisms and protection from some famous attacks.\\
 
-Let's start discussing some useful security assumptions in section \ref{sec:zigbeesecassumptions}.
-
 
 \clearpage
 \section{Security assumptions}
@@ -1395,13 +1297,13 @@ Let's start discussing some useful security assumptions in section \ref{sec:zigb
 \bigskip
 Being ZigBee a simple as well as low-cost communication protocol, it relies on a symmetric-key cryptography to protect network messages and devices, precisely AES 128 bits, avoiding heavier encryption system, like the asymmetric one; therefore, both the sender and recipient of a protected transaction need to share the same key.\\
 
-All the ZigBee security features we are going to discuss are strictly related to the cryptographic (symmetric) keys used by the protocol; in order to talk about them, we must first take a look at the following list of assumptions~\cite{secanalysisofzigbee} on which they are based:
+All the ZigBee security features we discuss are strictly related to the cryptographic (symmetric) keys used by the protocol; in order to talk about them, we must first take a look at the following list of assumptions~\cite{secanalysisofzigbee} on which they are based:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 %\item[$\bullet$] \emph{ZigBee employes an open-trust model}, which means that the stack layers trust each other, therefore the layer that originates a frame must secure it
 \item[$\bullet$] communication between different stack layers on the same device is not encrypted
-\item[$\bullet$] cryptographic keys are securely stored in quite-resistant hardware devices
+\item[$\bullet$] cryptographic keys are securely stored in tamper proof hardware devices
 \item[$\bullet$] keys are always transmitted encrypted, so never revealed
 \item[$\bullet$] cryptographic mechanism and security policies are properly implemented
 \item[$\bullet$] availability of almost perfect random number generators\\
@@ -1411,7 +1313,7 @@ All the ZigBee security features we are going to discuss are strictly related to
 \section{Security models}
 \bigskip
 
-ZigBee provides two network security architectures, or models, visible in figure \ref{fig:zigbeemodels}: \emph{distributed} and \emph{centralized}.\\
+ZigBee provides two network security architectures, or models, visible in Figure \ref{fig:zigbeemodels}: \emph{centralized} and \emph{distributed}.\\
 
 \begin{figure}[H]
 \includegraphics[width=10cm,height=10cm,keepaspectratio]{security_models}
@@ -1422,7 +1324,7 @@ ZigBee provides two network security architectures, or models, visible in figure
 
 The difference between them concerns only the way they accept new joining devices into the network and how messages are protected.\\
 
-We will talk better about this in section \ref{sec:zigbeeseckeys}, but just to understand what we are going to say we should know that each network has a key used to encrypt broadcast messages, called \emph{network key}, and a key shared by two devices to communicate, as well as to encrypt and provide the network key, called \emph{link key}.\\
+Each network has a key used to encrypt broadcast messages, called \emph{network key}, and a key shared by any two devices to communicate, as well as to encrypt and provide the network key, called \emph{link key}.\\
 
 The idea of the \emph{distributed security model} is pretty simple: there is no coordinator, but only routers and end devices.\\
 In this model, we totally rely on routers to accept new routers and end devices within the network as well as to generate and distribute network keys.\\
@@ -1433,38 +1335,37 @@ All the devices will talk to each other encrypting messages with the same networ
 The \emph{centralized security model} is a bit more complex, but even more secure.\\
 In this case we have routers, end devices and the coordinator, that from now on we will call \emph{Trust Center (TC)}.\\
 This time the responsible for the management and acceptance of routers and end devices joining the network as well as the creation and sharing of the keys is the TC.\\
-Besides, devices have not to be all pre-configured with the same link key and they have not to communicate with each other using necessarily the network key to encrypt messages.\\
-The TC will also create and provide a new network key periodically, in order to protect the network from possible attackers, who can try to steal it.\\
+Besides, devices have not to be all pre-configured with the same link key and they have not to communicate with each other using the network key to encrypt messages.\\
+The TC also creates and provides a new network key periodically, in order to protect the network from possible attackers, who can try to steal it.\\
 
-The first model is certainly simpler but even less secure, and almost not used, so we will focus on this second one}.\\
+While the first model is certainly simpler it is less secure, and almost unused, so we focus on the second one}.\\
 
-\section{Security keys types and management}
-\label{sec:zigbeeseckeys}
-\bigskip
+{\setlength{\parindent}{0cm}
 We have already mentioned that a ZigBee network exploits two main types of keys to communicate securely: \emph{network keys} and \emph{link keys}.\\
-Actually, there is also a third key, called \emph{master key}.\\
-Let's see them in details:
+}
+%Actually, there is also a third key, called \emph{master key}.\\
+Let us see them in details:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] the \emph{network key} is a 128-bit key generated and distributed by the Trust Center to all the network devices in order to allow them to communicate in broadcast securely.\\
+\item[$\bullet$] the \emph{network key} is a 128-bit key generated and distributed by the TC to all the network devices in order to allow them to communicate in broadcast securely.\\
 It is clear that the TC cannot send the network key in plain-text, otherwise an attacker could sniff that, making it useless. Sending a key without encrypting the message is against one of the assumptions we have seen in section \ref{sec:zigbeesecassumptions}, but unfortunately there is one exceptional case in which this happens.\\
 
 There are two types of network keys, \emph{standard} and \emph{high security}, which differ from each other in the way they are distributed to joining devices. \\
-Simply, a high-security network key is sent encrypted, the other one in plain-text.\\
-More specifically, the standard network key is sent in plain-text in those cases where the end device that wants to join the network has no pre-configured link key. Some TCs decide to deny the access to such devices, while others are more permissive and allow them to join the network, risking to compromise the security of the whole network.\\
+A high-security network key is sent encrypted, while the other one in plain-text.\\
+More specifically, the standard network key is sent in plain in those cases where the end device that wants to join the network has no pre-configured link key. Some TCs decide to deny the access to such devices, while others are more permissive and allow them to join the network, risking to compromise the security of the whole network.\\
 
 It is important to notice that joining devices can be also pre-configured with a network key, but this is a uncommon practice, since, as already said,  in a centralized model the network key is updated periodically by the TC.
 \item[$\bullet$] the \emph{link key} is a 128-bit key shared by two devices, so between the TC and another node, or between two nodes.\\
 More in details, we have three different types of link key~\cite{secanalysisofzigbee}:
 
 \begin{itemize}
-\item \emph{Pre-configured Global Link key}: it exists only for one reason, that is encrypting the network key in order to transfer it securely from the TC to the end devices.\\
+\item \emph{Pre-configured Global Link key}: it exists for one reason only, that is encrypting the network key in order to transfer it securely from the TC to the end devices.\\
 As the words \emph{global} and \emph{pre-configured} suggest, this key is the same for all the network nodes and pre-installed in the devices that want to join the network.\\
-The global key can be defined by the manufacturer, or, even much simpler, by ZigBee.
+The global link key can be defined by the manufacturer, or, even much simpler, by ZigBee.
 \item \emph{Pre-configured Unique Link key}: same use of the previous one, but different for every node.
 \item \emph{Trust Center Link Key (TCLK)}: like the last one, this key is used to allow the TC and another node to communicate securely, but the difference is that this time it is not pre-configured.\\
-The TC generates it randomly or derive it from the network key (or from the pre-configured unique link key, if existent) using the \emph{Matyas-Meyer-Oseas} hash function~\cite{onewaycompressionfunc}.\\ 
+The TC generates it randomly or derive it from the network key (or from the pre-configured unique link key, if existent) using an hash function.\\ 
 Without entering in too many details about this hash function, we just say that it takes two 128-bit keys as input and return one 128-bit key as output; the second input key of the function is known only by the TC.\\
 Of course, this generated key must be sent to the interested node, and to do that the TC uses once again the network key or, much better, the pre-configured unique link key, if existent.\\
 
@@ -1473,6 +1374,7 @@ A reasonable question is \emph{``why should we generate a TCLK if we already hav
 The generation and provisioning of the key is quite intuitive: one of the two devices requests the key to the TC, which is responsible to generate and send it to both of them using their respective pre-configured unique link key or, if not existent, the network key.
 \end{itemize}
 
+\iffalse
 \item[$\bullet$] the \emph{master key}:  This is a shared key used, during the execution of a symmetric-key key establishment protocol (\emph{SKKE}), to generate link keys~\cite{zigbeespec}.\\
 Without going into too much detail, if a initiator device and a responder device share the master key, they can use it to establish a link key following these three basic steps:
 
@@ -1481,11 +1383,12 @@ Without going into too much detail, if a initiator device and a responder device
 \item the use of this ephemeral data to derive the link key
 \item the confirmation that this link key was correctly computed
 \end{enumerate}
-This key provisioning way is almost never used, so we will focus only on the two previous ones.
+This key provisioning way is almost never used, so we focus only on the two previous ones.
+\fi
 
 \end{itemize}
 
-Now that we have analyzed the ZigBee security keys and their provisioning ways, I would like to report, just for completeness, that there exists a (rarely used) extension of the traditional key-transport, which involves certificates.\\
+Now that we have analyzed the ZigBee security keys and their provisioning, I would like to report, just for completeness, that there exists a (rarely used) extension of the traditional key-transport, which involves certificates.\\
 Security keys can be distributed using the \emph{Certificate-Based Key Establishment protocol (CBKE)}~\cite{zigbeesecbasics2}, which implements a mechanism to allow devices to negotiate symmetric unique keys with the TC, starting from a certificate, signed by a Certification Authority, that both devices must have.\\
 The CBKE mechanism allows the device to start communicating, but even the Trust Center to securely identify it.\\
 The key establishment procedure involves the following four steps:
@@ -1498,26 +1401,28 @@ The key establishment procedure involves the following four steps:
 \item Confirm the key using the MAC
  \end{enumerate}
 
-The key generation and the MAC derivation use the \emph{Elliptic Curve MQV}\footnote{https://www.ecmqv.com/} and a Key derivation function, but we will not delve into them as they go beyond the context.\\
+The key generation and the MAC derivation use the \emph{Elliptic Curve MQV}\footnote{https://www.ecmqv.com/} and a key derivation function.\\
 At the end of this process, both the Trust Center and the device \emph{i} share a new Link Key LK\textsubscript{i}, which is used to encrypt the TCLK they are going to use to communicate.\\
-Now, if two devices \emph{i} and \emph{j} have obtained their TC Link Key, and want to communicate with each other, they can obtain their Application Link key by asking it to the Trust Center, as usual, which will generate a random Application Link Key LK\textsubscript{ij} and send it to both the devices using their respective Trust Center Link Key.\\
+Now, if two devices \emph{i} and \emph{j} have obtained their TC Link Key, and want to communicate with each other, they can obtain their Application Link key by asking it to the TC, as usual, which will generate a random Application Link Key LK\textsubscript{ij} and send it to both the devices using their respective Trust Center Link Key.\\
 
+\iffalse
 \subsection{Over-The-Air Updates}
 \bigskip
-We have already mentioned that in a centralized architecture the TC periodically updates and distributes the network key in order to not give attackers time to try to steal it.\\
-Clearly, the updates of the network key are sent over-the-air, so they must be encrypted with some keys, which usually are either the current network key or the Trust Center Link key (unique or global, depending on the scenario).\\
-Obviously, the second one is a better and more secure choice, because if an attacker has already stolen the current network key, and the Trust Center uses such key to encrypt the new one, then the attacker will always be able to get the updated network key.\\
+We have already mentioned that in a centralized architecture the TC periodically updates and distributes the network key in order not to give attackers time to try to steal it.\\
+Clearly, the updates of the network key are sent over-the-air, so they must be encrypted with some keys, which usually are either the current network key or the TC Link key (unique or global, depending on the scenario).\\
+Obviously, the second one is a better and more secure choice, because if an attacker has already stolen the current network key, and the TC uses such key to encrypt the new one, then the attacker can always obtain the updated network key.\\
 %Let's clarify that each node is able to store several network keys, but also to identify the current one with a unique key sequence number assigned by the Trust Center.\\
 
 Keys are not the only things we may think to update over the air, in fact ZigBee gives the user the chance to update a device, adding new features as well as applying security patches, if necessary.\\
 Clearly, if this kind of communication is not protected enough, it might happen that devices accept some critical fake updates from untrusted sources.\\
-Assuming, for instance, we want to send an updated code image to a device to apply a security patch, we firstly sign the image with a private key k\textsubscript{1}, then we send the image over the network using a second cipher key k\textsubscript{2}; doing this only the end device will be able to decrypt it and verify the validity of the image thanks to its signature (it is clear that the end device must know the two keys used to encrypt and sign).\\
+Assuming, for instance, we want to send an updated code image to a device to apply a security patch, we firstly sign the image with a private key k\textsubscript{1}, then we send the image over the network using a second cipher key k\textsubscript{2}; doing this only the end device will be able to decrypt it and verify the validity of the image thanks to its tag (it is clear that the end device must know the two keys used to encrypt and create the tag).\\
 Once the device received the message, it decrypts and validates it, then updates itself.\\
+\fi
 
 \clearpage
 \section{Protocol Stack Security}
 \bigskip
-In this section we discuss the security measures adopted by the ZigBee protocol stack, which involves the MAC, Network and APS layers.\\
+In this section we discuss the security measures adopted by the ZigBee protocol stack, which involves the MAC, Network and Application layers.\\
 
 The IEEE MAC Layer implements security services which are used by the ZigBee protocol in the network and application layers.\\ 
 IEEE 802.15.4 establishes the encryption algorithm to use (AES) when the data has to be transmitted, but the standard does not specify the keys or security levels to use.
@@ -1528,7 +1433,7 @@ This is a task concerning the upper layers, hence ZigBee is responsible for that
 
 \subsubsection{Security Control Header}
 \bigskip
-Let's start taking a look at figure \ref{fig:zigbeemacframestruc}, representing the structure of a MAC frame~\cite{security802154}.\\
+Let's start taking a look at Figure \ref{fig:zigbeemacframestruc}, representing the structure of a MAC data frame~\cite{security802154}.\\
 
 \begin{figure}[H]
 \includegraphics[width=13cm,height=13cm,keepaspectratio]{mac_frame}
@@ -1537,7 +1442,7 @@ Let's start taking a look at figure \ref{fig:zigbeemacframestruc}, representing 
 \label{fig:zigbeemacframestruc}
 \end{figure}
 
-As we can see in figure \ref{fig:zigbeemacframestruc}, IEEE 802.15.4 MAC frames contain a specific header dedicated to security, called \emph{Auxiliary Security Header}.\\
+IEEE 802.15.4 MAC frames contain a specific header dedicated to security, called \emph{Auxiliary Security Header}.\\
 This header is enabled only if the \emph{Security Enabled} bit, contained in the \emph{Frame Control} field, is set to 1.\\
 There are three subfields inside the Auxiliary Security Header:
 
@@ -1624,7 +1529,7 @@ Figure \ref{fig:zigbeenwkframestruc} and \ref{fig:zigbeeapsframestruc} show you 
 \begin{figure}[H]
 \includegraphics[width=13cm,height=13cm,keepaspectratio]{aps_frame}
 \centering
-\caption{ZigBee APS Frame's Structure}
+\caption{ZigBee APL Frame's Structure}
 \label{fig:zigbeeapsframestruc}
 \end{figure}
 
@@ -1634,7 +1539,6 @@ Figure \ref{fig:zigbeenwkframestruc} and \ref{fig:zigbeeapsframestruc} show you 
 Using AES-CCM* is convenient because it can cover all the security levels provided by the 802.15.4 standard, simply turning on, or off, the integrity-only and the encryption-only capability.\\
 
 Clearly, the receiver uses AES-CCM* and the proper key to decrypt the encrypted frame and the tag, then he generates the MAC on his own in order to compare it with the received one.\\
-In other words, using AES-CCM* is convenient because it can cover all the security levels provided by the 802.15.4 standard, simply turning on (or off) the integrity-only and the encryption-only capability.\\
 The key used to encrypt and generate the MAC for a frame, is the one specified in the receiver's ACL; ZigBee simplify the protocol security, using the same key for all the layers.\\
 
 
@@ -1654,7 +1558,7 @@ More in details, there are two different procedures for authenticating devices:
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] \emph{Standard (Residential) mode}: if the new joining device already has a pre-configured network key (unlikely), it will receive an all-zero network key from the trust center as part of the authentication procedure.\\
-If the new device does not have a network key and not even a link key (which must be known by the Trust Center obviously), the TC  sends the network key in plain-text, which is a quite important vulnerability.\\
+If the new device does not have a network key and not even a link key (which must be known by the Trust Center obviously), the TC  sends the network key in plain, which is a quite important vulnerability.\\
 Since the new device does not know the address of the trust center, it will use the source address of the received message to set the trust center address.
 
 \item[$\bullet$] \emph{High Security (Commercial) mode}: in this second, and more secure, mode the Trust Center never sends the network key over an unprotected communication channel.\\
@@ -1664,7 +1568,7 @@ Instead, if no pre-configured link key is owned by the device, then the Trust Ce
 The new device has a limited time to complete the key establishment, otherwise it has to leave the network and retry the authentication procedure again.\\
 When and if the link key is confirmed, the Trust Center considers the device as authenticated for commercial mode, and can send the network key to it through a secure channel thanks to the just established link key.\\
 
-This second mode seems to be more secure than the previous one, and surely it is, but actually it has a vulnerability: if the new device does not share a master key with the Trust Center, this last one will send it over an unprotected link. 
+This second mode seems to be more secure than the previous one, and surely it is, but it actually has a vulnerability: if the new device does not share a master key with the Trust Center, this last one will send it over an unprotected link. 
 
 \end{itemize}
 
@@ -1697,7 +1601,7 @@ We conclude this section saying that ZigBee takes care about security, as we hav
 But we have also seen some important vulnerabilities in the exchange of keys, that, just right now, makes the protocol not perfect at all.\\
 This is not surprising since ZigBee was designed to keep devices low-cost and low-energy.\\
 
-In section \ref{sec:zigbeevulns} we will discuss the most relevant ZigBee vulnerabilities.
+%In section \ref{sec:zigbeevulns} we will discuss the most relevant ZigBee vulnerabilities.
 
 
 \clearpage
@@ -1710,36 +1614,38 @@ Let's see each of them in details:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] \emph{Key storage}: previously, we mentioned that ZigBee assumes that keys are securely stored within the devices, but this is not always respected.\\
-If an attacker is able to extract the network key from a network device, then all the communications within the network will be at risk.
+\item[$\bullet$] \emph{Key storage}: previously, we mentioned that ZigBee assumes that keys are securely stored within the devices, but this is not always the case.\\
+If an attacker can extract the network key from a device, then all the communications within the network will be at risk.
 
-\item[$\bullet$] \emph{Key transportation}: we have seen before that if the Trust Center operates in residential mode, it could happen that the network key is sent in plain-text; clearly, this is a quite important vulnerability since we transmit the key shared by all the devices within the network to send broadcast messages with no protection at all, compromising the whole network.
+\item[$\bullet$] \emph{Key transportation}: if the Trust Center operates in residential mode, it could happen that the network key is sent in plain; clearly, this is a quite important vulnerability since we transmit the key shared by all the devices within the network to send broadcast messages with no protection at all, compromising the whole network.
 
-\item[$\bullet$] \emph{Ghost Attack}: frame counter checks allow recipient devices to ignore duplicate messages, but a \emph{Denial Of Service (DOS)} vulnerability persists: if an attacker crafts an authentic message and replay it, the recipient will discard it but it will spend time and energy to check its validity.\\
+\item[$\bullet$] \emph{Ghost Attack}: frame counter checks allow recipient devices to ignore duplicate messages, but a \emph{Denial of Service (DoS)} vulnerability persists: if an attacker captures an authentic message and replay it, the recipient will discard it but it will spend time and energy to check its validity.\\
 If an attacker performs tons of replay attacks against the same target, the battery life of this last one will be drastically reduced (especially considering that we are talking about low-power devices).
 
+\iffalse
 \item[$\bullet$] \emph{Predictable sensor polling rates}: as we know, end devices can put themselves in sleep mode and wake up at regular intervals to poll the coordinator for data inputs or, in beacon mode, when it receives a beacon from the coordinator, in order to save their battery-life.\\
-This mechanism gives the attacker an advantage: it can send crafted messages to the device at regular intervals even if it is not necessary, forcing it to wake up and process the received messages.\\
-Switching from sleep mode to active mode requires a quite big amount of energy, as well as processing invalid messages, as we have just seen.\\
+This mechanism gives the attacker an advantage: it can send crafted messages to a device at regular intervals even if it is not necessary, forcing it to wake up and process the received messages.\\
+Switching from sleep mode to active mode requires a rather big amount of energy, as well as processing invalid messages, as we have just seen.\\
 So, this is nothing but an extension of the previous Ghost Attack, which has been proved to be extremely effective.
+\fi
 
 \item[$\bullet$] \emph{Manufacturer-defined Link Keys}: manufacturers set default link keys within their devices, and sometimes these keys are used to join ZigBee networks.\\
-Using manufacturer default link keys is a bad choice, because they are usually of public domain, so available to a possible attacker.
+Using manufacturer default link keys is a bad choice, because they are usually publicly available.
 
-\item[$\bullet$] \emph{Association Flooding}: by default, there is no integrity checks on acknowledgment packets, therefore an attacker is able to send fake ACK to devices, and they will be considered as authentic.\\
+\item[$\bullet$] \emph{Association Flooding}: by default, there is no integrity checks on acknowledgment packets, therefore an attacker can send fake ACKs to devices, and they will be considered as authentic.\\
 An attacker, within an already compromised network, can keep on reading messages sent by a device even if the respective recipient is not responding, simply sending fake ACK packets to the sender every time it sniffs a message from it. 
 
-\item[$\bullet$] \emph{No protection from DOS attacks}: ZigBee has no known denial of service protection mechanisms.\\
-There are several ways to perform a DOS attack against a device:
+\item[$\bullet$] \emph{No protection from DoS attacks}: ZigBee has no known denial of service protection mechanisms.\\
+There are several ways to perform a DoS attack against a device:
 
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item \emph{Set the frame counter to its maximum value}: an attacker can send a frame to other devices setting the frame counter to the largest acceptable value and spoofing its address pretending to be another device of the network.\\
 This last one can no longer communicate with the other devices as it is impossibile to create a valid frame counter.
-This is the simplest DOS attack, but fortunately it is possible only in those situations where there is no integrity check on the frame.
+This is the simplest DoS attack, but fortunately it is possible only in those situations where there is no integrity check on the frame.
 
-\item \emph{Flooding}: it consists in the simple sending of tons of messages towards victim devices. For instance, an attacker could replay all the messages it is able to craft (or create legit messages, if it already knows the network key).\\
+\item \emph{Flooding}: it consists in simply sending tons of messages towards victim devices. For instance, an attacker could replay all the messages it is able to capture (or create legit messages, if it already knows the network key).\\
 This kind of attack where the replay messages are sent to all the network devices is called \emph{broadcast storm attack}.
 
 \item \emph{Physical Jamming}: this is a physical attack which involves tools able to cause signal interferences big enough to prevent communication among devices.
@@ -1757,19 +1663,19 @@ This kind of attack where the replay messages are sent to all the network device
 \clearpage
 \section{Considerations and best practices}
 \bigskip
-We conclude this second and last part about ZigBee listing some useful considerations:
+We conclude this second and last part about ZigBee by listing some considerations:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
 \item[$\bullet$] the protocol itself is not much secure, regardless of its implementation
-\item[$\bullet$] the protocol works well if all the devices within the considered network are able to protect themselves from keys theft
-\item[$\bullet$] choose carefully the physical devices based on the role they will have within the network
+\item[$\bullet$] the protocol works well if all the devices within the considered network can protect themselves from keys theft
+%\item[$\bullet$] choose carefully the physical devices based on the role they will have within the network. For instance 
 \item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee their integrity
 \item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
-\item[$\bullet$] avoid using manufacturer link keys, and remember that often they are public
+\item[$\bullet$] avoid using manufacturer link keys, and remember that they are often public
 \item[$\bullet$] prefer unique keys rather than global ones every time you can
-\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}, before deploying it (especially in productive scenarios)
-\item[$\bullet$] you can specify the list of devices which are authorized to access the network, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
+\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}\footnote{https://github.com/riverloopsec/killerbee}, before deploying it (especially in productive scenarios)
+\item[$\bullet$] you can specify the list of authorized devices, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
 %\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
 \item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor.
 \item[$\bullet$] select the frequency band that generates the least interference with other wireless systems.\\
@@ -1783,116 +1689,61 @@ Nowadays, technological progress is surprisingly fast, and even very small devic
 I conclude this section, saying that, in my opinion, ZigBee is a not so secure protocol having many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice.\\
 
 \chapter{Conclusion}
-During my internship, I learned that there are so many aspects to consider to make secure and reliable applications.\\
-If you are developing an homemade application, you probably have no deadline, no customers to satisfy.\\
-On the other hand, if you are developing a business application for a customer you must take care of:
-\begin{itemize}
-  \item Relationship with him
-  \item Deadlines
-  \item Support for the application after the release
-\end{itemize}
 
-In order to maintain a solid relationship with your costumer, deadlines must be respected, and here the development of the application comes to play; including security in the development of an application may seems easy at the beginning, but it is not so simple nd it may cost lots of time, and when there is a deadline the goal is to finish the job, no matter if the application is secure or not.\\
-This is one reason why some developers simply avoid security aspect during the development of an application.\\
+After having discussed the main theoretical security concepts of these two important IoT protocols, I would like to conclude my thesis making some considerations about their current importance and business reality usage.\\
 
-Another reason is about money: some customers are not interested or not even aware about security issues that an application could have, so they are simply not interested in paying for it, but if a security problem occurs they will surely come yelling at you.\newline
-If you think you will spend the same time making a secure version of an application and an unsecure version of it, then you should obviously follow the first way. On the countrary, if the required working time increases in a relevant way, it is fundamental to find a solution together with the customer.\\ 
+In 1999 MQTT was developed as a lightweight messaging protocol to enable low-energy monitoring of an oil pipeline. Nowadays it is considered as the most efficient protocol for IoT devices and was adopted as an international standard for IoT by \emph{OASIS}.\\
 
-Usually, when company A sells an application to company B, company A provides technical support and updates for a certain period of time, depending on the specific scenario.\\
-If there is no time to add a feature at the first release, it could be added in the next ones.\\
+More and more people and companies show interest in MQTT, as confirmed by \emph{Google Trends}, which highlights a strong and continuously growing interest related to the keyword ``MQTT" in the recent years, as we can see in Figure \ref{fig:mqtt_googletrends}.
 
-During the software development, the development team adopts specific software development strategies; ABO DATA adopts an agile software development strategy.\\ 
-This is the right choice in scenarios where application's requirements change frequently, but from the security point of view this may lead to flaws in the code.\\
+\begin{figure}[H]
+\includegraphics[width=14cm,height=12.5cm,keepaspectratio]{mqtt_googletrends}
+\centering
+\caption{MQTT - Google Trends Statistics}
+\label{fig:mqtt_googletrends}
+\end{figure}
 
-The security part on an application should be defined in way that allows the development team to:
+Previously, we have seen in Figure \ref{fig:shodanres} a relevant number of active MQTT servers obtained using Shodan.\\
+Being it a rapidly growing number, I decided to draw a graph better representing the number of active MQTT servers I found day by day in the last two weeks.\\
+Figure \ref{fig:activeserversgraph} shows us the obtained result.
 
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-\item[$\bullet$] edit it as least as possible
-\item[$\bullet$] update it easily
-\end{itemize}
+\begin{figure}[H]
+\includegraphics[width=12cm,height=10cm,keepaspectratio]{conteggio_servers_grafico}
+\centering
+\caption{MQTT daily active servers}
+\label{fig:activeserversgraph}
+\end{figure}
 
-Just to make an example:  let's suppose that the hashing algorithm employed in our application becomes insecure for some reasons, so we must update our application, but updates are expensive; if our code is monolithic it will be hard, otherwise if the code is modular it will be easy.\\
+I would have also liked to draw a graph representing the number of insecure servers over time, but unfortunately for doing so it is necessary to pay a fairly expensive Shodan API key.\\
+Anyway, considering what we have said so far, I guess that the graph would be very similar to this last one.\\\\
 
-Another thing to keep in mind is that in the IoT world we often deal with constrained devices; if, for some reason, we need to change an already employed algorithm with a newer one, we should check if our constrained devices are capable of handling it. Sometimes it is necessary to stick with the old algorithm, or introduce more powerful devices.\\
-This is another important to take care about: \emph{find a proper trade-off}.\\
+MQTT meets all of IoT's needs, in fact it is specialized in connecting low-bandwidth devices having limited CPUs, bringing a very little overhead, with a central hub. Just think about the huge number of systems involving energy monitoring sensors pushing communication to a remote monitoring location for analysis.\\
 
-Implementing a security feature or fixing security flaws in software already in an advanced development stage is difficult: it may require substantial changes to the whole project, making difficult to meet the deadline.\\
-Security should be part of the application since the requirements phase and corrective maintenance should be limited whenever possible.\\
+Due to its simplicity and efficiency, MQTT is adaptable to a wide variety of applications in different industries. Even ABO DATA uses this protocol for most of its applications.\\
+Furthermore, making secure MQTT communication is pretty simple thanks to the TLS support, but despite this, during my internship I learned that there are so many aspects to consider before making secure and reliable applications, such as customers' needs and deadlines.\\
 
-In order to produce good software we must focus on two aspects: the development process and the software security testing.\\
-Talking about the first one, Microsoft proposed an interesting metholody called \emph{Security Development Lifecycle (SDL)~}, that provides a standard approach for security development, involving:
+The main reason why many MQTT systems are not secure is that customers are not interested or not even aware about security issues.\\
+Besides deadlines must be respected, and what I have personally seen is that customers are much more interested to working applications rather than secure ones, hence most of times the first goal is to simply complete the task without considering security issues.\\\\
 
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-  \item Requirements
-  \item Design
-  \item Implementation
-  \item Verification
-  \item Release
-  \item Response
-\end{itemize}
+Talking about ZigBee, Figure \ref{fig:zigbee_googletrends} shows us that the interest in this protocol has almost remained constant in the recent years.
 
-The \emph{Requirements} phase involves the best security practices, taken from industry standards or solutions adopted on responses to problems faced in the past.\\
-In this phase the functional security requirements to be implemented are defined, and they are similar to those used to define the features of the application, with the only difference that they focus on security.\\
-If the methodology is agile, then the requirements are expressed as user stories; ithese stories concern the security aspects from the user's point of view.\\
+\begin{figure}[H]
+\includegraphics[width=14cm,height=12.5cm,keepaspectratio]{zigbee_googletrends}
+\centering
+\caption{ZigBee - Google Trends Statistics}
+\label{fig:zigbee_googletrends}
+\end{figure}
 
-During the \emph{Design} phase, a threat model is defined in order to understand how our system could be attacked.\\
-The threat model is used to understand the attack surface of certain features and the common attacks that the development team must face.\\
-It is also important to define a way to mitigate the problem if certain attacks have success, and it is crucial to identify security issues early on.\\
+ZigBee, similar to MQTT, is primarily designed for very constrained devices, having an even lower overhead, thanks to its low-rate communication.\\
+The relevant differences between them are the standards on which they are built, the security measures (e.g. ZigBee cannot simply rely on TLS as MQTT does), the possible applications and the efficiency as well as the reliability.\\
 
-The \emph{Implementation} phase is the most difficult one because writing secure code is difficult, and even if you have a dedicated security team, it might happen that a programmer introduces a security bug in a code currently considered not critical.\\
-It is important to define coding guidelines in a similar way to best practices in order to avoid mistakes by programmers.\\
-It is also important to use tools for static and dynamic application security testing (\emph{SAST} and \emph{DAST}): the first one is used to
-identify possible vulnerabilities in the source code, while the second checks the application at runtime.\\
+Unfortunately, I have not had the opportunity to work with this protocol during my internship, so all I know is what I have read or heard from external sources.\\
 
-During the \emph{Verification} phase, in addition to the standard tests on the application, we should perform other activities related to security, like:
-
-\begin{itemize}
-\setlength{\itemindent}{+4mm}
-\item Security functional testing
-\item Vulnerability Scanning and Penetration Testing
-\end{itemize}
-
-Of course, both of them require specific applications and tools.\\
-
-When the software is finally \emph{released}, it is shipped to customers or made available for download; of course there will be imperfections.\\
-
-During the final \emph{Response} phase, the customer will report faced problems occurred with the application and ask for updates.\\
-
-About security testing there is a lot to say because it covers different activities. The following is a brief overview:
-
-\begin{itemize}
-  \item Discovery: this activity does not search flaws in the code but it only focus on identifying the software version in use.\\
-This is important because sometimes it is possible to discover potential vulnerabilities by only knowing this information.
-  \item Vulnerability scan: this activity is carried out with automated tools that search for
-  known vulnerabilities in the application.
-  \item Penetration test: it is a simulation of an attack, so it tries to exploit flaws in the application like a real attacker.
-  \item Security Review: verifies if security standards have been applied to the system; it is done via analysis of the code and different build of the program.
-\end{itemize}
+What I think about this protocol is that it is still not considered as important and revolutionary as MQTT, because it is mainly suited for smart home applications and domotic, which are interesting applications but currently still not much in vogue and necessary.\\ Besides, this protocol has many security vulnerabilities and communication problems (e.g. missing network key transports/updates, many hard-to-remove physical interferences).\\
+Finally, since technology is growing extremely fast, even small devices are becoming more and more powerful and able to support other heavier wireless protocols, like Wi-Fi, which is definitely much more widespread.\\
+Moreover, researchers are being to bring down power requirements of Wi-Fi based systems, so that they can perform at low energy levels like ZigBee does.\\
 
 
-Security testing can be conducted either in a black box way, where the tester does not know details about the system and its architecture, or
-in a white box settings where the tester has a deep knowledge of the system and it may have access to the source code.\\
-The testing phase is automatized as much as possible.\\
-Since each application is different from the others, the security testing techniques should be adapted to the target application taken.
-
-Of course, security testing is quite more difficult compared to standard testing (that is, by itself a difficult task), for this reason companies prefer to avoid it or pay third party that are specialized in this particular activity.\\
-Also take in mind that a security testing may not provide you all the vulnerabilities in your system, but only a certain amount; for this reason it
-is important to take care about your software periodically; when you change a part of your application, you should check that changes do not
-introduce flaws.\\
-
-Another security aspect to mention is \emph{privacy}: even if they are two distinct concepts, they are related because without security there is no privacy.\\
-I think it is important to discuss it a bit since recently the \emph{General Data Protection Regulation (GDPR)} has been approved by the European commission in order to strength the protection of personal data of citizens of the European Union.\\
-This new regulation should allow citizens to have more control over their data and it should make sure that companies implement secure enough system to avoid data breach. This is also enforced by Article 25, which requires data protection to be designed into the development of business processes\cite{wikica}.\\
-The GDPR also take into consideration the trade of data between companies, which is an hot topic thanks to recent events\cite{ca}.\\
-
-
-Even \emph{documentation} and \emph{refactoring} are important while dealing with security; most of the time documentation is neglected because it takes lot of time and it is not payed by the customer. 
-Good documentation is necessary to understand the code and avoid the introduction of flaws, especially in big projects.
-Refactoring is fundamental because it permits to better organize and maintain the code.\\ For instance, if we keep only one copy of a vulnerable code rather than several ones, we will spare time to fix it.\\
-
-Another important role is played by \emph{maintenance}, which should make us consider that every aspects in software development, including little details, should be treated with particular care in order to produce secure software.
 
 
 \bibliography{tesiref} 
