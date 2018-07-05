@@ -265,7 +265,8 @@ Clearly, the broker will reply with a \texttt{SUBACK} packet, containing the ret
 \bigskip
 
 {\setlength{\parindent}{0cm}
-Now that we have an idea of how MQTT communications work, in the section~\ref{ssec:qos} we discuss aspects regarding the quality of the service.
+Now that we have an idea of how MQTT communications work, in the section~\ref{ssec:qos} we discuss aspects regarding the quality of the service.\\
+The content of the sections \ref{ssec:qos} to  \ref{ssec:wildcards} is mainly referred to the \emph{MQTT Essentials} series published by \emph{HiveMQ}~\cite{hivemqessentials}.
 }
 
 \clearpage
@@ -309,6 +310,7 @@ Figure \ref{fig:qos_levels} wraps up the three levels we have just discussed.
 
 \bigskip
 \subsection{Retained messages}
+\label{ssec:retainedmessages}
 \bigskip
 In MQTT, a retained message is a normal message having the retained flag set to true.
 MQTT brokers always store the last retained message received, in order to send it to new subscribers, immediately after subscribing to the corresponding topic.\\\\
@@ -331,6 +333,7 @@ A client can request a persistent session setting the \emph{cleanSession} flag w
 Let us notice an important aspect of this feature that we are going to discuss later: to resume a session, the broker has to recognize whether the user is the same as before, and it can do that by using their unique identifier; once the broker finds the match between the clientId and an available persistent session, that session is immediately reassigned to that client.\\
 
 \subsection{Last Will and Testament (LWT)}
+\label{ssec:lwt}
 \bigskip
 It is not uncommon for clients to get disconnected ungracefully from the broker.\\
 Therefore, there exist scenarios in which it may be helpful to notify other clients that a specific client has been suddenly disconnected.\\
@@ -342,6 +345,7 @@ For instance, when a client has connected to a broker, it will send a retained m
 After that, the client sets the LWT message on the same topic to \emph{``offline"} and, clearly, mark it as retained.\\
 
 \subsection{Wildcards}
+\label{ssec:wildcards}
 \bigskip
 A wildcard is simply a shortcut to allow a user to subscribe to multiple topics without having to specify each of them individually.\\
 
@@ -1244,6 +1248,7 @@ Furthermore, ZDOs manages the security policies and configuration of a device.
 \fi
 \end{itemize}
 
+\iffalse
 \subsection{ZigBee communication modes}
 \bigskip
 ZigBee employs two communication modes:
@@ -1276,6 +1281,7 @@ Clearly, it might happen that an end device finds the channel busy and in that c
 \end{itemize}
 \bigskip
 %In chapter \ref{chap:zigbeesecchap} we start to discuss the security aspects of this protocol.\\
+\fi
 
 \chapter{Security Overview}
 \label{chap:zigbeesecchap}
@@ -1743,7 +1749,7 @@ What I think about this protocol is that it is still not considered as important
 Finally, since technology is growing extremely fast, even small devices are becoming more and more powerful and able to support other heavier wireless protocols, like Wi-Fi, which is definitely much more widespread.\\
 Moreover, researchers are being to bring down power requirements of Wi-Fi based systems, so that they can perform at low energy levels like ZigBee does.\\
 
-Today we almost trust the security of our Wi-Fi networks, but it has taken a few improvements over the years to get there. The same will happen with ZigBee: more usage will encourage product providers to improve the way security is handled and make it trusted as Wi-Fi is today~\cite{zigbeesmarthomeissues}.\\
+Today we almost trust the security of our Wi-Fi networks, but it has taken a few improvements over the years to get there. The same might happen with ZigBee one day: more usage will encourage product providers to improve the way security is handled and make it trusted as Wi-Fi is today~\cite{zigbeesmarthomeissues}.\\
 
 
 
