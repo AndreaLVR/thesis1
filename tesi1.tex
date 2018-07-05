@@ -46,7 +46,8 @@
 
 
 \title{\textbf{Security analysis of protocols used in IoT solutions}}
-\author{Andrea Olivari}
+%\author{Andrea Olivari}
+\author{Andrea Olivari\\[1cm]{\small Supervisor: Prof. Giovanni Lagorio}}
 \date{\today}
 
 \begin{document}
@@ -575,7 +576,7 @@ What does it happens when a client tries to access a restricted resource without
 
 If the client tries to publish, the broker can disconnect it or simply reply to it normally, but without relaying the message to subscribers; instead, if the client tries to subscribe, the broker will reply with a standard \texttt{SUBACK} message containing a return code that tells the client that its subscription was denied, nothing more.\\
 
-In section \ref{sec:mqttauth2} we discuss another form of authentication/authorization mechanism usually implemented in other protocols, like HTTP, and we will see wether and how it is possible to combine it with MQTT. 
+%In section \ref{sec:mqttauth2} we discuss another form of authentication/authorization mechanism usually implemented in other protocols, like HTTP, and we will see wether and how it is possible to combine it with MQTT. 
 
 
 \section{Simple Data Encryption}
@@ -1488,7 +1489,7 @@ The most important subfield of the Security Control field is \emph{Security Leve
 The MAC is created encrypting information from the 802.15.4 header and the data payload.
 Its length can be 32 bits, 64 bits, or 128 bits, depending on the specified security level, but in any case it is calculated using a 128 bit key.
 \item \emph{AES-CCM}: it is the combination of the two previous ones.\\
-More details about this algorithm will be discussed in section \ref{ssec:zigbeesecfeatures}.
+More details about this algorithm will be discussed in section \ref{sec:zigbeesecfeatures}.
 \end{itemize}
 
 \item[$\bullet$] \emph{Frame Counter}: it is a simple counter given by the source of the current frame in order to protect the message from replay attacks. 
@@ -1512,8 +1513,8 @@ More in details, for each trusted brother we store the following information:
 
 In simple words, when a node wants to communicate with another node (send or receive a message) it looks at the ACL to see if it is a trusted brother; in that case it uses the security measures contained in the respective security policy.\\\\
 
-\subsection{ZigBee Security features}
-\label{ssec:zigbeesecfeatures}
+\section{ZigBee Security features}
+\label{sec:zigbeesecfeatures}
 \bigskip
 The ZigBee security architecture includes security mechanisms, such as frame protection, at three layers of the protocol stack: MAC, Network and Application.\\
 Each layer is responsible for its own security processing but, as already said, the keys and the security level used by the MAC Layer are established by the upper layers.
@@ -1680,7 +1681,7 @@ We conclude this second and last part about ZigBee by listing some consideration
 \item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
 \item[$\bullet$] avoid using manufacturer link keys, and remember that they are often public
 \item[$\bullet$] prefer unique keys rather than global ones every time you can
-\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}\footnote{https://github.com/riverloopsec/killerbee}, before deploying it (especially in productive scenarios)
+\item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}\footnote{https://github.com/riverloopsec/killerbee}, before deploying it (especially in production scenarios)
 \item[$\bullet$] you can specify the list of authorized devices, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
 %\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
 \item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor.
@@ -1729,7 +1730,7 @@ Due to its simplicity and efficiency, MQTT is adaptable to a wide variety of app
 Furthermore, making secure MQTT communication is pretty simple thanks to the TLS support, but despite this, during my internship I learned that there are so many aspects to consider before making secure and reliable applications, such as customers' needs and deadlines.\\
 
 The main reason why many MQTT systems are not secure is that customers are not interested or not even aware about security issues.\\
-Besides deadlines must be respected, and what I have personally seen is that customers are much more interested to working applications rather than secure ones, hence most of times the first goal is to simply complete the task without considering security issues.\\\\
+Besides deadlines must be respected, and what I have personally seen is that customers are much more interested to working applications rather than secure ones, hence most of times the main goal is just to complete the task without considering security issues.\\\\
 
 Talking about ZigBee, Figure \ref{fig:zigbee_googletrends} shows us that the interest in this protocol has almost remained constant in the recent years.
 
@@ -1741,11 +1742,13 @@ Talking about ZigBee, Figure \ref{fig:zigbee_googletrends} shows us that the int
 \end{figure}
 
 ZigBee, similar to MQTT, is primarily designed for very constrained devices, having an even lower overhead, thanks to its low-rate communication.\\
-The relevant differences between them are the standards on which they are built, the security measures (e.g. ZigBee cannot simply rely on TLS as MQTT does), the possible applications and the efficiency as well as the reliability.\\
+The relevant differences between them are the standards on which they are built, the security measures (e.g. ZigBee cannot simply rely on TLS as MQTT does), the possible applications and their efficiency as well as their reliability.\\
 
 Unfortunately, I have not had the opportunity to work with this protocol during my internship, so all I know is what I have read or heard from external sources.\\
 
 What I think about this protocol is that it is still not considered as important and revolutionary as MQTT, because it is mainly suited for smart home applications and domotic, which are interesting applications but currently still not much in vogue and necessary.\\ Besides, this protocol has many security vulnerabilities and communication problems (e.g. missing network key transports/updates, many hard-to-remove physical interferences).\\
+\emph{ABO DATA} used ZigBee for an experimental project a few years ago, but not being satisfied with the communication quality and the connection range they stopped using it.\\
+
 Finally, since technology is growing extremely fast, even small devices are becoming more and more powerful and able to support other heavier wireless protocols, like Wi-Fi, which is definitely much more widespread.\\
 Moreover, researchers are being to bring down power requirements of Wi-Fi based systems, so that they can perform at low energy levels like ZigBee does.\\
 
