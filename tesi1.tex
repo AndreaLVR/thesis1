@@ -1031,12 +1031,12 @@ A \emph{Time-based} maintenance approach is the simplest one, and unfortunately 
 The use of a monitoring system introduces a new maintenance approach, called \emph{Condition-based}, thanks to which the corrective maintenance is considerably reduced; in fact, the continuous monitoring of the health status of the machines allows to intervene before the failure occurs.\\
 Finally, in the last few years a new approach, called \emph{Predictive}, was born; this approach is based on the possibility of predicting possible failures in a smart way, using the huge amount of data received as input for Machine Learning algorithms.\\
 
-Clearly, both the second and third approaches can be seen in two different ways. The customer uses data from its 
+Clearly, both the second and third approaches can be seen in two different ways. The customer uses data from its Local Control Room
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] Local Control Room, and when he (or his ML algorithms) detects an imminent breakdown, he contacts the company assistance
-\item[$\bullet$] Local Control Room for other purposes, and let the company predicting possible failures using Centralized Control Room's data.\\
+\item[$\bullet$] and when he (or his ML algorithms) detects an imminent breakdown, he contacts the company assistance
+\item[$\bullet$] for other purposes, and let the company predicting possible failures using Centralized Control Room's data.\\
 \end{itemize}
 
 Now that we know what a monitoring system can be useful for, let us see the structure of the system mentioned above.\\
@@ -1233,7 +1233,8 @@ Let us briefly see them:
 \item[$\bullet$] \emph{Physical Layer}: it provides the basic radio communication capabilities, such as channels, modulation, demodulation, transmission rate, etc.
 \item[$\bullet$] \emph{Medium Access Control layer (MAC)}: it manages data transmissions between neighbor devices (point to point). 
 It includes services like transmission retry and acknowledgment management~\cite{digi}.
-\item[$\bullet$] \emph{Network Layer}: it adds routing capabilities that allows data packets to traverse multiple devices (multiple hops) to route data from source to destination, in order to create more complex topologies.
+\item[$\bullet$] \emph{Network Layer}: this layer takes care of all network related operations, such as network setup, end device connection and disconnection to network, routing, device configurations, etc.
+%it adds routing capabilities that allows data packets to traverse multiple devices (multiple hops) to route data from source to destination, in order to create more complex topologies.
 \item[$\bullet$] \emph{Application Layer}: it provides device and service discovery features, applications supporting layer primitives used by devices, capabilities to manage the security policies and configuration of a device. Finally, it collaborates with the Network layer to establish and manage cryptographic keys, and provides primitives for their management.
 
 \iffalse
@@ -1304,7 +1305,7 @@ In the next sections, we are going to discuss the security measures offered and 
 \bigskip
 Being ZigBee a simple as well as low-cost communication protocol, it relies on a symmetric-key cryptography to protect network messages and devices, precisely AES 128 bits, avoiding heavier encryption system, like the asymmetric one; therefore, both the sender and recipient of a protected transaction need to share the same key.\\
 
-All the ZigBee security features we discuss are strictly related to the cryptographic (symmetric) keys used by the protocol; in order to talk about them, we must first take a look at the following list of assumptions~\cite{secanalysisofzigbee} on which they are based:
+Most of the ZigBee security features we discuss are strictly related to the cryptographic (symmetric) keys used by the protocol; in order to talk about them, we must first take a look at the following list of assumptions~\cite{secanalysisofzigbee} on which they are based:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
@@ -1582,7 +1583,7 @@ This second mode seems to be more secure than the previous one, and surely it is
 \subsubsection{Network Interference Protection}
 \bigskip
 It might happen that nearby wireless networks, even Wi-Fi or other ones, create physical interferences to our ZigBee network.\\
-Without entering in too many details, it is important to know that ZigBee and IEEE 802.15.4 try to reduce the presence of interferences using low RF transmission power, low duty cycle and the CSMA/CA mechanism.\\
+Without entering in too many details, it is important to know that ZigBee and IEEE 802.15.4 try to reduce the presence of interferences using \emph{low RF transmission power}, \emph{low duty cycle} and the \emph{CSMA/CA}  mechanism.\\
 Often, this is not enough, so ZigBee provides two other strategies to avoid interferences:
 
 \begin{itemize}
@@ -1591,11 +1592,11 @@ Often, this is not enough, so ZigBee provides two other strategies to avoid inte
 Clearly, this method expects the two networks to share a communication channel to manage the collaboration.
 
 \item[$\bullet$] \emph{Non-Collaborative}: in this second method, ZigBee network has no communication channel shared with nearby wireless networks, but it uses several interferences detection techniques to avoid as many interferences as possible.\\
-We will not discuss the following techniques, since they are outside the context, but for completeness I will provide a list of some of them:
+We will not discuss the following techniques, since they are outside the context, but for completeness I provide a list of some of them:
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item \emph{CSMA/CA}
+\item \emph{CSMA/CA} \footnote{https://en.wikipedia.org/wiki/Carrier-sense\_multiple\_access\_with\_collision\_avoidance}
 \item \emph{Signal spreading-spreading methods}
 \item \emph{Frequency Channel selection}
 \item \emph{Adaptive Packet Length Selection}\\
@@ -1674,34 +1675,32 @@ We conclude this second and last part about ZigBee by listing some consideration
 
 \begin{itemize}
 \setlength{\itemindent}{+4mm}
-\item[$\bullet$] the protocol itself is not much secure, regardless of its implementation
+%\item[$\bullet$] the protocol itself is not much secure, regardless of its implementation
 \item[$\bullet$] the protocol works well if all the devices within the considered network can protect themselves from keys theft
 %\item[$\bullet$] choose carefully the physical devices based on the role they will have within the network. For instance 
 \item[$\bullet$] always enable frame encryption to protect frame content, but especially to guarantee their integrity
-\item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one (even if not much secure anyway)
+\item[$\bullet$] it would be better to always use the commercial mode, which is more secure than the standard one 
 \item[$\bullet$] avoid using manufacturer link keys, and remember that they are often public
-\item[$\bullet$] prefer unique keys rather than global ones every time you can
+\item[$\bullet$] prefer unique keys rather than global ones whenever possible
 \item[$\bullet$] it is recommended to test your network with a dedicated security tool, like \emph{Killerbee}\footnote{https://github.com/riverloopsec/killerbee}, before deploying it (especially in production scenarios)
-\item[$\bullet$] you can specify the list of authorized devices, using the Trust Center's Access Control List, and specify the devices with which each device can communicate using its own ACL.
+\item[$\bullet$] specify the trusted devices with which each device can communicate using its own ACL.
 %\item[$\bullet$] consider the addition of spoofing detection techniques, if possible
 \item[$\bullet$] it is not recommended to use ZigBee in places covered by many wireless networks because interferences are difficult to remove and communication's quality will be poor.
 \item[$\bullet$] select the frequency band that generates the least interference with other wireless systems.\\
 \end{itemize}
 
-The considerations above should help you to understand how to build an almost secure and reliable ZigBee network, but I would like to clarify a last thing, which is probably even more important than the previous ones.\\
-ZigBee was born almost fifteen years ago when devices had much less computational power than today and they needed a very light-weight and low power-consumption protocol to be able to communicate with each other.\\Besides, despite the protocol was designed with security in mind, there are still too many protocol's features that inevitably lead to relevant security risks.\\
-In addition to security problems, there are also many communication malfunctions such as possible interferences with other wireless networks, loss of key synchronization, loss of periodic key updates.\\
+The considerations above should help you to understand how to build an almost secure and reliable ZigBee network.\\
+In chapter \ref{chap:conclusion} we will quickly discuss the real-world protocol usage, highlighting and summing up its good and bad aspects, which can influence the choice of a potential new user.\\
 
-Nowadays, technological progress is surprisingly fast, and even very small devices often have enough computational power and battery-life to support \emph{Wi-Fi} protocol, which is more secure, reliable, easier to configure and continuously improved.\\
-I conclude this section, saying that, in my opinion, ZigBee is a not so secure protocol having many security problems, which should be considered only if treating with extremely constrained devices, otherwise choosing other more modern and efficient protocols, such as Wi-Fi, is a better choice.\\
 
 \chapter{Conclusion}
+\label{chap:conclusion}
 
 After having discussed the main theoretical security concepts of these two important IoT protocols, I would like to conclude my thesis making some considerations about their current importance and business reality usage.\\
 
 In 1999 MQTT was developed as a lightweight messaging protocol to enable low-energy monitoring of an oil pipeline. Nowadays it is considered as the most efficient protocol for IoT devices and was adopted as an international standard for IoT by \emph{OASIS}.\\
 
-More and more people and companies show interest in MQTT, as confirmed by \emph{Google Trends}, which highlights a strong and continuously growing interest related to the keyword ``MQTT" in the recent years, as we can see in Figure \ref{fig:mqtt_googletrends}.
+More and more people and companies show interest in MQTT everyday, as confirmed by \emph{Google Trends}, which highlights a strong and continuously growing interest related to the keyword ``MQTT" in the recent years, as we can see in Figure \ref{fig:mqtt_googletrends}.
 
 \begin{figure}[H]
 \includegraphics[width=14cm,height=12.5cm,keepaspectratio]{mqtt_googletrends}
@@ -1746,13 +1745,17 @@ The relevant differences between them are the standards on which they are built,
 
 Unfortunately, I have not had the opportunity to work with this protocol during my internship, so all I know is what I have read or heard from external sources.\\
 
-What I think about this protocol is that it is still not considered as important and revolutionary as MQTT, because it is mainly suited for smart home applications and domotic, which are interesting applications but currently still not much in vogue and necessary.\\ Besides, this protocol has many security vulnerabilities and communication problems (e.g. missing network key transports/updates, many hard-to-remove physical interferences).\\
+What I think about this protocol is that it is still not considered as important and revolutionary as MQTT, because it is mainly suited for smart home applications and domotic, which are interesting applications but currently still not much in vogue and necessary.\\ 
+Besides, despite the protocol was designed with security in mind, there are still too many protocol's features that inevitably lead to relevant security risks.\\
+In addition to them, there also many communication malfunctions such as possible interferences with other wireless networks, loss of key synchronization, loss of periodic key updates.\\
 \emph{ABO DATA} used ZigBee for an experimental project a few years ago, but not being satisfied with the communication quality and the connection range they stopped using it.\\
 
-Finally, since technology is growing extremely fast, even small devices are becoming more and more powerful and able to support other heavier wireless protocols, like Wi-Fi, which is definitely much more widespread.\\
+Finally, technological progress is surprisingly fast and even small devices are becoming more and more powerful and able to support other heavier wireless protocols, like Wi-Fi, which is definitely much more widespread.\\
 Moreover, researchers are being to bring down power requirements of Wi-Fi based systems, so that they can perform at low energy levels like ZigBee does.\\
 
 Today we almost trust the security of our Wi-Fi networks, but it has taken a few improvements over the years to get there. The same might happen with ZigBee one day: more usage will encourage product providers to improve the way security is handled and make it trusted as Wi-Fi is today~\cite{zigbeesmarthomeissues}.\\
+
+
 
 
 
